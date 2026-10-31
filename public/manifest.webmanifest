@@ -1,0 +1,17 @@
+{
+  "name": "CADEN • Daily Habits & Rhythm",
+  "short_name": "CADEN",
+  "description": "Minimalist, ultra-responsive Daily Habit Matrix & Consistency OS for PC and Mobile with zero server cost.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070a12",
+  "theme_color": "#070a12",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

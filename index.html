@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CADEN • Daily Habits & Rhythm</title>
+    <meta name="description" content="Minimalist, ultra-responsive Daily Habit Matrix & Consistency OS for PC and Mobile with zero server cost." />
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#070a12" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Direct Stylesheet Link to Prevent FOUC (Flash of Unstyled Content) -->
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html, body {
+        background-color: #070a12 !important;
+        color: #f1f5f9;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      .app-header {
+        background: rgba(12, 17, 29, 0.85);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Global App Navigation Bar -->
+    <header class="app-header">
+      <div class="header-inner">
+        <!-- Luxury CADEN Brand Logo Mark (Vibrant, Not Black) -->
+        <div class="brand-section">
+          <div class="brand-logo-mark">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 14L8 6L13 18L17 10L20 14" stroke="url(#caden-grad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="13" cy="18" r="2.2" fill="#38bdf8" />
+              <circle cx="8" cy="6" r="2.2" fill="#f97316" />
+              <defs>
+                <linearGradient id="caden-grad" x1="4" y1="6" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#f97316"/>
+                  <stop offset="50%" stop-color="#f59e0b"/>
+                  <stop offset="100%" stop-color="#38bdf8"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="brand-text-wrap">
+            <div class="brand-main-line">
+              <span class="brand-title">CADEN</span>
+              <span class="brand-os-pill">OS</span>
+            </div>
+            <span class="brand-badge-sub">DAILY HABITS • RHYTHM</span>
+          </div>
+        </div>
+
+        <!-- Center Nav Tabs -->
+        <nav class="nav-tabs" id="main-nav-tabs">
+          <button class="nav-tab-btn active" data-tab="matrix">
+            <span class="nav-icon">📊</span> Habit Grid
+          </button>
+          <button class="nav-tab-btn" data-tab="streaks">
+            <span class="nav-icon">🔥</span> Streaks
+          </button>
+          <button class="nav-tab-btn" data-tab="charts">
+            <span class="nav-icon">📈</span> Charts
+          </button>
+          <button class="nav-tab-btn" data-tab="overview">
+            <span class="nav-icon">⚡</span> Overview
+          </button>
+        </nav>
+
+        <!-- Header Right: Clock, User Level & Sound Toggle -->
+        <div class="header-right">
+          <!-- Real-Time Live Clock -->
+          <div class="live-clock-card" id="live-clock-card" title="Live Clock">
+            <span class="clock-time font-mono" id="live-clock-time">--:--:--</span>
+            <span class="clock-date font-mono" id="live-clock-date">--</span>
+          </div>
+
+          <!-- Daily Habit Progress (Sensible & Simple) -->
+          <div class="header-daily-progress-card" id="header-user-badge" title="Today's Habit Progress">
+            <span class="progress-pill-label" id="header-today-summary">0/0 Done</span>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="header-today-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Sound Effects Toggle Button -->
+          <button class="sound-toggle-btn" id="sound-toggle-btn" title="Toggle audio feedback">
+            <span id="sound-icon">🔊</span>
+          </button>
+
+          <!-- PWA Standalone Install Button (Auto-shows when browser triggers install prompt) -->
+          <button class="header-icon-btn" id="pwa-install-btn" title="Install NEXUS OS as a Desktop or Mobile App" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+            <span>📲</span>
+          </button>
+
+          <!-- PC <-> Phone Instant Sync Button (QR Code & Link) -->
+          <button class="header-icon-btn" id="open-phone-sync-btn" title="Sync with Phone (QR Code / Instant Transfer)" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+            <span>📱</span>
+          </button>
+
+          <!-- Global Settings & Preferences Button -->
+          <button class="header-icon-btn" id="open-settings-btn" title="Global Preferences (Currency, Units, Calendar, Theme)">
+            <span>⚙️</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Instant Pre-Script Clock Initialization -->
+    <script>
+      (function() {
+        try {
+          const now = new Date();
+          const t = document.getElementById('live-clock-time');
+          const d = document.getElementById('live-clock-date');
+          if (t) t.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+          if (d) d.textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Main Dynamic Application Container -->
+    <main class="app-container" id="main-content">
+      <!-- High-Performance Glass Skeleton (Replaced Instantly by JS) -->
+      <div class="matrix-card" style="opacity: 0.95;">
+        <div class="matrix-header-bar" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.3rem;">📊</span>
+            <div>
+              <span style="font-weight: 800; font-size: 1.15rem; color: #f8fafc; letter-spacing: -0.01em;">HABIT MATRIX</span>
+              <span style="margin-left: 8px; font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 9999px; padding: 2px 8px; font-weight: 600;">ACTIVE</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 14px; height: 14px; border: 2px solid rgba(56, 189, 248, 0.3); border-top-color: #38bdf8; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <span style="font-size: 0.8rem; color: #94a3b8; font-family: monospace;">LOADING MATRIX...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Container for Add Habit, Add Exercise, PR, Expense -->
+    <div id="modal-container"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
