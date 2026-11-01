@@ -232,6 +232,9 @@ export function renderOverview(container) {
           <div class="quick-card shortcuts-card">
             <span class="section-title">⚡ Quick Actions</span>
             <div class="shortcuts-btns-grid">
+              <button class="shortcut-btn" id="quick-start-focus-btn" style="border-color: rgba(6, 182, 212, 0.4); color: var(--cyan);">
+                <span>⏱️</span> Deep Work
+              </button>
               <button class="shortcut-btn" id="quick-add-habit-btn">
                 <span>➕</span> Add Habit
               </button>
@@ -246,6 +249,65 @@ export function renderOverview(container) {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Badges & Consistency Milestones Showcase -->
+      <div class="overview-badges-card" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 22px; margin-top: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: #fff; margin: 0 0 2px 0;">🏆 Consistency Badges & Milestones</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Unlock achievements through unbroken daily discipline.</p>
+          </div>
+          <span style="font-size: 12px; font-weight: 800; color: var(--gold); background: rgba(245, 158, 11, 0.12); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(245, 158, 11, 0.25);" class="font-mono">
+            ${(() => {
+              let checksCount = 0;
+              habitsList.forEach(h => {
+                if (h.checks) {
+                  Object.values(h.checks).forEach(mc => { checksCount += Object.keys(mc).length; });
+                }
+              });
+              const lf = (data.focus && data.focus.lifetimeSessions) || 0;
+              const unlockedCount = [
+                checksCount >= 1,
+                bestStreak >= 7,
+                bestStreak >= 14,
+                bestStreak >= 30,
+                lf >= 1,
+                checksCount >= 100
+              ].filter(Boolean).length;
+              return `${unlockedCount} / 6 Unlocked`;
+            })()}
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          ${(() => {
+            let checksCount = 0;
+            habitsList.forEach(h => {
+              if (h.checks) {
+                Object.values(h.checks).forEach(mc => { checksCount += Object.keys(mc).length; });
+              }
+            });
+            const lf = (data.focus && data.focus.lifetimeSessions) || 0;
+            const badgeList = [
+              { icon: '🥉', name: 'First Spark', desc: 'Completed first habit', unlocked: checksCount >= 1 },
+              { icon: '🛡️', name: 'Iron Will', desc: '7-day streak reached', unlocked: bestStreak >= 7 },
+              { icon: '🧘', name: 'Monk Mode', desc: '14-day streak reached', unlocked: bestStreak >= 14 },
+              { icon: '👑', name: 'Titan', desc: '30-day streak reached', unlocked: bestStreak >= 30 },
+              { icon: '⏱️', name: 'Deep Worker', desc: 'Completed focus session', unlocked: lf >= 1 },
+              { icon: '💎', name: 'Centurion', desc: '100 total habit check-ins', unlocked: checksCount >= 100 }
+            ];
+            return badgeList.map(b => `
+              <div style="background: ${b.unlocked ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.35)'}; border: 1px solid ${b.unlocked ? 'rgba(56, 189, 248, 0.35)' : 'rgba(255,255,255,0.06)'}; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; opacity: ${b.unlocked ? '1' : '0.45'}; transition: all 0.2s;">
+                <span style="font-size: 26px; filter: ${b.unlocked ? 'none' : 'grayscale(1)'};">${b.icon}</span>
+                <div>
+                  <div style="font-size: 13px; font-weight: 800; color: ${b.unlocked ? '#fff' : '#94a3b8'};">${b.name}</div>
+                  <div style="font-size: 11px; color: ${b.unlocked ? 'var(--cyan)' : '#64748b'};">${b.desc}</div>
+                </div>
+              </div>
+            `).join('');
+          })()}
         </div>
       </div>
     </div>
@@ -269,6 +331,14 @@ function attachOverviewHandlers(container) {
   if (chartsBtn) {
     chartsBtn.addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('switch-tab', { detail: { tab: 'charts' } }));
+      sounds.playPop();
+    });
+  }
+
+  const focusBtn = container.querySelector('#quick-start-focus-btn');
+  if (focusBtn) {
+    focusBtn.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('switch-tab', { detail: { tab: 'focus' } }));
       sounds.playPop();
     });
   }

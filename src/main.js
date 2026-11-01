@@ -6,6 +6,7 @@ import { renderHabitMatrix } from './components/habitMatrix.js';
 import { renderStreakHistory } from './components/streakHistory.js';
 import { renderChartsView } from './components/chartsView.js';
 import { renderOverview } from './components/overview.js';
+import { renderFocusView } from './components/focusView.js';
 import LZString from 'lz-string';
 import confetti from 'canvas-confetti';
 
@@ -103,6 +104,8 @@ function renderActiveTab() {
     renderStreakHistory(mainContent);
   } else if (currentTab === 'charts') {
     renderChartsView(mainContent);
+  } else if (currentTab === 'focus') {
+    renderFocusView(mainContent);
   } else if (currentTab === 'overview') {
     renderOverview(mainContent);
   }

@@ -53,6 +53,12 @@ export class Store {
         theme: 'cyberpunk',
         sound: true
       },
+      focus: {
+        sessionsToday: 0,
+        totalMinutesToday: 0,
+        lifetimeSessions: 0,
+        lastSessionDate: `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`
+      },
       habits: [
         {
           id: 'h1',
@@ -182,6 +188,15 @@ export class Store {
         changed = true;
       }
     }
+    if (!data.focus) {
+      data.focus = {
+        sessionsToday: 0,
+        totalMinutesToday: 0,
+        lifetimeSessions: 0,
+        lastSessionDate: data.lastActiveDate || ''
+      };
+      changed = true;
+    }
     if (!data.lastActiveDate) {
       if (data.gym && data.gym.lastActiveDate) {
         data.lastActiveDate = data.gym.lastActiveDate;
@@ -234,9 +249,49 @@ export class Store {
       this.data.lastActiveDate = todayStr;
       this.data.selectedYear = now.getFullYear();
       this.data.selectedMonth = now.getMonth();
+      if (this.data.focus) {
+        this.data.focus.sessionsToday = 0;
+        this.data.focus.totalMinutesToday = 0;
+        this.data.focus.lastSessionDate = todayStr;
+      }
       this.saveData();
       this.notify('day_rolled_over');
     }
+  }
+
+  recordFocusSession(minutes, habitId = null) {
+    if (!this.data.focus) {
+      this.data.focus = { sessionsToday: 0, totalMinutesToday: 0, lifetimeSessions: 0, lastSessionDate: '' };
+    }
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    if (this.data.focus.lastSessionDate !== todayStr) {
+      this.data.focus.sessionsToday = 0;
+      this.data.focus.totalMinutesToday = 0;
+      this.data.focus.lastSessionDate = todayStr;
+    }
+    this.data.focus.sessionsToday = (this.data.focus.sessionsToday || 0) + 1;
+    this.data.focus.totalMinutesToday = (this.data.focus.totalMinutesToday || 0) + minutes;
+    this.data.focus.lifetimeSessions = (this.data.focus.lifetimeSessions || 0) + 1;
+
+    // Award 50 XP
+    this.addXP(50, `Completed ${minutes}m Focus Session`);
+
+    // Auto-complete linked habit if provided and not yet checked for today
+    if (habitId) {
+      const todayDay = now.getDate();
+      const monthKey = this.getMonthKey(now.getFullYear(), now.getMonth());
+      const habit = this.data.habits.find(h => h.id === habitId);
+      if (habit) {
+        if (!habit.checks) habit.checks = {};
+        if (!habit.checks[monthKey]) habit.checks[monthKey] = {};
+        if (!habit.checks[monthKey][todayDay]) {
+          this.toggleHabitDay(habitId, todayDay, monthKey);
+        }
+      }
+    }
+    this.saveData();
+    this.notify('focus_session_completed', { minutes, habitId });
   }
 
   saveData(dataToSave = this.data) {
