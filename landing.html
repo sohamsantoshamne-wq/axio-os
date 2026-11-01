@@ -1496,7 +1496,7 @@
             <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; margin: 0 auto;">
               
               <!-- Primary Laptop Download Button -->
-              <a id="direct-dl-link" href="/downloads/AXIO-OS-v1.0-Lifetime.zip" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);">
+              <a id="direct-dl-link" href="#" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);">
                 <span>💻 Download Offline Package for PC/Laptop (.ZIP)</span>
               </a>
 
@@ -2001,6 +2001,8 @@
     function unlockForTesting() {
       const licenseKey = 'AXIO-VIP-TEST-' + Math.random().toString(36).substring(2, 6).toUpperCase();
       document.getElementById('license-key-display').textContent = licenseKey;
+      const dlLink = document.getElementById('direct-dl-link');
+      if (dlLink) dlLink.href = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
       document.getElementById('utr-form-state').style.display = 'none';
       document.getElementById('unlocked-download-state').style.display = 'block';
       localStorage.setItem('axio_customer_unlocked', 'true');
@@ -2093,6 +2095,12 @@
           emailLink.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
         }
 
+        // Dynamically assign download URL only upon verification
+        const dlLink = document.getElementById('direct-dl-link');
+        if (dlLink) {
+          dlLink.href = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+        }
+
         // Switch to unlocked state
         document.getElementById('utr-form-state').style.display = 'none';
         document.getElementById('unlocked-download-state').style.display = 'block';
@@ -2129,6 +2137,9 @@
     // Switch back from unlocked state to payment screen anytime
     function resetToPaymentView() {
       localStorage.removeItem('axio_customer_unlocked');
+      localStorage.removeItem('axio_customer_utr');
+      const dlLink = document.getElementById('direct-dl-link');
+      if (dlLink) dlLink.href = '#';
       document.getElementById('utr-form-state').style.display = 'block';
       document.getElementById('unlocked-download-state').style.display = 'none';
       const btn = document.getElementById('btn-verify-unlock');
@@ -2213,18 +2224,13 @@
       const savedQr = localStorage.getItem('axio_custom_qr');
       if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
 
-      const isUnlocked = localStorage.getItem('axio_customer_unlocked');
-      const savedUtr = localStorage.getItem('axio_customer_utr');
-      if (isUnlocked === 'true' && savedUtr && savedUtr.length === 12) {
-        document.getElementById('utr-form-state').style.display = 'none';
-        document.getElementById('unlocked-download-state').style.display = 'block';
-        const savedLic = localStorage.getItem('axio_customer_license');
-        if (savedLic) document.getElementById('license-key-display').textContent = savedLic;
-      } else {
-        localStorage.removeItem('axio_customer_unlocked');
-        document.getElementById('utr-form-state').style.display = 'block';
-        document.getElementById('unlocked-download-state').style.display = 'none';
-      }
+      // Always reset and show the payment view on fresh page load (no lingering unlocked states)
+      localStorage.removeItem('axio_customer_unlocked');
+      localStorage.removeItem('axio_customer_utr');
+      const formState = document.getElementById('utr-form-state');
+      const dlState = document.getElementById('unlocked-download-state');
+      if (formState) formState.style.display = 'block';
+      if (dlState) dlState.style.display = 'none';
 
       startCountdown();
       updateStreakCounter();
