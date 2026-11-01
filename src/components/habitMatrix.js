@@ -474,7 +474,7 @@ export function renderHabitMatrix(container) {
           </div>
           <div class="insight-info">
             <div class="insight-title">Active Discipline Streak</div>
-            <div class="insight-value">${calculateBestStreak(data.habits)} Days Running</div>
+            <div class="insight-value">${calculateBestStreak(data.habits) === 1 ? '1 Day Streak' : calculateBestStreak(data.habits) + ' Days Streak'}</div>
             <div class="insight-sub">Consecutive momentum chain active</div>
           </div>
         </div>
