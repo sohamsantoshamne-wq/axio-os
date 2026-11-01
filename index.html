@@ -18,12 +18,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <script>
-      // Gate access: Unpaid visitors landing directly on index.html are sent to the sales landing page
+      // Gate access: Unpaid visitors landing directly on production domain are sent to the sales landing page
       (function() {
-        const isOffline = window.location.protocol === 'file:' || (window.location.hostname === 'localhost' && window.location.port === '5174');
-        const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true' && localStorage.getItem('axio_customer_utr');
+        const isOfflineOrLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true';
         const isDirectVip = window.location.search.includes('access=vip') || window.location.search.includes('dev=true');
-        if (!isOffline && !hasLicense && !isDirectVip) {
+        if (!isOfflineOrLocal && !hasLicense && !isDirectVip) {
           window.location.replace('/landing.html');
         }
       })();
