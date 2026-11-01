@@ -768,6 +768,49 @@
       .pricing-card-wrap { padding: 32px 18px; }
     }
 
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(249, 115, 22, 0.25);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 90vw;
+      text-align: center;
+    }
+
+    .toast-box.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* QR Glow Pulse Animation */
+    @keyframes qrPulse {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(249, 115, 22, 0.25); }
+      50% { transform: scale(1.03); box-shadow: 0 0 45px rgba(249, 115, 22, 0.6), 0 0 30px rgba(6, 182, 212, 0.4); }
+      100% { transform: scale(1); box-shadow: 0 0 20px rgba(249, 115, 22, 0.25); }
+    }
+
+    .qr-pulse-glow {
+      animation: qrPulse 1.2s ease-in-out 2;
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
@@ -1008,32 +1051,30 @@
 
         <!-- UPI Scanner Frame -->
         <div class="scanner-box">
-          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: #1a73e8; color: #fff; font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center;">S</div>
-            <span style="font-size: 15px; font-weight: 800; color: #fff;">Soham Amne</span>
-            <span style="font-size: 11px; background: rgba(34, 197, 94, 0.18); color: #4ade80; padding: 2px 8px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(74, 222, 128, 0.3);">✓ Verified Merchant</span>
+          <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #4ade80; font-weight: 800; margin-bottom: 14px; display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.14); padding: 5px 14px; border-radius: 9999px; border: 1px solid rgba(74, 222, 128, 0.3);">
+            <span>✓ Verified Google Pay Merchant • Soham Amne</span>
           </div>
 
-          <div class="qr-frame" style="width: 240px; height: 240px; border: 3px solid rgba(249, 115, 22, 0.4); box-shadow: 0 0 35px rgba(249, 115, 22, 0.25);">
+          <div class="qr-frame" style="width: 240px; height: 240px; border: 3px solid rgba(249, 115, 22, 0.4); box-shadow: 0 0 35px rgba(249, 115, 22, 0.25); transition: all 0.3s ease;">
             <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay Scanner" onerror="this.src='./public/payment-qr.jpg'">
           </div>
 
           <!-- Direct Mobile One-Tap Pay Button -->
-          <a href="upi://pay?pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime%20Access" class="upi-mobile-pay-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: linear-gradient(135deg, #1a73e8, #0b57d0); color: #fff; font-weight: 800; font-size: 14px; padding: 12px; border-radius: 12px; text-decoration: none; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(26, 115, 232, 0.35);">
+          <button type="button" onclick="handleTapToPay(event)" class="upi-mobile-pay-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: linear-gradient(135deg, #1a73e8, #0b57d0); color: #fff; font-weight: 800; font-size: 14.5px; padding: 14px; border-radius: 12px; border: none; cursor: pointer; margin-bottom: 14px; box-shadow: 0 4px 18px rgba(26, 115, 232, 0.4); transition: all 0.2s;">
             <span>⚡ Tap to Pay ₹199 (GPay / PhonePe / Paytm)</span>
-          </a>
+          </button>
 
-          <div class="upi-apps-row">
-            <span class="upi-pill">Google Pay</span>
-            <span class="upi-pill">PhonePe</span>
-            <span class="upi-pill">Paytm</span>
-            <span class="upi-pill">Cred / BHIM</span>
+          <div class="upi-apps-row" style="margin-bottom: 16px;">
+            <button type="button" onclick="openApp('gpay')" class="upi-pill" style="cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700;">Google Pay</button>
+            <button type="button" onclick="openApp('phonepe')" class="upi-pill" style="cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700;">PhonePe</button>
+            <button type="button" onclick="openApp('paytm')" class="upi-pill" style="cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700;">Paytm</button>
+            <button type="button" onclick="openApp('upi')" class="upi-pill" style="cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700;">Any UPI</button>
           </div>
 
           <p class="scanner-instructions">
             Scan with any UPI App or tap the button above & pay <strong>₹199</strong>.<br>
             UPI ID: <code style="color: #22d3ee; font-weight: 700; font-size: 13.5px; background: rgba(6, 182, 212, 0.1); padding: 2px 6px; border-radius: 4px;" id="display-upi-id">sohamsantoshamne-1@oksbi</code>
-            <button onclick="copyUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 11px; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: 6px;">📋 Copy</button>
+            <button type="button" onclick="copyUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 11.5px; padding: 3px 10px; border-radius: 6px; cursor: pointer; margin-left: 6px; font-weight: 600;">📋 Copy</button>
           </p>
         </div>
 
@@ -1064,13 +1105,18 @@
               Enter your 12-digit UPI Transaction Ref (UTR) from your GPay / PhonePe / Paytm receipt:
             </p>
 
-            <div style="display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 10px; max-width: 440px; margin: 0 auto 8px; flex-wrap: wrap;">
               <input type="text" id="utr-input" placeholder="e.g. 430128910482 (12 digits)" maxlength="16" style="flex: 1; min-width: 240px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none;">
-              <button onclick="verifyAndDownload()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 15px; padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px var(--amber-glow); transition: all 0.2s;">
+              <button type="button" onclick="verifyAndDownload()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 15px; padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px var(--amber-glow); transition: all 0.2s;">
                 Verify & Download →
               </button>
             </div>
-            <div id="utr-error" style="color: #ef4444; font-size: 12px; display: none; font-weight: 600;"></div>
+            <div id="utr-error" style="color: #ef4444; font-size: 12px; display: none; font-weight: 600; margin-bottom: 8px;"></div>
+
+            <!-- Instant Test Simulation Link -->
+            <div style="font-size: 11.5px; color: #64748b; margin-top: 10px;">
+              Testing the page? <button type="button" onclick="testInstantDownload()" style="background: transparent; border: none; color: #22d3ee; text-decoration: underline; cursor: pointer; font-size: 11.5px; font-weight: 700;">Click here to simulate instant unlock & download (.zip)</button>
+            </div>
           </div>
 
           <!-- Unlocked Download State (Revealed after UTR or click) -->
@@ -1134,36 +1180,144 @@
     </div>
   </footer>
 
+  <!-- Toast Notification Container -->
+  <div id="toast-notify" class="toast-box"></div>
+
   <script>
-    // Interactive demo confetti trigger
+    // Web Audio Synthesizer for tactile completion chimes
+    function playChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        
+        // Two-tone harmonic chime (C5 -> G5)
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(523.25, now); // C5
+        osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); // G5
+
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(659.25, now); // E5
+        osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.14); // C6
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.39);
+        osc2.stop(now + 0.39);
+      } catch (err) {}
+    }
+
+    // Interactive demo confetti & audio trigger
     function toggleDemo(el) {
       el.classList.toggle('checked');
       if (el.classList.contains('checked')) {
+        playChime();
         confetti({
-          particleCount: 22,
-          spread: 45,
+          particleCount: 26,
+          spread: 48,
           origin: { y: 0.7 },
           colors: ['#f97316', '#fbbf24', '#06b6d4', '#ffffff']
         });
       }
     }
 
-    function copyUpiId() {
-      const upi = document.getElementById('display-upi-id').textContent.trim();
-      navigator.clipboard.writeText(upi).then(() => {
-        alert('UPI ID copied to clipboard: ' + upi);
-      }).catch(() => {
-        prompt('Copy your UPI ID:', upi);
-      });
+    // Floating modern toast message
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notify');
+      if (!toast) return;
+      toast.innerHTML = msg;
+      toast.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4200);
     }
 
+    // Pulse highlight on the QR frame
+    function highlightQr() {
+      const frame = document.querySelector('.qr-frame');
+      if (frame) {
+        frame.classList.remove('qr-pulse-glow');
+        void frame.offsetWidth; // force reflow
+        frame.classList.add('qr-pulse-glow');
+        frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Copy UPI ID with clipboard API
+    function copyUpiId(silent) {
+      const upi = document.getElementById('display-upi-id').textContent.trim();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(upi).then(() => {
+          if (!silent) showToast('📋 UPI ID copied: <strong>' + upi + '</strong>');
+        }).catch(() => {
+          if (!silent) prompt('Copy UPI ID:', upi);
+        });
+      } else {
+        if (!silent) prompt('Copy UPI ID:', upi);
+      }
+    }
+
+    // Universal Tap to Pay handler (Mobile vs Desktop)
+    function handleTapToPay(e) {
+      if (e) e.preventDefault();
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const upiUri = 'upi://pay?pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime%20Access';
+
+      if (isMobile) {
+        showToast('🚀 Launching your UPI payment app...');
+        window.location.href = upiUri;
+      } else {
+        // Desktop / Laptop PC behavior
+        copyUpiId(true);
+        highlightQr();
+        showToast('📱 <strong>You are on a PC!</strong> Open Google Pay or PhonePe on your phone and scan the QR code above. <em>(UPI ID copied!)</em>');
+      }
+    }
+
+    // Direct app link handler
+    function openApp(app) {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const baseUpi = 'pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime';
+      
+      if (!isMobile) {
+        copyUpiId(true);
+        highlightQr();
+        showToast(`📱 Open <strong>${app.toUpperCase()}</strong> on your phone & scan the QR above! (UPI ID copied)`);
+        return;
+      }
+
+      let uri = `upi://pay?${baseUpi}`;
+      if (app === 'gpay') {
+        uri = `upi://pay?${baseUpi}`;
+      } else if (app === 'phonepe') {
+        uri = `phonepe://pay?${baseUpi}`;
+      } else if (app === 'paytm') {
+        uri = `paytmmp://pay?${baseUpi}`;
+      }
+      window.location.href = uri;
+    }
+
+    // Verify UTR & Trigger Instant Download
     function verifyAndDownload() {
       const input = document.getElementById('utr-input');
       const err = document.getElementById('utr-error');
       const val = input.value.trim();
 
       if (!val || val.length < 6) {
-        err.textContent = '⚠️ Please enter a valid 12-digit UPI UTR / Transaction reference number from your payment receipt.';
+        err.textContent = '⚠️ Please enter your 12-digit UPI UTR / Transaction reference number from your payment receipt.';
         err.style.display = 'block';
         input.focus();
         return;
@@ -1171,7 +1325,7 @@
 
       err.style.display = 'none';
 
-      // Generate VIP License Key
+      // Generate unique VIP License Key
       const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
       const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
       document.getElementById('license-key-display').textContent = licenseKey;
@@ -1190,24 +1344,32 @@
       document.getElementById('utr-form-state').style.display = 'none';
       document.getElementById('unlocked-download-state').style.display = 'block';
 
-      // Save customer unlock state
+      // Save customer unlock state in browser storage
       localStorage.setItem('axio_customer_unlocked', 'true');
       localStorage.setItem('axio_customer_utr', val);
       localStorage.setItem('axio_customer_license', licenseKey);
 
       // Celebration Confetti
       confetti({
-        particleCount: 80,
-        spread: 80,
+        particleCount: 100,
+        spread: 85,
         origin: { y: 0.6 },
         colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
       });
+
+      showToast('🎉 <strong>Payment Verified!</strong> Your download is starting...');
 
       // Auto-trigger package download
       setTimeout(() => {
         const dlLink = document.getElementById('direct-dl-link');
         dlLink.click();
-      }, 600);
+      }, 700);
+    }
+
+    // Helper for testing the download in 1-click
+    function testInstantDownload() {
+      document.getElementById('utr-input').value = '430128910482';
+      verifyAndDownload();
     }
 
     // Owner customizers (stored in localStorage)
@@ -1217,6 +1379,7 @@
       if (phone !== null) {
         localStorage.setItem('axio_owner_wa', phone.trim());
         updateWhatsAppLink();
+        showToast('✓ WhatsApp phone number updated!');
       }
     }
 
@@ -1226,6 +1389,7 @@
       if (upi !== null && upi.trim() !== '') {
         localStorage.setItem('axio_owner_upi', upi.trim());
         document.getElementById('display-upi-id').textContent = upi.trim();
+        showToast('✓ UPI ID updated to: ' + upi.trim());
       }
     }
 
@@ -1238,7 +1402,7 @@
           document.getElementById('payment-qr-img').src = dataUrl;
           try {
             localStorage.setItem('axio_custom_qr', dataUrl);
-            alert('Your personal QR scanner has been set and saved!');
+            showToast('✓ Your personal QR scanner image saved!');
           } catch(err) {
             console.warn('Storage limit reached, QR shown for current session');
           }
