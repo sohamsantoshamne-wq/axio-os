@@ -238,11 +238,11 @@
 
       <div class="insta-preview-wrap">
         <div class="insta-preview-inner">
-          <img src="/public/axio-profile.jpg" alt="AXIO 3D Profile" id="preview-img-1" />
+          <img src="./public/axio-profile.jpg" alt="AXIO 3D Profile" id="preview-img-1" onerror="this.src='/axio-profile.jpg'" />
         </div>
       </div>
 
-      <a class="download-btn" href="/public/axio-profile.jpg" download="axio-os-profile-3d.jpg">
+      <a class="download-btn" href="./public/axio-profile.jpg" download="axio-os-profile-3d.jpg">
         <span>⬇️</span> Download 3D Emblem (JPG)
       </a>
     </div>
@@ -253,14 +253,65 @@
       <div class="card-sub">Concentric Rings • Pure Vector Crispness</div>
 
       <div class="insta-preview-wrap">
-        <div class="insta-preview-inner">
-          <img src="/public/axio-profile.svg" alt="AXIO Vector Profile" id="preview-img-2" />
+        <div class="insta-preview-inner" id="svg-preview-container">
+          <!-- Inline SVG rendered for 100% reliable zero-path viewing -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="100%" height="100%">
+            <defs>
+              <radialGradient id="card-bg-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#141c2e" />
+                <stop offset="60%" stop-color="#0a0e18" />
+                <stop offset="100%" stop-color="#05070c" />
+              </radialGradient>
+              <radialGradient id="card-amber" cx="30%" cy="30%" r="45%">
+                <stop offset="0%" stop-color="#f97316" stop-opacity="0.25" />
+                <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="card-cyan" cx="70%" cy="70%" r="45%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="card-brand-grad" x1="15%" y1="20%" x2="85%" y2="80%">
+                <stop offset="0%" stop-color="#ff7a18" />
+                <stop offset="45%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#06b6d4" />
+              </linearGradient>
+              <linearGradient id="card-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f97316" stop-opacity="0.6" />
+                <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.3" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
+              </linearGradient>
+            </defs>
+
+            <rect width="1080" height="1080" fill="url(#card-bg-glow)" />
+            <circle cx="540" cy="540" r="540" fill="url(#card-bg-glow)" />
+            <circle cx="360" cy="360" r="450" fill="url(#card-amber)" />
+            <circle cx="720" cy="720" r="450" fill="url(#card-cyan)" />
+
+            <circle cx="540" cy="540" r="470" fill="none" stroke="url(#card-ring-grad)" stroke-width="3" stroke-dasharray="14 10" opacity="0.4" />
+            <circle cx="540" cy="540" r="440" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+            <circle cx="540" cy="540" r="360" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="4" />
+            <circle cx="540" cy="540" r="360" fill="none" stroke="url(#card-brand-grad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2262" stroke-dashoffset="650" transform="rotate(-90 540 540)" opacity="0.85" />
+            <circle cx="540" cy="540" r="220" fill="url(#card-brand-grad)" opacity="0.12" />
+
+            <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630" fill="none" stroke="url(#card-brand-grad)" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45" />
+
+            <circle cx="370" cy="330" r="24" fill="#ff7a18" />
+            <circle cx="370" cy="330" r="10" fill="#ffffff" />
+            <circle cx="540" cy="680" r="26" fill="#38bdf8" />
+            <circle cx="540" cy="680" r="10" fill="#ffffff" />
+            <circle cx="710" cy="390" r="20" fill="#06b6d4" />
+            <circle cx="710" cy="390" r="8" fill="#ffffff" />
+
+            <text x="540" y="860" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" letter-spacing="14" fill="#ffffff">AXIO OS</text>
+            <text x="540" y="905" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" letter-spacing="8" fill="#64748b">DAILY CONSISTENCY</text>
+          </svg>
         </div>
       </div>
 
-      <button class="download-btn" id="btn-dl-png">
-        <span>⬇️</span> Download 1080x1080 PNG
-      </button>
+      <a class="download-btn" href="./public/axio-profile.svg" download="axio-os-vector-profile.svg" target="_blank">
+        <span>⬇️</span> Download Vector SVG
+      </a>
     </div>
 
     <!-- Live Instagram Profile Mockup -->
@@ -270,7 +321,7 @@
       </div>
       <div class="mockup-header">
         <div class="mockup-avatar">
-          <img src="/public/axio-profile.jpg" alt="Avatar" />
+          <img src="./public/axio-profile.jpg" alt="Avatar" onerror="this.src='/axio-profile.jpg'" />
         </div>
         <div class="mockup-counts">
           <div class="count-item"><span class="count-num">12</span><span class="count-label">posts</span></div>
