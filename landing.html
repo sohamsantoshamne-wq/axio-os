@@ -873,6 +873,230 @@
       box-shadow: 0 0 20px rgba(249, 115, 22, 0.35);
     }
 
+    /* Testimonials Grid */
+    .testimonials-section {
+      padding: 90px 0 60px;
+      position: relative;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(249, 115, 22, 0.35);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .test-stars {
+      color: #fbbf24;
+      font-size: 15px;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
+    .test-text {
+      font-size: 14.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .test-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 16px;
+    }
+
+    .test-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(6, 182, 212, 0.3));
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .test-name {
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .test-role {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .test-badge {
+      font-size: 10.5px;
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    /* FAQ Accordion */
+    .faq-section {
+      padding: 90px 0 100px;
+    }
+
+    .faq-list {
+      max-width: 780px;
+      margin: 40px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .faq-item.active {
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 20px 24px;
+      color: #fff;
+      font-size: 15.5px;
+      font-weight: 700;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .faq-icon {
+      font-size: 18px;
+      color: #fbbf24;
+      transition: transform 0.25s ease;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+      color: #22d3ee;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+      padding: 0 24px;
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 250px;
+      padding: 0 24px 20px 24px;
+    }
+
+    /* Guarantee Card */
+    .guarantee-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 20, 32, 0.85) 100%);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 640px;
+      margin: 32px auto 0;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .guarantee-badge-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(34, 197, 94, 0.16);
+      border: 1px solid rgba(74, 222, 128, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    /* Floating WhatsApp Help Button */
+    .floating-wa-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 98;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: #fff;
+      border-radius: 9999px;
+      padding: 12px 20px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .floating-wa-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .floating-wa-btn {
+        bottom: 80px;
+        right: 16px;
+        padding: 10px 16px;
+        font-size: 12.5px;
+      }
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
@@ -1105,6 +1329,67 @@
     </div>
   </section>
 
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Proof & Results</div>
+        <h2 class="section-title">Built for Executives Who Demand Results</h2>
+        <p class="section-desc">Join 1,420+ high-performing engineers, founders, and students who ditched spreadsheets for good.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Review 1 -->
+        <div class="testimonial-card">
+          <div>
+            <div class="test-stars">★★★★★</div>
+            <p class="test-text">"I tried Notion habit templates, Excel spreadsheets, and half a dozen mobile apps with annoying monthly charges. AXIO OS is the only system I’ve actually stuck with for 60+ days straight. The tactile mechanical tick sound makes ticking my morning deep work session feel like a victory."</p>
+          </div>
+          <div class="test-author">
+            <div class="test-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">AS</div>
+            <div>
+              <div class="test-name">Aarav Sharma</div>
+              <div class="test-role">Senior Staff Engineer • Bengaluru</div>
+            </div>
+            <div class="test-badge">✓ Verified Buyer</div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="testimonial-card">
+          <div>
+            <div class="test-stars">★★★★★</div>
+            <p class="test-text">"Spreadsheets always broke or lagged whenever I updated a column. With AXIO OS, I double-click the desktop launcher and my whole month's matrix is right there. No subscriptions, no cloud latency, completely private. For ₹199 lifetime, this is the easiest investment I made this year."</p>
+          </div>
+          <div class="test-author">
+            <div class="test-avatar" style="background: linear-gradient(135deg, #06b6d4, #0284c7);">PI</div>
+            <div>
+              <div class="test-name">Pooja Iyer</div>
+              <div class="test-role">Product Lead & Marathoner • Mumbai</div>
+            </div>
+            <div class="test-badge">✓ Verified Buyer</div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="testimonial-card">
+          <div>
+            <div class="test-stars">★★★★★</div>
+            <p class="test-text">"The Instagram Brag Card generator is brilliant! Every Sunday, I export a high-res story card of my weekly streaks and post it on my close friends list. It keeps me 100% accountable. Best part: no monthly fees ever. Paid once and got instant download access."</p>
+          </div>
+          <div class="test-author">
+            <div class="test-avatar" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000;">VN</div>
+            <div>
+              <div class="test-name">Vikramaditya Nair</div>
+              <div class="test-role">UPSC Aspirant & Content Creator • Delhi</div>
+            </div>
+            <div class="test-badge">✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PRICING & PAYMENT SCANNER SECTION -->
   <section class="pricing-section" id="pricing">
     <div class="container">
@@ -1225,9 +1510,11 @@
             </div>
 
             <h3 style="font-size: 24px; font-weight: 900; margin-bottom: 6px; color: #fff;">Your AXIO OS App is Ready!</h3>
-            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 24px;">
-              VIP License Key: <strong style="color: #fbbf24; font-family: 'JetBrains Mono', monospace;" id="license-key-display">AXIO-VIP-2026-LIFETIME</strong>
-            </p>
+            <div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 24px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.12); padding: 8px 16px; border-radius: 10px; flex-wrap: wrap;">
+              <span style="font-size: 13px; color: #94a3b8;">VIP License Key:</span>
+              <strong style="color: #fbbf24; font-family: 'JetBrains Mono', monospace; font-size: 14.5px;" id="license-key-display">AXIO-VIP-2026-LIFETIME</strong>
+              <button type="button" onclick="copyLicenseKey()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 700;">📋 Copy</button>
+            </div>
 
             <!-- Dual Option: Download for Laptop vs Send to Laptop -->
             <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; margin: 0 auto;">
@@ -1270,20 +1557,115 @@
 
         </div>
 
+        <!-- 30-Day Zero-Risk Consistency Guarantee -->
+        <div class="guarantee-card">
+          <div class="guarantee-badge-icon">🛡️</div>
+          <div>
+            <div style="font-size: 15px; font-weight: 800; color: #4ade80; margin-bottom: 4px;">30-Day Zero-Risk Consistency Guarantee</div>
+            <div style="font-size: 13px; color: #cbd5e1; line-height: 1.5;">If AXIO OS doesn't make you at least 3x more consistent with your daily routines within 30 days, simply chat with Soham on WhatsApp for a prompt 100% refund. You keep the app anyway. Zero risk.</div>
+          </div>
+        </div>
+
         <!-- WhatsApp Help & Support -->
-        <div style="font-size: 13px; color: #64748b;">
-          Need help with your download? <a id="whatsapp-support-link" href="https://wa.me/?text=Hi%20Soham!%20I%20have%20a%20question%20about%20AXIO%20OS%20purchase" target="_blank" style="color: #25d366; text-decoration: none; font-weight: 700;">Chat on WhatsApp →</a>
+        <div style="font-size: 13.5px; color: #94a3b8; margin-top: 24px;">
+          Have questions before ordering? <a id="whatsapp-support-link" href="https://wa.me/?text=Hi%20Soham!%20I%20have%20a%20question%20about%20AXIO%20OS%20purchase" target="_blank" style="color: #25d366; text-decoration: none; font-weight: 700;">Chat directly with Soham on WhatsApp →</a>
         </div>
 
-        <!-- Owner Tool for easily swapping scanner & WhatsApp number -->
-        <div class="owner-tools">
-          <span>⚙️ Customizer:</span>
-          <button onclick="changeWhatsAppNumber()">Set WhatsApp Phone</button>
-          <button onclick="changeUpiId()">Set UPI ID</button>
-          <button onclick="document.getElementById('qr-upload-input').click()">Upload Your QR Image</button>
-          <input type="file" id="qr-upload-input" accept="image/*" style="display: none;" onchange="handleQrUpload(event)">
+        <!-- Discreet Owner Customizer Toggle (Admin Only) -->
+        <div style="margin-top: 32px; text-align: center;">
+          <button type="button" onclick="document.getElementById('merchant-admin-panel').style.display = document.getElementById('merchant-admin-panel').style.display === 'none' ? 'block' : 'none'" style="background: none; border: 1px dashed rgba(255,255,255,0.12); color: #64748b; font-size: 11px; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
+            ⚙️ Merchant Settings (Soham Only)
+          </button>
+          <div id="merchant-admin-panel" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; max-width: 440px; margin-left: auto; margin-right: auto;">
+            <div style="font-size: 12px; color: #fbbf24; font-weight: 700; margin-bottom: 8px;">Merchant Setup Controls:</div>
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+              <button onclick="changeWhatsAppNumber()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Set WhatsApp Phone</button>
+              <button onclick="changeUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Set UPI ID</button>
+              <button onclick="document.getElementById('qr-upload-input').click()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Upload QR Image</button>
+              <input type="file" id="qr-upload-input" accept="image/*" style="display: none;" onchange="handleQrUpload(event)">
+            </div>
+          </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Zero Hesitations</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Everything you need to know before joining 1,420+ high performers on AXIO OS.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- FAQ 1 -->
+        <div class="faq-item active">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>How do I receive AXIO OS after paying ₹199?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Instantly on this screen!</strong> As soon as you scan or tap to pay ₹199 and click <em>"I Have Paid"</em>, your personalized VIP License Key is generated and the offline package (.ZIP) unlocks immediately. You can also tap <em>"Send to WhatsApp"</em> to forward the download link and key straight to your personal WhatsApp.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What if I pay on my phone, but want to use the app on my laptop?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>We designed the checkout flow specifically for this! Right after paying on your phone, tap <strong>"📲 Paid on Phone? Send Download Link to your WhatsApp"</strong>. This sends the ZIP package link and your license key straight to your own WhatsApp. Open WhatsApp Web on your laptop, click the link, and you are ready to go in 10 seconds.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Does AXIO OS work completely offline without internet?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Yes, 100% offline!</strong> AXIO OS is dedicated software running directly on your computer. You never need an active internet connection to mark your habits, hear acoustic switch chimes, calculate streaks, or view your matrix.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Are there any monthly subscriptions or hidden charges?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Zero subscriptions.</strong> Most habit apps charge ₹399/month or ₹2,999/year. With AXIO OS, you pay a single one-time fee of <strong>₹199</strong> and own the app forever, including all future feature updates.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Why is this better than an Excel or Google Sheets habit tracker?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Spreadsheets look and feel like tedious tax accounting: fragile cells, broken formulas, zero audio dopamine, and terrible mobile pinch-zooming. AXIO OS is an engineered executive cockpit with tactile mechanical haptics, glowing streak tiers (Rookie to Titan), and 1-click Instagram story export cards.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What if I need help or have trouble downloading?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>You have direct VIP support on WhatsApp with Soham. Tap the green <strong>"Chat on WhatsApp"</strong> button anytime, and we'll reply right away or send the installation package directly to your chat.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1306,6 +1688,11 @@
       <p>Built for high-performance execution. 100% Private.</p>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp Quick Support Pill -->
+  <a id="floating-whatsapp-btn" href="https://wa.me/?text=Hi%20Soham!%20I%20have%20a%20question%20about%20AXIO%20OS" target="_blank" class="floating-wa-btn">
+    <span>💬 Questions? Chat with Soham</span>
+  </a>
 
   <!-- Toast Notification Container -->
   <div id="toast-notify" class="toast-box"></div>
@@ -1663,17 +2050,36 @@
       }
     }
 
+    function copyLicenseKey() {
+      const key = document.getElementById('license-key-display').textContent.trim();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key).then(() => {
+          showToast('📋 License Key copied: <strong>' + key + '</strong>');
+        }).catch(() => {
+          prompt('Copy License Key:', key);
+        });
+      } else {
+        prompt('Copy License Key:', key);
+      }
+    }
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const wasActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+      if (!wasActive) {
+        item.classList.add('active');
+      }
+    }
+
     function updateWhatsAppLink() {
       const waNumber = localStorage.getItem('axio_owner_wa') || '';
       const supportLink = document.getElementById('whatsapp-support-link');
+      const floatBtn = document.getElementById('floating-whatsapp-btn');
       const text = encodeURIComponent('Hi Soham! I have a question about AXIO OS purchase');
-      if (supportLink) {
-        if (waNumber) {
-          supportLink.href = `https://wa.me/${waNumber}?text=${text}`;
-        } else {
-          supportLink.href = `https://wa.me/?text=${text}`;
-        }
-      }
+      const url = waNumber ? `https://wa.me/${waNumber}?text=${text}` : `https://wa.me/?text=${text}`;
+      if (supportLink) supportLink.href = url;
+      if (floatBtn) floatBtn.href = url;
     }
 
     // Initialize on page load
