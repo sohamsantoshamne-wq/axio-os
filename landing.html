@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXIO OS • The Executive Consistency Engine</title>
+  <meta name="description" content="Master daily consistency with the 31-day visual habit matrix. Lifetime access for just ₹199 (normally ₹299). Zero subscriptions, 100% private.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(15, 20, 32, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --amber: #f97316;
+      --amber-glow: rgba(249, 115, 22, 0.35);
+      --gold: #fbbf24;
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.14) 0px, transparent 45%),
+        radial-gradient(at 100% 30%, rgba(6, 182, 212, 0.12) 0px, transparent 45%),
+        radial-gradient(at 50% 80%, rgba(251, 191, 36, 0.08) 0px, transparent 50%);
+    }
+
+    /* Ambient background grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(7, 9, 14, 0.8);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      object-fit: cover;
+      box-shadow: 0 0 16px rgba(249, 115, 22, 0.3);
+    }
+
+    .brand-name {
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #06b6d4;
+      font-weight: 700;
+      background: rgba(6, 182, 212, 0.12);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 18px var(--amber-glow);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(249, 115, 22, 0.5);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 70px 0 60px;
+      text-align: center;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fb923c;
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+
+    .pill-badge .strike {
+      text-decoration: line-through;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5.5vw, 62px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #f97316 0%, #fbbf24 50%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #fff;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 16px 34px;
+      border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 8px 30px var(--amber-glow);
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(249, 115, 22, 0.55);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 15px 28px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .hero-trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #cbd5e1;
+    }
+
+    /* Live Interactive Teaser Box */
+    .hero-preview-wrap {
+      margin-top: 48px;
+      position: relative;
+    }
+
+    .hero-preview-card {
+      background: rgba(13, 17, 28, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 40px rgba(6, 182, 212, 0.12);
+      backdrop-filter: blur(20px);
+      text-align: left;
+    }
+
+    .card-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 20px;
+    }
+
+    .dot-cluster {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .matrix-demo-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Interactive Habit Checkers */
+    .interactive-habit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .habit-demo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 12px 18px;
+      transition: all 0.2s ease;
+    }
+
+    .habit-demo-row:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .habit-demo-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .habit-demo-icon {
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .habit-demo-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .habit-demo-sub {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .habit-days-grid {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .demo-checkbox {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 800;
+      color: transparent;
+      user-select: none;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .demo-checkbox:hover {
+      transform: scale(1.1);
+      border-color: var(--amber);
+    }
+
+    .demo-checkbox.checked {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      border-color: #f97316;
+      box-shadow: 0 0 14px var(--amber-glow);
+    }
+
+    .demo-checkbox.checked-cyan {
+      background: linear-gradient(135deg, #06b6d4, #0284c7);
+      color: #fff;
+      border-color: #06b6d4;
+      box-shadow: 0 0 14px var(--cyan-glow);
+    }
+
+    /* Comparison Table: Traditional vs AXIO OS */
+    .comparison-section {
+      padding: 90px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .comp-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(16px);
+    }
+
+    .comp-card.bad {
+      border-color: rgba(239, 68, 68, 0.25);
+      background: rgba(239, 68, 68, 0.03);
+    }
+
+    .comp-card.good {
+      border-color: rgba(249, 115, 22, 0.35);
+      background: linear-gradient(180deg, rgba(249, 115, 22, 0.06) 0%, rgba(15, 20, 32, 0.9) 100%);
+      box-shadow: 0 0 32px rgba(249, 115, 22, 0.12);
+      position: relative;
+    }
+
+    .comp-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .comp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14.5px;
+      color: #cbd5e1;
+    }
+
+    .comp-list li span.icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Core Features 3-Column */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all 0.2s ease;
+    }
+
+    .feat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    .feat-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .feat-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .feat-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* PRICING & PAYMENT SCANNER SECTION (Core Requirement) */
+    .pricing-section {
+      padding: 90px 0 120px;
+      position: relative;
+    }
+
+    .pricing-card-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(249, 115, 22, 0.08) 0%, rgba(13, 18, 30, 0.95) 100%);
+      border: 2px solid rgba(249, 115, 22, 0.4);
+      border-radius: 28px;
+      padding: 44px 36px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 50px rgba(249, 115, 22, 0.2);
+      text-align: center;
+      position: relative;
+    }
+
+    .discount-ribbon {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 18px var(--amber-glow);
+    }
+
+    .price-display {
+      margin: 20px 0 16px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .price-original {
+      font-size: 28px;
+      font-weight: 700;
+      color: #64748b;
+      text-decoration: line-through;
+      text-decoration-thickness: 3px;
+      text-decoration-color: #ef4444;
+    }
+
+    .price-current {
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 40%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .price-cadence {
+      font-size: 15px;
+      font-weight: 700;
+      color: #22d3ee;
+      background: rgba(6, 182, 212, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .price-sub {
+      color: #cbd5e1;
+      font-size: 14.5px;
+      margin-bottom: 32px;
+    }
+
+    /* UPI Scanner Box */
+    .scanner-box {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 440px;
+      margin: 0 auto 32px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .qr-frame {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 18px;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .upi-apps-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .upi-pill {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .scanner-instructions {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* 3-Step Process Steps */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .step-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: #e2e8f0;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* WhatsApp Button */
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 16px 36px;
+      border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+    }
+
+    /* Scanner Customizer (Hidden Tool for Owner) */
+    .owner-tools {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .owner-tools button {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Sticky Mobile CTA Bar */
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: rgba(7, 9, 14, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--card-border);
+      padding: 12px 20px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-bar { display: flex; }
+      body { padding-bottom: 74px; }
+      .hero { padding: 40px 0; }
+      .pricing-card-wrap { padding: 32px 18px; }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 40px 0;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <!-- Top Navigation -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <img src="/axio-profile-option2.jpg" alt="AXIO OS" class="brand-logo" onerror="this.src='./public/axio-profile-option2.jpg'">
+        <span class="brand-name">AXIO OS</span>
+        <span class="brand-tag">v1.0</span>
+      </a>
+      <a href="#pricing" class="nav-cta">
+        <span>Get Access • ₹199</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="pill-badge">
+        <span>⚡ LIMITED LAUNCH DEAL:</span>
+        <span class="strike">₹299</span>
+        <span style="color: #fff; font-weight: 800;">₹199 Lifetime</span>
+      </div>
+
+      <h1>The Executive Consistency Engine <br><span class="gradient-text">Built for Unstoppable Daily Momentum</span></h1>
+
+      <p>Stop relying on fragile willpower. Track habits across a full 31-day visual bird's eye matrix, multiply streaks, and forge ironclad discipline. 100% private & offline on your PC.</p>
+
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">
+          <span>⚡ Claim Lifetime Access for ₹199</span>
+        </a>
+        <a href="#preview" class="btn-secondary">
+          <span>👀 Try Interactive Demo</span>
+        </a>
+      </div>
+
+      <div class="hero-trust">
+        <span>🛡️ One-time Payment (No monthly fees)</span>
+        <span>⚡ Instant Download & Access</span>
+        <span>🔒 100% Private Local Data</span>
+      </div>
+
+      <!-- Live Interactive Teaser Box -->
+      <div class="hero-preview-wrap" id="preview">
+        <div class="hero-preview-card">
+          <div class="card-topbar">
+            <div class="dot-cluster">
+              <div class="dot dot-red"></div>
+              <div class="dot dot-yellow"></div>
+              <div class="dot dot-green"></div>
+            </div>
+            <div class="matrix-demo-title">⚡ Interactive Demo: Click days to complete</div>
+            <div style="font-size: 12px; color: #fbbf24; font-weight: 700;" id="streak-counter">🔥 Streak: 12 Days</div>
+          </div>
+
+          <div class="interactive-habit-list">
+            <!-- Habit 1 -->
+            <div class="habit-demo-row">
+              <div class="habit-demo-info">
+                <div class="habit-demo-icon">⚡</div>
+                <div>
+                  <div class="habit-demo-name">Deep Work & Focus</div>
+                  <div class="habit-demo-sub">Morning 90-min uninterrupted block</div>
+                </div>
+              </div>
+              <div class="habit-days-grid">
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+              </div>
+            </div>
+
+            <!-- Habit 2 -->
+            <div class="habit-demo-row">
+              <div class="habit-demo-info">
+                <div class="habit-demo-icon">💪</div>
+                <div>
+                  <div class="habit-demo-name">High-Intensity Workout</div>
+                  <div class="habit-demo-sub">Strength or cardio conditioning</div>
+                </div>
+              </div>
+              <div class="habit-days-grid">
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+              </div>
+            </div>
+
+            <!-- Habit 3 -->
+            <div class="habit-demo-row">
+              <div class="habit-demo-info">
+                <div class="habit-demo-icon">📚</div>
+                <div>
+                  <div class="habit-demo-name">Read 20 Pages</div>
+                  <div class="habit-demo-sub">Philosophy, tech or business</div>
+                </div>
+              </div>
+              <div class="habit-days-grid">
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="comparison-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Why AXIO OS?</div>
+        <h2 class="section-title">The Cost of Fragile Systems</h2>
+        <p class="section-desc">Why standard to-do apps fail and how an executive matrix changes everything.</p>
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comp-card bad">
+          <div class="comp-title" style="color: #ef4444;">
+            <span>❌</span> Traditional Habit Apps
+          </div>
+          <ul class="comp-list">
+            <li><span class="icon">🚫</span> Expensive monthly subscriptions (₹499/mo forever)</li>
+            <li><span class="icon">🚫</span> Tunnel vision: you only see 1 day, no big-picture rhythm</li>
+            <li><span class="icon">🚫</span> Full of distracting ads, social feeds, and popups</li>
+            <li><span class="icon">🚫</span> Cloud dependence: your private personal data is tracked</li>
+          </ul>
+        </div>
+
+        <div class="comp-card good">
+          <div class="comp-title" style="color: #fbbf24;">
+            <span>⚡</span> AXIO OS Experience
+          </div>
+          <ul class="comp-list">
+            <li><span class="icon">✓</span> <strong>Pay ₹199 once</strong>. Zero subscriptions. Own it forever.</li>
+            <li><span class="icon">✓</span> <strong>Full 31-Day Bird's Eye Matrix:</strong> spot patterns instantly.</li>
+            <li><span class="icon">✓</span> <strong>100% Private & Offline:</strong> stored strictly on your device.</li>
+            <li><span class="icon">✓</span> <strong>Tactile Sound Chimes:</strong> instant dopamine rewards for each win.</li>
+            <li><span class="icon">✓</span> <strong>1-Click Instagram Story Cards:</strong> brag & prove your streak.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Core Architecture</div>
+        <h2 class="section-title">Built for Peak Execution</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon-box">📊</div>
+          <div class="feat-title">Full-Month Matrix</div>
+          <div class="feat-desc">View your entire 31-day performance in a single high-density grid. Never lose sight of weekly momentum.</div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon-box">🔥</div>
+          <div class="feat-title">Streak Multiplier Engine</div>
+          <div class="feat-desc">From Rookie to Grandmaster Titan. Watch your consistency tier glow as you maintain unbroken streaks.</div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon-box">🔊</div>
+          <div class="feat-title">Tactile Audio Chimes</div>
+          <div class="feat-desc">Synthesized audio cues provide physical satisfaction every time you complete a routine.</div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon-box">📱</div>
+          <div class="feat-title">Instagram Brag Cards</div>
+          <div class="feat-desc">Export executive 1080x1920 milestone cards in 1-click to share on your story and build accountability.</div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon-box">🔒</div>
+          <div class="feat-title">100% Private & Local</div>
+          <div class="feat-desc">Zero cloud tracking. Your data is stored locally in your browser storage with 1-click JSON backup.</div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon-box">⚡</div>
+          <div class="feat-title">Instant Hotkeys</div>
+          <div class="feat-desc">Jump through weeks (Week 1 to 5), filter by Morning/Night routines, and toggle today with zero latency.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING & PAYMENT SCANNER SECTION -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="pricing-card-wrap">
+        <div class="discount-ribbon">🔥 33% OFF • LIMITED LAUNCH OFFER</div>
+
+        <h2 style="font-size: 32px; font-weight: 900; margin-top: 10px;">Get Lifetime Access</h2>
+        <p style="color: #94a3b8; font-size: 15px; margin-top: 4px;">Pay once. Own forever. Free lifetime updates.</p>
+
+        <div class="price-display">
+          <span class="price-original">₹299</span>
+          <span class="price-current">₹199</span>
+          <span class="price-cadence">Lifetime Access</span>
+        </div>
+
+        <p class="price-sub">No subscriptions • No hidden fees • Runs offline on any PC/Laptop</p>
+
+        <!-- UPI Scanner Frame -->
+        <div class="scanner-box">
+          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #fbbf24; font-weight: 800; margin-bottom: 12px;">
+            📱 Scan with Any UPI App
+          </div>
+
+          <div class="qr-frame">
+            <img id="payment-qr-img" src="/payment-qr.png" alt="AXIO OS Payment QR Scanner" onerror="this.src='./public/payment-qr.png'">
+          </div>
+
+          <div class="upi-apps-row">
+            <span class="upi-pill">Google Pay</span>
+            <span class="upi-pill">PhonePe</span>
+            <span class="upi-pill">Paytm</span>
+            <span class="upi-pill">Cred / BHIM</span>
+          </div>
+
+          <p class="scanner-instructions">
+            Scan using any UPI app on your phone & pay <strong>₹199</strong>.<br>
+            UPI ID: <code style="color: #22d3ee; font-weight: 700;" id="display-upi-id">axiohabits@upi</code>
+          </p>
+        </div>
+
+        <!-- 3 Simple Steps -->
+        <div class="steps-row">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">Scan the QR code above & complete the ₹199 payment.</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">Tap the WhatsApp button below & share the transaction screenshot.</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-text">Instantly receive your AXIO OS download package & VIP access key!</div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <a id="whatsapp-link" href="https://wa.me/?text=Hi!%20I%20just%20paid%20%E2%82%B9199%20for%20AXIO%20OS%20Lifetime%20Access.%20Here%20is%20my%20payment%20screenshot:" target="_blank" class="whatsapp-btn">
+          <span>💬 Send Screenshot on WhatsApp</span>
+        </a>
+
+        <!-- Owner Tool for easily swapping scanner & WhatsApp number -->
+        <div class="owner-tools">
+          <span>⚙️ Customizer:</span>
+          <button onclick="changeWhatsAppNumber()">Set WhatsApp Phone</button>
+          <button onclick="changeUpiId()">Set UPI ID</button>
+          <button onclick="document.getElementById('qr-upload-input').click()">Upload Your QR Image</button>
+          <input type="file" id="qr-upload-input" accept="image/*" style="display: none;" onchange="handleQrUpload(event)">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Mobile Bar -->
+  <div class="mobile-bar">
+    <div>
+      <div style="font-size: 11px; color: #94a3b8; font-weight: 600;"><span style="text-decoration: line-through;">₹299</span> <strong style="color: #fbbf24; font-size: 14px;">₹199 Lifetime</strong></div>
+      <div style="font-size: 10px; color: #22d3ee; font-weight: 700;">Zero Subscriptions</div>
+    </div>
+    <a href="#pricing" style="background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 13.5px; text-decoration: none; box-shadow: 0 4px 14px var(--amber-glow);">
+      Claim Deal →
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p style="margin-bottom: 8px;"><strong>AXIO OS</strong> • Executive Daily Habits & Consistency System</p>
+      <p>Built for high-performance execution. 100% Private.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Interactive demo confetti trigger
+    function toggleDemo(el) {
+      el.classList.toggle('checked');
+      if (el.classList.contains('checked')) {
+        confetti({
+          particleCount: 22,
+          spread: 45,
+          origin: { y: 0.7 },
+          colors: ['#f97316', '#fbbf24', '#06b6d4', '#ffffff']
+        });
+      }
+    }
+
+    // Owner customizers (stored in localStorage)
+    function changeWhatsAppNumber() {
+      const current = localStorage.getItem('axio_owner_wa') || '';
+      const phone = prompt('Enter your WhatsApp phone number with country code (e.g. 919876543210):', current);
+      if (phone !== null) {
+        localStorage.setItem('axio_owner_wa', phone.trim());
+        updateWhatsAppLink();
+      }
+    }
+
+    function changeUpiId() {
+      const current = localStorage.getItem('axio_owner_upi') || 'axiohabits@upi';
+      const upi = prompt('Enter your UPI ID (e.g. yourname@okhdfcbank or yourphone@paytm):', current);
+      if (upi !== null && upi.trim() !== '') {
+        localStorage.setItem('axio_owner_upi', upi.trim());
+        document.getElementById('display-upi-id').textContent = upi.trim();
+      }
+    }
+
+    function handleQrUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const dataUrl = event.target.result;
+          document.getElementById('payment-qr-img').src = dataUrl;
+          try {
+            localStorage.setItem('axio_custom_qr', dataUrl);
+            alert('Your personal QR scanner has been set and saved!');
+          } catch(err) {
+            console.warn('Storage limit reached, QR shown for current session');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateWhatsAppLink() {
+      const waNumber = localStorage.getItem('axio_owner_wa') || '';
+      const link = document.getElementById('whatsapp-link');
+      const text = encodeURIComponent('Hi! I just paid ₹199 for AXIO OS Lifetime Access. Here is my payment screenshot:');
+      if (waNumber) {
+        link.href = `https://wa.me/${waNumber}?text=${text}`;
+      } else {
+        link.href = `https://wa.me/?text=${text}`;
+      }
+    }
+
+    // Load saved settings
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedUpi = localStorage.getItem('axio_owner_upi');
+      if (savedUpi) document.getElementById('display-upi-id').textContent = savedUpi;
+
+      const savedQr = localStorage.getItem('axio_custom_qr');
+      if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
+
+      updateWhatsAppLink();
+    });
+  </script>
+
+</body>
+</html>
