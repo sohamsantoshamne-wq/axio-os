@@ -1380,7 +1380,7 @@
           </div>
         </div>
 
-        <!-- Direct Verified UPI Checkout Card -->
+        <!-- Instant Bank-Verified Razorpay Checkout Card -->
         <div id="download-unlock-section" style="background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(249, 115, 22, 0.4); border-radius: 24px; padding: 32px 24px; margin-bottom: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.5);">
           
           <div id="checkout-form-state">
@@ -1390,36 +1390,23 @@
               <span id="countdown-timer" style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; font-weight: 800; color: #fff;">04:59</span>
             </div>
 
-            <!-- Merchant Badge -->
+            <!-- Razorpay Verified Badge -->
             <div style="margin-bottom: 16px;">
-              <span style="font-size: 12px; font-weight: 800; color: #4ade80; background: rgba(34, 197, 94, 0.14); padding: 6px 16px; border-radius: 9999px; border: 1px solid rgba(74, 222, 128, 0.3); display: inline-flex; align-items: center; gap: 6px;">
-                ✓ Verified Google Pay Merchant • Soham Amne
+              <span style="font-size: 12px; font-weight: 800; color: #38bdf8; background: rgba(56, 189, 248, 0.14); padding: 6px 16px; border-radius: 9999px; border: 1px solid rgba(56, 189, 248, 0.3); display: inline-flex; align-items: center; gap: 6px;">
+                ✓ Official Bank-Encrypted Gateway • Powered by Razorpay
               </span>
             </div>
 
-            <!-- UPI QR Frame -->
-            <div class="qr-frame" style="width: 210px; height: 210px; border: 3px solid rgba(249, 115, 22, 0.45); box-shadow: 0 0 30px rgba(249, 115, 22, 0.25); margin: 0 auto 16px; background: #fff; padding: 10px; border-radius: 18px; display: flex; align-items: center; justify-content: center;">
-              <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
+            <div style="font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>⚡</span> Instant Bank-Verified Checkout
             </div>
+            <p style="font-size: 13.5px; color: #94a3b8; margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto;">
+              Complete payment with any UPI App (GPay, PhonePe, Paytm) or Card. Your download and VIP license unlock <strong>instantly in real time</strong> as soon as your bank confirms payment!
+            </p>
 
-            <!-- Mobile 1-Tap Pay Button -->
-            <button type="button" onclick="handleTapToPay(event)" class="upi-mobile-pay-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 440px; margin: 0 auto 14px; background: linear-gradient(135deg, #1a73e8, #0b57d0); color: #fff; font-weight: 800; font-size: 15px; padding: 14px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px rgba(26, 115, 232, 0.4); transition: all 0.2s;">
-              <span>⚡ Tap to Pay ₹199 (GPay / PhonePe / Paytm)</span>
-            </button>
-
-            <!-- UPI ID & Copy Row -->
-            <div style="font-size: 13px; color: #94a3b8; margin-bottom: 22px;">
-              Scan QR or pay <strong>₹199</strong> to UPI ID: 
-              <code style="color: #22d3ee; font-weight: 700; font-size: 13.5px; background: rgba(6, 182, 212, 0.1); padding: 3px 8px; border-radius: 6px;" id="display-upi-id">sohamsantoshamne-1@oksbi</code>
-              <button type="button" onclick="copyUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #cbd5e1; font-size: 11.5px; padding: 3px 10px; border-radius: 6px; cursor: pointer; margin-left: 6px; font-weight: 600;">📋 Copy</button>
-            </div>
-
-            <!-- Order Confirmation Form -->
-            <form onsubmit="handleConfirmOrder(event)" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; text-align: left; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px;">
-              <div style="font-size: 13px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">
-                📝 Confirm Your Payment Details:
-              </div>
-
+            <!-- Razorpay Checkout Form -->
+            <form onsubmit="handleConfirmOrder(event)" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; text-align: left; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 22px;">
+              
               <div>
                 <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
                   Your Email Address (For VIP License & Download Package) <span style="color: #ef4444;">*</span>
@@ -1437,7 +1424,7 @@
 
               <div>
                 <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
-                  WhatsApp Mobile Number <span style="color: #ef4444;">*</span>
+                  Phone Number (For 1-Tap UPI Autofill) <span style="color: #ef4444;">*</span>
                 </label>
                 <input 
                   type="tel" 
@@ -1452,26 +1439,42 @@
                 >
               </div>
 
-              <div>
-                <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
-                  UPI Reference / UTR Number (Optional, for faster matching)
-                </label>
-                <input 
-                  type="text" 
-                  id="customer-utr-input" 
-                  maxlength="16"
-                  placeholder="e.g. 630598714253 from your receipt" 
-                  style="width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 13px 14px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none;"
-                  oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
-                >
-              </div>
-
               <div id="checkout-error-box" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600;"></div>
 
-              <!-- Submit Button -->
-              <button type="submit" id="btn-confirm-order" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; font-weight: 800; font-size: 15.5px; padding: 15px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); transition: all 0.2s; margin-top: 4px;">
-                <span>✓ I Have Sent ₹199 — Confirm My Order →</span>
+              <!-- Razorpay Primary Submit Button -->
+              <button type="submit" id="btn-confirm-order" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 15.5px; padding: 15px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4); transition: all 0.2s; margin-top: 4px;">
+                <span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>
               </button>
+
+              <!-- Payment Method Badges -->
+              <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 6px;">
+                <span class="upi-pill">Google Pay</span>
+                <span class="upi-pill">PhonePe</span>
+                <span class="upi-pill">Paytm</span>
+                <span class="upi-pill">Cred / UPI QR</span>
+                <span class="upi-pill">Debit & Credit Cards</span>
+              </div>
+
+              <div style="font-size: 11px; color: #64748b; line-height: 1.4; text-align: center;">
+                🔒 <strong>100% Automated Bank Verification:</strong> No manual 12-digit UTR typing required. Your download and VIP license unlock automatically as soon as your bank confirms the ₹199 transaction.
+              </div>
+            </form>
+
+            <!-- Collapsible Direct UPI Option -->
+            <div style="margin-top: 16px;">
+              <button type="button" onclick="document.getElementById('manual-upi-box').style.display = document.getElementById('manual-upi-box').style.display === 'none' ? 'block' : 'none'" style="background: none; border: none; color: #64748b; font-size: 11.5px; text-decoration: underline; cursor: pointer;">
+                Prefer manual transfer? Click to view direct QR code
+              </button>
+              <div id="manual-upi-box" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.4); border: 1px dashed rgba(255,255,255,0.15); border-radius: 14px; padding: 16px; max-width: 320px; margin-left: auto; margin-right: auto;">
+                <div class="qr-frame" style="width: 170px; height: 170px; border: 2px solid rgba(249, 115, 22, 0.35); margin: 0 auto 10px; background: #fff; padding: 8px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
+                </div>
+                <div style="font-size: 11.5px; color: #94a3b8;">
+                  UPI ID: <code style="color: #22d3ee; font-weight: 700;">sohamsantoshamne-1@oksbi</code>
+                </div>
+              </div>
+            </div>
+          </div>
 
               <div style="font-size: 11px; color: #64748b; line-height: 1.4; text-align: center;">
                 🔒 <strong>Zero Risk:</strong> Orders are reconciled directly with merchant SBI alerts. 100% money goes directly to merchant with zero platform deduction.
@@ -2095,7 +2098,7 @@
       if (errorBox) errorBox.style.display = 'none';
 
       // Check if owner configured an external automated gateway link (Razorpay Payment Link)
-      const savedGateway = localStorage.getItem('axio_razorpay_key_id');
+      const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'rzp_test_TuzaKWtMf6ayjT';
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
         const checkoutUrl = savedGateway.includes('?') 
           ? `${savedGateway}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`
@@ -2334,7 +2337,7 @@
 
       const btn = document.getElementById('btn-confirm-order');
       if (btn) {
-        btn.innerHTML = '<span>✓ I Have Sent ₹199 — Confirm My Order →</span>';
+        btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
         btn.style.opacity = '1';
         btn.disabled = false;
       }
@@ -2427,9 +2430,9 @@
       if (orderConfirmState) orderConfirmState.style.display = 'none';
       if (dlState) dlState.style.display = 'none';
 
-      const savedKey = localStorage.getItem('axio_razorpay_key_id');
+      const savedKey = localStorage.getItem('axio_razorpay_key_id') || 'rzp_test_TuzaKWtMf6ayjT';
       const keyInput = document.getElementById('merchant-razorpay-key');
-      if (savedKey && keyInput) keyInput.value = savedKey;
+      if (keyInput) keyInput.value = savedKey;
 
       startCountdown();
       updateStreakCounter();
