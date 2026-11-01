@@ -396,3 +396,4 @@ function attachFocusHandlers(container) {
     renderFocusView(container);
   }
 }
+
