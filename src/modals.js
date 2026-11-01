@@ -419,9 +419,12 @@ function renderAddHabitModal(container) {
   const form = container.querySelector('#add-habit-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = container.querySelector('#habit-name-input').value;
+    const nameInput = container.querySelector('#habit-name-input');
+    const name = nameInput ? nameInput.value.trim() : '';
+    if (!name) return;
     const category = container.querySelector('#habit-cat-select').value;
-    const timeOfDay = container.querySelector('#habit-time-input').value;
+    const timeInput = container.querySelector('#habit-time-input');
+    const timeOfDay = timeInput ? (timeInput.value.trim() || 'Anytime') : 'Anytime';
 
     store.addHabit({
       name,
@@ -662,7 +665,7 @@ function renderSettingsModal(container) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `nexus-os-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `axio-os-backup-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
       sounds.playStreak();
@@ -694,7 +697,7 @@ function renderSettingsModal(container) {
   const resetBtn = container.querySelector('#btn-reset-app');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      if (confirm('Are you sure you want to reset all habits and transactions to factory defaults?')) {
+      if (confirm('Are you sure you want to reset all habits to factory defaults?')) {
         store.resetToDefault();
         sounds.playPop();
         window.dispatchEvent(new CustomEvent('close-modal'));

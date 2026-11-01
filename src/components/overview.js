@@ -8,16 +8,20 @@ export function renderOverview(container) {
   // Current date
   const now = new Date();
   const todayDay = now.getDate();
-  const currentYear = data.selectedYear || now.getFullYear();
-  const currentMonth = data.selectedMonth !== undefined ? data.selectedMonth : now.getMonth();
+  const actualYear = now.getFullYear();
+  const actualMonth = now.getMonth();
+  const todayMonthKey = store.getMonthKey(actualYear, actualMonth);
+
+  const currentYear = data.selectedYear || actualYear;
+  const currentMonth = data.selectedMonth !== undefined ? data.selectedMonth : actualMonth;
   const monthKey = store.getMonthKey(currentYear, currentMonth);
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-  // Today habit progress
+  // Today habit progress (strictly evaluated for today's real date & month)
   let todayHabitsCompleted = 0;
   const habitsList = data.habits || [];
   habitsList.forEach(h => {
-    if (h.checks && h.checks[monthKey] && h.checks[monthKey][todayDay]) {
+    if (h.checks && h.checks[todayMonthKey] && h.checks[todayMonthKey][todayDay]) {
       todayHabitsCompleted++;
     }
   });
@@ -175,12 +179,13 @@ export function renderOverview(container) {
 
           <div class="fast-habit-list">
             ${habitsList.map(h => {
-              const isChecked = !!(h.checks && h.checks[monthKey] && h.checks[monthKey][todayDay]);
+              const isChecked = !!(h.checks && h.checks[todayMonthKey] && h.checks[todayMonthKey][todayDay]);
               return `
                 <div class="fast-habit-item ${isChecked ? 'completed' : ''}">
                   <button class="fast-check-btn ${isChecked ? 'checked' : ''}" 
                           data-habit-id="${h.id}" 
                           data-day="${todayDay}"
+                          data-month-key="${todayMonthKey}"
                           title="${isChecked ? 'Click to undo' : 'Mark complete'}">
                     <span class="check-icon">✓</span>
                   </button>
@@ -274,6 +279,7 @@ function attachOverviewHandlers(container) {
     btn.addEventListener('click', () => {
       const habitId = btn.dataset.habitId;
       const day = parseInt(btn.dataset.day);
+      const customMonthKey = btn.dataset.monthKey;
       const isChecked = btn.classList.contains('checked');
 
       if (!isChecked) {
@@ -288,7 +294,7 @@ function attachOverviewHandlers(container) {
         if (parent) parent.classList.remove('completed');
       }
 
-      store.toggleHabitDay(habitId, day);
+      store.toggleHabitDay(habitId, day, customMonthKey);
     });
   });
 

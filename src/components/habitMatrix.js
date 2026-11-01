@@ -2,9 +2,10 @@ import { store } from '../store.js';
 import { sounds } from '../audio.js';
 import confetti from 'canvas-confetti';
 
-// Persistent module-level horizontal scroll memory across renders
+// Persistent module-level state memory across renders
 let lastKnownMatrixScrollLeft = null;
 let lastRenderedMonthKey = null;
+let currentActiveFilter = 'all';
 
 export function renderHabitMatrix(container) {
   // Capture current horizontal scroll position BEFORE wiping HTML to eliminate any jump
@@ -140,6 +141,12 @@ export function renderHabitMatrix(container) {
     };
   });
 
+  // Check if all habits are already completed for today
+  const allHabitsDoneToday = data.habits.length > 0 && data.habits.every(h => {
+    const checks = (h.checks && h.checks[monthKey]) || {};
+    return !!checks[todayDate];
+  });
+
   // Render HTML structure
   container.innerHTML = `
     <div class="habit-matrix-view">
@@ -180,9 +187,9 @@ export function renderHabitMatrix(container) {
             Today
           </button>
 
-          <!-- Power Action: Check All Today -->
-          <button id="mark-all-today-btn" class="nexus-btn btn-secondary" title="Mark all routines complete for today">
-            ⚡ Check All Today
+          <!-- Power Action: Check / Undo All Today -->
+          <button id="mark-all-today-btn" class="nexus-btn ${allHabitsDoneToday ? 'btn-primary' : 'btn-secondary'}" title="${allHabitsDoneToday ? 'All routines completed today! Click to undo all for today' : 'Mark all routines complete for today'}">
+            ${allHabitsDoneToday ? '✓ Done (Undo All)' : '⚡ Check All Today'}
           </button>
 
           <!-- Overall Completion Score -->
@@ -267,13 +274,13 @@ export function renderHabitMatrix(container) {
       <!-- Quick Category Filter Pills -->
       <div class="habit-filter-bar">
         <span class="filter-label">Filter:</span>
-        <button class="filter-pill active" data-filter="all">All Habits (${data.habits.length})</button>
-        <button class="filter-pill" data-filter="Morning">🌅 Morning</button>
-        <button class="filter-pill" data-filter="Fitness">💪 Fitness</button>
-        <button class="filter-pill" data-filter="Health">🥗 Health</button>
-        <button class="filter-pill" data-filter="Productivity">⚡ Deep Work</button>
-        <button class="filter-pill" data-filter="Mindset">🧘 Mindset</button>
-        <button class="filter-pill" data-filter="Evening">🌙 Evening</button>
+        <button class="filter-pill ${currentActiveFilter === 'all' ? 'active' : ''}" data-filter="all">All Habits (${data.habits.length})</button>
+        <button class="filter-pill ${currentActiveFilter === 'Morning' ? 'active' : ''}" data-filter="Morning">🌅 Morning</button>
+        <button class="filter-pill ${currentActiveFilter === 'Fitness' ? 'active' : ''}" data-filter="Fitness">🏃 Movement</button>
+        <button class="filter-pill ${currentActiveFilter === 'Health' ? 'active' : ''}" data-filter="Health">🥗 Health</button>
+        <button class="filter-pill ${currentActiveFilter === 'Productivity' ? 'active' : ''}" data-filter="Productivity">⚡ Deep Work</button>
+        <button class="filter-pill ${currentActiveFilter === 'Mindset' ? 'active' : ''}" data-filter="Mindset">🧘 Mindset</button>
+        <button class="filter-pill ${currentActiveFilter === 'Evening' ? 'active' : ''}" data-filter="Evening">🌙 Evening</button>
       </div>
 
       <!-- Main Spreadsheet Grid Table Container -->
@@ -291,8 +298,9 @@ export function renderHabitMatrix(container) {
               ${weeks.map((week, idx) => {
                 const wStat = weeklyStats[idx];
                 const pct = wStat ? wStat.completionRate : 0;
+                const startDay = wStat ? wStat.startDay : (week[0] ? week[0].day : 1);
                 return `
-                  <th colspan="${week.length}" class="week-group-header">
+                  <th colspan="${week.length}" class="week-group-header" data-week-start="${startDay}" title="Click to scroll to Week ${idx + 1} (${wStat ? wStat.startDay + '–' + wStat.endDay : ''})">
                     <span class="wgh-title">Week ${idx + 1}</span>
                     <span class="wgh-pct ${pct >= 80 ? 'text-emerald' : pct >= 50 ? 'text-cyan' : 'text-muted'}">${pct}%</span>
                   </th>
@@ -336,7 +344,7 @@ export function renderHabitMatrix(container) {
               const strengthClass = habitRate >= 70 ? 'text-emerald' : habitRate >= 45 ? 'text-cyan' : 'text-muted';
 
               return `
-                <tr class="habit-row" data-category="${habit.category}" data-habit-id="${habit.id}">
+                <tr class="habit-row" data-category="${habit.category}" data-habit-id="${habit.id}" style="${currentActiveFilter !== 'all' && habit.category.toLowerCase() !== currentActiveFilter.toLowerCase() ? 'display: none;' : ''}">
                   <!-- Sticky Habit Title Column with 1-Click Today Action -->
                   <td class="sticky-col habit-name-cell">
                     <div class="habit-cell-wrapper">
@@ -577,37 +585,59 @@ function attachMatrixHandlers(container, isCurrentMonthAndYear, todayDate) {
     jumpBtn.addEventListener('click', () => {
       const now = new Date();
       lastKnownMatrixScrollLeft = null;
-      store.setSelectedMonthYear(now.getFullYear(), now.getMonth());
+      if (!isCurrentMonthAndYear) {
+        store.setSelectedMonthYear(now.getFullYear(), now.getMonth());
+      }
       setTimeout(() => {
         const todayHeader = container.querySelector('.today-daynum');
         const scrollBox = container.querySelector('#matrix-scroll-container');
         if (todayHeader && scrollBox) {
-          const offset = todayHeader.offsetLeft - scrollBox.offsetWidth / 2 + 100;
-          scrollBox.scrollTo({ left: Math.max(0, offset), behavior: 'smooth' });
-          lastKnownMatrixScrollLeft = scrollBox.scrollLeft;
+          const stickyCol = scrollBox.querySelector('.sticky-col');
+          const stickyWidth = stickyCol ? stickyCol.offsetWidth : 280;
+          // Position today right in clear view beside the sticky habit title column
+          const offset = Math.max(0, todayHeader.offsetLeft - stickyWidth - 10);
+          scrollBox.scrollTo({ left: offset, behavior: 'smooth' });
+          lastKnownMatrixScrollLeft = offset;
+          todayHeader.classList.add('week-jump-glow');
+          setTimeout(() => todayHeader.classList.remove('week-jump-glow'), 1200);
+          sounds.playPop();
         }
-      }, 50);
+      }, isCurrentMonthAndYear ? 20 : 120);
     });
   }
 
-  // Mark all today done power button
+  // Power Action: Check / Undo All Today
   const markAllBtn = container.querySelector('#mark-all-today-btn');
   if (markAllBtn) {
     markAllBtn.addEventListener('click', () => {
       const now = new Date();
-      const monthKey = store.getMonthKey(now.getFullYear(), now.getMonth());
-      let anyChecked = false;
+      const currentRealMonthKey = store.getMonthKey(now.getFullYear(), now.getMonth());
+      const realToday = now.getDate();
 
-      store.data.habits.forEach(h => {
-        if (!h.checks) h.checks = {};
-        if (!h.checks[monthKey]) h.checks[monthKey] = {};
-        if (!h.checks[monthKey][todayDate]) {
-          h.checks[monthKey][todayDate] = true;
-          anyChecked = true;
-        }
-      });
+      // If viewing another month, switch to current month
+      if (!isCurrentMonthAndYear) {
+        store.setSelectedMonthYear(now.getFullYear(), now.getMonth());
+      }
 
-      if (anyChecked) {
+      // Check if all are already done for today
+      const allDone = store.data.habits.every(h => h.checks && h.checks[currentRealMonthKey] && h.checks[currentRealMonthKey][realToday]);
+
+      if (allDone) {
+        // Toggle all off (Undo All)
+        store.data.habits.forEach(h => {
+          if (h.checks && h.checks[currentRealMonthKey]) {
+            delete h.checks[currentRealMonthKey][realToday];
+          }
+        });
+        store.addXP(-100, 'Undo all habits for today');
+        sounds.playUncheck();
+      } else {
+        // Mark all on
+        store.data.habits.forEach(h => {
+          if (!h.checks) h.checks = {};
+          if (!h.checks[currentRealMonthKey]) h.checks[currentRealMonthKey] = {};
+          h.checks[currentRealMonthKey][realToday] = true;
+        });
         store.addXP(100, 'Completed all habits today!');
         sounds.playLevelUp();
         confetti({
@@ -615,8 +645,6 @@ function attachMatrixHandlers(container, isCurrentMonthAndYear, todayDate) {
           spread: 80,
           origin: { y: 0.6 }
         });
-      } else {
-        sounds.playPop();
       }
 
       store.saveData();
@@ -656,6 +684,7 @@ function attachMatrixHandlers(container, isCurrentMonthAndYear, todayDate) {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       const cat = pill.dataset.filter;
+      currentActiveFilter = cat;
       const rows = container.querySelectorAll('.habit-row');
       rows.forEach(r => {
         if (cat === 'all' || r.dataset.category.toLowerCase() === cat.toLowerCase()) {
@@ -760,28 +789,42 @@ function attachMatrixHandlers(container, isCurrentMonthAndYear, todayDate) {
     });
   });
 
+  // Helper: Smoothly scroll precisely to a day column right beside the sticky habit column
+  function scrollToDay(startDay) {
+    if (!startDay) return;
+    const targetHeader = container.querySelector(`.daynum-cell[data-day="${startDay}"]`);
+    if (targetHeader && finalScrollContainer) {
+      const stickyCol = finalScrollContainer.querySelector('.sticky-col');
+      const stickyWidth = stickyCol ? stickyCol.offsetWidth : 280;
+      // Exactly align targetHeader right beside the sticky habit title column (never hidden under it)
+      const targetScrollLeft = Math.max(0, targetHeader.offsetLeft - stickyWidth - 2);
+
+      finalScrollContainer.scrollTo({
+        left: targetScrollLeft,
+        behavior: 'smooth'
+      });
+      lastKnownMatrixScrollLeft = targetScrollLeft;
+      sounds.playPop();
+
+      targetHeader.classList.add('week-jump-glow');
+      setTimeout(() => targetHeader.classList.remove('week-jump-glow'), 1200);
+    }
+  }
+
   // Weekly Rhythm Cards click -> smooth scroll precisely to that week's column
   const rhythmCards = container.querySelectorAll('.weekly-rhythm-card');
   rhythmCards.forEach(card => {
     card.addEventListener('click', () => {
-      const startDay = card.dataset.weekStart;
-      const targetHeader = container.querySelector(`.daynum-cell[data-day="${startDay}"]`);
-      if (targetHeader && finalScrollContainer) {
-        const stickyCol = finalScrollContainer.querySelector('.sticky-col');
-        const stickyWidth = stickyCol ? stickyCol.offsetWidth : 280;
-        // Exactly align targetHeader right beside the sticky habit title column (never hidden under it)
-        const targetScrollLeft = Math.max(0, targetHeader.offsetLeft - stickyWidth - 2);
+      scrollToDay(card.dataset.weekStart);
+    });
+  });
 
-        finalScrollContainer.scrollTo({
-          left: targetScrollLeft,
-          behavior: 'smooth'
-        });
-        lastKnownMatrixScrollLeft = targetScrollLeft;
-        sounds.playPop();
-
-        targetHeader.classList.add('week-jump-glow');
-        setTimeout(() => targetHeader.classList.remove('week-jump-glow'), 1200);
-      }
+  // Table Week Group Headers click -> smooth scroll precisely to that week's column
+  const weekGroupHeaders = container.querySelectorAll('.week-group-header');
+  weekGroupHeaders.forEach(header => {
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => {
+      scrollToDay(header.dataset.weekStart);
     });
   });
 

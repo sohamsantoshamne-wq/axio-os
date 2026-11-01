@@ -56,8 +56,10 @@ function initApp() {
 
   // Global event listener for custom tab switch
   window.addEventListener('switch-tab', (e) => {
-    if (e.detail && e.detail.tab) {
-      switchTab(e.detail.tab);
+    const tabId = e.detail && e.detail.tab;
+    if (tabId && tabId !== currentTab) {
+      switchTab(tabId);
+      sounds.playPop();
     }
   });
 
@@ -66,15 +68,6 @@ function initApp() {
     document.body.setAttribute('data-theme', store.data.settings.theme || 'cyberpunk');
     updateHeaderStats();
     renderActiveTab();
-  });
-
-  // Switch tab event listener
-  window.addEventListener('switch-tab', (e) => {
-    const tabId = e.detail && e.detail.tab;
-    if (tabId) {
-      switchTab(tabId);
-      sounds.playPop();
-    }
   });
 
   // Setup Keyboard Shortcuts

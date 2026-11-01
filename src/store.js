@@ -331,8 +331,8 @@ export class Store {
     this.notify('month_year_changed');
   }
 
-  toggleHabitDay(habitId, dayNumber) {
-    const monthKey = this.getMonthKey();
+  toggleHabitDay(habitId, dayNumber, customMonthKey = null) {
+    const monthKey = customMonthKey || this.getMonthKey();
     const habit = this.data.habits.find(h => h.id === habitId);
     if (!habit) return;
 
@@ -343,11 +343,11 @@ export class Store {
     if (currentlyChecked) {
       delete habit.checks[monthKey][dayNumber];
       this.addXP(-25, 'Uncheck habit');
-      this.notify('habit_toggled', { habitId, dayNumber, checked: false });
+      this.notify('habit_toggled', { habitId, dayNumber, monthKey, checked: false });
     } else {
       habit.checks[monthKey][dayNumber] = true;
       this.addXP(25, `Completed: ${habit.name}`);
-      this.notify('habit_toggled', { habitId, dayNumber, checked: true });
+      this.notify('habit_toggled', { habitId, dayNumber, monthKey, checked: true });
     }
   }
 
