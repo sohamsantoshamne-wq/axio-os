@@ -1008,13 +1008,20 @@
 
         <!-- UPI Scanner Frame -->
         <div class="scanner-box">
-          <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #fbbf24; font-weight: 800; margin-bottom: 12px;">
-            📱 Scan with Any UPI App
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #1a73e8; color: #fff; font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center;">S</div>
+            <span style="font-size: 15px; font-weight: 800; color: #fff;">Soham Amne</span>
+            <span style="font-size: 11px; background: rgba(34, 197, 94, 0.18); color: #4ade80; padding: 2px 8px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(74, 222, 128, 0.3);">✓ Verified Merchant</span>
           </div>
 
-          <div class="qr-frame">
-            <img id="payment-qr-img" src="/payment-qr.png" alt="AXIO OS Payment QR Scanner" onerror="this.src='./public/payment-qr.png'">
+          <div class="qr-frame" style="width: 240px; height: 240px; border: 3px solid rgba(249, 115, 22, 0.4); box-shadow: 0 0 35px rgba(249, 115, 22, 0.25);">
+            <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay Scanner" onerror="this.src='./public/payment-qr.jpg'">
           </div>
+
+          <!-- Direct Mobile One-Tap Pay Button -->
+          <a href="upi://pay?pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime%20Access" class="upi-mobile-pay-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: linear-gradient(135deg, #1a73e8, #0b57d0); color: #fff; font-weight: 800; font-size: 14px; padding: 12px; border-radius: 12px; text-decoration: none; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(26, 115, 232, 0.35);">
+            <span>⚡ Tap to Pay ₹199 (GPay / PhonePe / Paytm)</span>
+          </a>
 
           <div class="upi-apps-row">
             <span class="upi-pill">Google Pay</span>
@@ -1024,8 +1031,9 @@
           </div>
 
           <p class="scanner-instructions">
-            Scan using any UPI app on your phone & pay <strong>₹199</strong>.<br>
-            UPI ID: <code style="color: #22d3ee; font-weight: 700;" id="display-upi-id">axiohabits@upi</code>
+            Scan with any UPI App or tap the button above & pay <strong>₹199</strong>.<br>
+            UPI ID: <code style="color: #22d3ee; font-weight: 700; font-size: 13.5px; background: rgba(6, 182, 212, 0.1); padding: 2px 6px; border-radius: 4px;" id="display-upi-id">sohamsantoshamne-1@oksbi</code>
+            <button onclick="copyUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 11px; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: 6px;">📋 Copy</button>
           </p>
         </div>
 
@@ -1033,22 +1041,66 @@
         <div class="steps-row">
           <div class="step-item">
             <div class="step-num">1</div>
-            <div class="step-text">Scan the QR code above & complete the ₹199 payment.</div>
+            <div class="step-text">Scan the QR code or tap the UPI button & pay <strong>₹199</strong>.</div>
           </div>
           <div class="step-item">
             <div class="step-num">2</div>
-            <div class="step-text">Tap the WhatsApp button below & share the transaction screenshot.</div>
+            <div class="step-text">Enter your 12-digit UPI UTR / Transaction No. below.</div>
           </div>
           <div class="step-item">
             <div class="step-num">3</div>
-            <div class="step-text">Instantly receive your AXIO OS download package & VIP access key!</div>
+            <div class="step-text">Instant Download triggers immediately with your VIP Lifetime License!</div>
           </div>
         </div>
 
-        <!-- Action Button -->
-        <a id="whatsapp-link" href="https://wa.me/?text=Hi!%20I%20just%20paid%20%E2%82%B9199%20for%20AXIO%20OS%20Lifetime%20Access.%20Here%20is%20my%20payment%20screenshot:" target="_blank" class="whatsapp-btn">
-          <span>💬 Send Screenshot on WhatsApp</span>
-        </a>
+        <!-- Verification & Download Card -->
+        <div id="download-unlock-section" style="background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(6, 182, 212, 0.4); border-radius: 20px; padding: 28px 24px; margin-bottom: 28px; box-shadow: 0 12px 36px rgba(0,0,0,0.5);">
+          
+          <div id="utr-form-state">
+            <div style="font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>🔐</span> Unlock Your Instant Download
+            </div>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 18px;">
+              Enter your 12-digit UPI Transaction Ref (UTR) from your GPay / PhonePe / Paytm receipt:
+            </p>
+
+            <div style="display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; flex-wrap: wrap;">
+              <input type="text" id="utr-input" placeholder="e.g. 430128910482 (12 digits)" maxlength="16" style="flex: 1; min-width: 240px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none;">
+              <button onclick="verifyAndDownload()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 15px; padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px var(--amber-glow); transition: all 0.2s;">
+                Verify & Download →
+              </button>
+            </div>
+            <div id="utr-error" style="color: #ef4444; font-size: 12px; display: none; font-weight: 600;"></div>
+          </div>
+
+          <!-- Unlocked Download State (Revealed after UTR or click) -->
+          <div id="unlocked-download-state" style="display: none; text-align: center;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.16); border: 1px solid rgba(74, 222, 128, 0.4); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #4ade80; margin-bottom: 16px;">
+              <span>✓ PAYMENT VERIFIED • LIFETIME LICENSE ACTIVE</span>
+            </div>
+
+            <h3 style="font-size: 24px; font-weight: 900; margin-bottom: 6px; color: #fff;">Your AXIO OS Package is Ready!</h3>
+            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 22px;">
+              VIP License Key: <strong style="color: #fbbf24; font-family: 'JetBrains Mono', monospace;" id="license-key-display">AXIO-VIP-2026-LIFETIME</strong>
+            </p>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 440px; margin: 0 auto;">
+              <a id="direct-dl-link" href="/downloads/AXIO-OS-v1.0-Lifetime.zip" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);">
+                <span>⬇️ Download AXIO OS (.ZIP • 1.3 MB)</span>
+              </a>
+              
+              <a id="whatsapp-receipt-link" href="https://wa.me/?text=Hi%20Soham!%20I%20just%20paid%20%E2%82%B9199%20for%20AXIO%20OS%20Lifetime.%20My%20Transaction%20UTR%20is:%20" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.35); color: #25d366; font-weight: 700; font-size: 13.5px; padding: 12px 20px; border-radius: 12px; text-decoration: none;">
+                <span>💬 Send Receipt & VIP Key on WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- WhatsApp Help & Support -->
+        <div style="font-size: 13px; color: #64748b;">
+          Need help with your download? <a id="whatsapp-support-link" href="https://wa.me/?text=Hi%20Soham!%20I%20have%20a%20question%20about%20AXIO%20OS%20purchase" target="_blank" style="color: #25d366; text-decoration: none; font-weight: 700;">Chat on WhatsApp →</a>
+        </div>
 
         <!-- Owner Tool for easily swapping scanner & WhatsApp number -->
         <div class="owner-tools">
@@ -1096,6 +1148,68 @@
       }
     }
 
+    function copyUpiId() {
+      const upi = document.getElementById('display-upi-id').textContent.trim();
+      navigator.clipboard.writeText(upi).then(() => {
+        alert('UPI ID copied to clipboard: ' + upi);
+      }).catch(() => {
+        prompt('Copy your UPI ID:', upi);
+      });
+    }
+
+    function verifyAndDownload() {
+      const input = document.getElementById('utr-input');
+      const err = document.getElementById('utr-error');
+      const val = input.value.trim();
+
+      if (!val || val.length < 6) {
+        err.textContent = '⚠️ Please enter a valid 12-digit UPI UTR / Transaction reference number from your payment receipt.';
+        err.style.display = 'block';
+        input.focus();
+        return;
+      }
+
+      err.style.display = 'none';
+
+      // Generate VIP License Key
+      const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
+      const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
+      document.getElementById('license-key-display').textContent = licenseKey;
+
+      // Update WhatsApp receipt link
+      const waNumber = localStorage.getItem('axio_owner_wa') || '';
+      const waReceipt = document.getElementById('whatsapp-receipt-link');
+      const msg = encodeURIComponent(`Hi Soham! I just paid ₹199 for AXIO OS Lifetime Access.\n\nTransaction UTR: ${val}\nVIP License Key: ${licenseKey}\n\nPlease confirm my purchase!`);
+      if (waNumber) {
+        waReceipt.href = `https://wa.me/${waNumber}?text=${msg}`;
+      } else {
+        waReceipt.href = `https://wa.me/?text=${msg}`;
+      }
+
+      // Switch to unlocked state
+      document.getElementById('utr-form-state').style.display = 'none';
+      document.getElementById('unlocked-download-state').style.display = 'block';
+
+      // Save customer unlock state
+      localStorage.setItem('axio_customer_unlocked', 'true');
+      localStorage.setItem('axio_customer_utr', val);
+      localStorage.setItem('axio_customer_license', licenseKey);
+
+      // Celebration Confetti
+      confetti({
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
+      });
+
+      // Auto-trigger package download
+      setTimeout(() => {
+        const dlLink = document.getElementById('direct-dl-link');
+        dlLink.click();
+      }, 600);
+    }
+
     // Owner customizers (stored in localStorage)
     function changeWhatsAppNumber() {
       const current = localStorage.getItem('axio_owner_wa') || '';
@@ -1107,7 +1221,7 @@
     }
 
     function changeUpiId() {
-      const current = localStorage.getItem('axio_owner_upi') || 'axiohabits@upi';
+      const current = localStorage.getItem('axio_owner_upi') || 'sohamsantoshamne-1@oksbi';
       const upi = prompt('Enter your UPI ID (e.g. yourname@okhdfcbank or yourphone@paytm):', current);
       if (upi !== null && upi.trim() !== '') {
         localStorage.setItem('axio_owner_upi', upi.trim());
@@ -1135,12 +1249,12 @@
 
     function updateWhatsAppLink() {
       const waNumber = localStorage.getItem('axio_owner_wa') || '';
-      const link = document.getElementById('whatsapp-link');
-      const text = encodeURIComponent('Hi! I just paid ₹199 for AXIO OS Lifetime Access. Here is my payment screenshot:');
+      const supportLink = document.getElementById('whatsapp-support-link');
+      const text = encodeURIComponent('Hi Soham! I have a question about AXIO OS purchase');
       if (waNumber) {
-        link.href = `https://wa.me/${waNumber}?text=${text}`;
+        supportLink.href = `https://wa.me/${waNumber}?text=${text}`;
       } else {
-        link.href = `https://wa.me/?text=${text}`;
+        supportLink.href = `https://wa.me/?text=${text}`;
       }
     }
 
@@ -1151,6 +1265,14 @@
 
       const savedQr = localStorage.getItem('axio_custom_qr');
       if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
+
+      const isUnlocked = localStorage.getItem('axio_customer_unlocked');
+      if (isUnlocked === 'true') {
+        document.getElementById('utr-form-state').style.display = 'none';
+        document.getElementById('unlocked-download-state').style.display = 'block';
+        const savedLic = localStorage.getItem('axio_customer_license');
+        if (savedLic) document.getElementById('license-key-display').textContent = savedLic;
+      }
 
       updateWhatsAppLink();
     });
