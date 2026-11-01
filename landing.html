@@ -382,17 +382,21 @@
       border-color: var(--amber);
     }
 
-    .demo-checkbox.checked {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #fff;
-      border-color: #f97316;
+    .demo-checkbox:active {
+      transform: scale(0.92);
+    }
+
+    .demo-checkbox.checked-amber {
+      background: linear-gradient(135deg, #f97316, #ea580c) !important;
+      color: #fff !important;
+      border-color: #f97316 !important;
       box-shadow: 0 0 14px var(--amber-glow);
     }
 
     .demo-checkbox.checked-cyan {
-      background: linear-gradient(135deg, #06b6d4, #0284c7);
-      color: #fff;
-      border-color: #06b6d4;
+      background: linear-gradient(135deg, #06b6d4, #0284c7) !important;
+      color: #fff !important;
+      border-color: #06b6d4 !important;
       box-shadow: 0 0 14px var(--cyan-glow);
     }
 
@@ -950,7 +954,7 @@
               <div class="dot dot-green"></div>
             </div>
             <div class="matrix-demo-title">⚡ Interactive Demo: Click days to complete</div>
-            <div style="font-size: 12px; color: #fbbf24; font-weight: 700;" id="streak-counter">🔥 Streak: 12 Days</div>
+            <div style="font-size: 12px; color: #fbbf24; font-weight: 700;" id="streak-counter">🔥 Streak: 11/15 Days Done</div>
           </div>
 
           <div class="interactive-habit-list">
@@ -964,11 +968,11 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
               </div>
             </div>
 
@@ -982,11 +986,11 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
               </div>
             </div>
 
@@ -1000,11 +1004,11 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
-                <div class="demo-checkbox checked" onclick="toggleDemo(this)">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
               </div>
             </div>
           </div>
@@ -1255,6 +1259,13 @@
               </ol>
             </div>
 
+            <!-- Reset / View Payment Screen Toggle -->
+            <div style="margin-top: 18px;">
+              <button type="button" onclick="resetToPaymentView()" style="background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); color: #94a3b8; font-size: 12px; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                🔄 Reset / View Payment & QR Scanner Again
+              </button>
+            </div>
+
           </div>
 
         </div>
@@ -1300,15 +1311,39 @@
   <div id="toast-notify" class="toast-box"></div>
 
   <script>
-    // Executive Tactile Haptic Click (Luxury mechanical switch + crystal glass ping)
-    function playChime() {
+    // 1. Force browser to always start at top of page on reload / refresh
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    // 2. Audio Engine: Singleton AudioContext to prevent browser limit crashes
+    let _audioCtx = null;
+    function getAudioCtx() {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
+        if (!_audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            _audioCtx = new AudioContextClass();
+          }
+        }
+        if (_audioCtx && _audioCtx.state === 'suspended') {
+          _audioCtx.resume();
+        }
+      } catch (e) {
+        console.warn('AudioContext init note:', e);
+      }
+      return _audioCtx;
+    }
+
+    // Executive tactile haptic click (Crisp Apple-style switch + warm crystal ping)
+    function playCheckSound() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
         const now = ctx.currentTime;
-        
-        // 1. Crisp tactile transient (mechanical switch click, 35ms)
+
+        // Crisp tactile mechanical transient (35ms)
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         const filter = ctx.createBiquadFilter();
@@ -1324,13 +1359,13 @@
         gain.gain.setValueAtTime(0.24, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.038);
 
-        // 2. Subtle luxury crystal glass ping
+        // Subtle luxury crystal glass ping
         const ping = ctx.createOscillator();
         const pingGain = ctx.createGain();
         ping.type = 'sine';
-        ping.frequency.setValueAtTime(880, now); // A5 pure ping
+        ping.frequency.setValueAtTime(880, now); // A5 pure glass ping
         ping.frequency.exponentialRampToValueAtTime(587.33, now + 0.06); // D5 decay
-        pingGain.gain.setValueAtTime(0.06, now);
+        pingGain.gain.setValueAtTime(0.07, now);
         pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
 
         osc.connect(filter);
@@ -1347,21 +1382,73 @@
       } catch (err) {}
     }
 
-    // Interactive demo confetti & audio trigger
-    function toggleDemo(el) {
-      el.classList.toggle('checked');
-      if (el.classList.contains('checked')) {
-        playChime();
-        confetti({
-          particleCount: 26,
-          spread: 48,
-          origin: { y: 0.7 },
-          colors: ['#f97316', '#fbbf24', '#06b6d4', '#ffffff']
-        });
+    // Subtle dampened uncheck click
+    function playUncheckSound() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, now);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(60, now + 0.032);
+
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.036);
+      } catch (e) {}
+    }
+
+    function playChime() {
+      playCheckSound();
+    }
+
+    // 3. Interactive Habit Checkbox Toggle with Amber vs Cyan & Confetti
+    function toggleDemo(el, color) {
+      const activeColor = color || 'amber';
+      const isChecked = el.classList.contains('checked-' + activeColor) || el.classList.contains('checked-amber') || el.classList.contains('checked-cyan');
+
+      if (isChecked) {
+        el.classList.remove('checked-amber', 'checked-cyan');
+        playUncheckSound();
+      } else {
+        el.classList.remove('checked-amber', 'checked-cyan');
+        el.classList.add('checked-' + activeColor);
+        playCheckSound();
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 22,
+            spread: 44,
+            origin: { y: 0.7 },
+            colors: activeColor === 'cyan' ? ['#06b6d4', '#22d3ee', '#ffffff'] : ['#f97316', '#fbbf24', '#ffffff']
+          });
+        }
+      }
+
+      updateStreakCounter();
+    }
+
+    function updateStreakCounter() {
+      const checkedBoxes = document.querySelectorAll('.demo-checkbox.checked-amber, .demo-checkbox.checked-cyan');
+      const streakDisplay = document.getElementById('streak-counter');
+      if (streakDisplay) {
+        streakDisplay.innerHTML = `🔥 Streak: <strong>${checkedBoxes.length}</strong>/15 Days Done`;
       }
     }
 
-    // Reveal & Unblur the QR Scanner
+    // 4. Reveal & Unblur the QR Scanner
     function revealQr(showToastMsg) {
       const img = document.getElementById('payment-qr-img');
       const overlay = document.getElementById('qr-blur-overlay');
@@ -1443,20 +1530,7 @@
       }
 
       let uri = `upi://pay?${baseUpi}`;
-      if (app === 'gpay') {
-        uri = `upi://pay?${baseUpi}`;
-      } else if (app === 'phonepe') {
-        uri = `phonepe://pay?${baseUpi}`;
-      } else if (app === 'paytm') {
-        uri = `paytmmp://pay?${baseUpi}`;
-      }
-      window.location.href = uri;
-    }
-
-      let uri = `upi://pay?${baseUpi}`;
-      if (app === 'gpay') {
-        uri = `upi://pay?${baseUpi}`;
-      } else if (app === 'phonepe') {
+      if (app === 'phonepe') {
         uri = `phonepe://pay?${baseUpi}`;
       } else if (app === 'paytm') {
         uri = `paytmmp://pay?${baseUpi}`;
@@ -1495,9 +1569,6 @@
         const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
         document.getElementById('license-key-display').textContent = licenseKey;
 
-        // Optional phone or UTR
-        const optionalVal = document.getElementById('utr-input') ? document.getElementById('utr-input').value.trim() : '';
-
         // Prepare WhatsApp message for laptop sharing
         const currentUrl = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
         const laptopMsg = encodeURIComponent(`⚡ Here is your AXIO OS Lifetime Package to open on your Laptop:\n\n⬇️ Download: ${currentUrl}\n🔑 VIP License Key: ${licenseKey}\n\nEnjoy your daily momentum!`);
@@ -1512,12 +1583,14 @@
         localStorage.setItem('axio_customer_license', licenseKey);
 
         // Celebration Confetti
-        confetti({
-          particleCount: 90,
-          spread: 85,
-          origin: { y: 0.6 },
-          colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
-        });
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 90,
+            spread: 85,
+            origin: { y: 0.6 },
+            colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
+          });
+        }
 
         showToast('🎉 <strong>Payment Verified!</strong> Lifetime access unlocked.');
 
@@ -1525,10 +1598,30 @@
         const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (!isMobile) {
           setTimeout(() => {
-            document.getElementById('direct-dl-link').click();
+            const dlLink = document.getElementById('direct-dl-link');
+            if (dlLink) dlLink.click();
           }, 800);
         }
       }, 1200);
+    }
+
+    // Switch back from unlocked state to payment screen anytime
+    function resetToPaymentView() {
+      localStorage.removeItem('axio_customer_unlocked');
+      document.getElementById('utr-form-state').style.display = 'block';
+      document.getElementById('unlocked-download-state').style.display = 'none';
+      const btn = document.getElementById('btn-instant-unlock');
+      if (btn) {
+        btn.innerHTML = '<span>✓ I Have Paid ₹199 — Get My App Now →</span>';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+      }
+      // Re-blur the QR code
+      const img = document.getElementById('payment-qr-img');
+      const overlay = document.getElementById('qr-blur-overlay');
+      if (img) img.classList.remove('revealed');
+      if (overlay) overlay.classList.remove('hidden');
+      showToast('🔄 Payment view restored. QR code is safely blurred.');
     }
 
     // Owner customizers (stored in localStorage)
@@ -1574,15 +1667,22 @@
       const waNumber = localStorage.getItem('axio_owner_wa') || '';
       const supportLink = document.getElementById('whatsapp-support-link');
       const text = encodeURIComponent('Hi Soham! I have a question about AXIO OS purchase');
-      if (waNumber) {
-        supportLink.href = `https://wa.me/${waNumber}?text=${text}`;
-      } else {
-        supportLink.href = `https://wa.me/?text=${text}`;
+      if (supportLink) {
+        if (waNumber) {
+          supportLink.href = `https://wa.me/${waNumber}?text=${text}`;
+        } else {
+          supportLink.href = `https://wa.me/?text=${text}`;
+        }
       }
     }
 
-    // Load saved settings
+    // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
+      // Force scroll to top on fresh visit/reload
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
+
       const savedUpi = localStorage.getItem('axio_owner_upi');
       if (savedUpi) document.getElementById('display-upi-id').textContent = savedUpi;
 
@@ -1599,6 +1699,19 @@
 
       updateWhatsAppLink();
       startCountdown();
+      updateStreakCounter();
+    });
+
+    window.addEventListener('load', () => {
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
     });
   </script>
 
