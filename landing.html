@@ -1511,14 +1511,14 @@
             
             <div style="margin-bottom: 12px;">
               <label style="display: block; font-size: 11px; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">
-                Razorpay Key ID (e.g. <code>rzp_live_...</code> or <code>rzp_test_...</code>):
+                Razorpay Key ID (<code>rzp_live_...</code>) OR Payment Link URL (<code>https://rzp.io/l/...</code> or <code>https://cosmofeed.com/vp/...</code>):
               </label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" id="merchant-razorpay-key" placeholder="Enter your Razorpay Key ID" style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+                <input type="text" id="merchant-razorpay-key" placeholder="rzp_live_... or https://rzp.io/l/..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                 <button type="button" onclick="saveRazorpayKey()" style="background: #f97316; border: none; color: #fff; font-size: 11.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer;">Save</button>
               </div>
               <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;">
-                ℹ️ Get your Key ID from <a href="https://dashboard.razorpay.com/#/app/keys" target="_blank" style="color: #22d3ee; text-decoration: underline;">Razorpay Dashboard → Settings → API Keys</a>.
+                ℹ️ Paste your official Razorpay Key ID or direct Payment Link. When saved, customers pay ₹199 directly to your account.
               </div>
             </div>
 
@@ -1910,14 +1910,14 @@
       const val = input ? input.value.trim() : '';
       if (val) {
         localStorage.setItem('axio_razorpay_key_id', val);
-        showToast('✓ Razorpay Key ID saved: <strong>' + val + '</strong>');
+        showToast('✓ Gateway configuration saved: <strong>' + val + '</strong>');
       } else {
         localStorage.removeItem('axio_razorpay_key_id');
-        showToast('ℹ️ Razorpay Key ID cleared. Test Gateway Mode active.');
+        showToast('ℹ️ Gateway configuration cleared.');
       }
     }
 
-    // Owner Testing Bypass Function
+    // Owner Testing Bypass Function (Admin Only)
     function unlockForTesting() {
       const licenseKey = 'AXIO-VIP-TEST-' + Math.random().toString(36).substring(2, 6).toUpperCase();
       const licDisplay = document.getElementById('license-key-display');
@@ -1969,16 +1969,28 @@
       if (errorBox) errorBox.style.display = 'none';
 
       const btn = document.getElementById('btn-start-payment');
-      btn.innerHTML = '<span>🔒 Opening Secure Payment Gateway...</span>';
+      btn.innerHTML = '<span>🔒 Opening Bank Checkout...</span>';
       btn.style.opacity = '0.85';
       btn.disabled = true;
 
-      const savedKey = localStorage.getItem('axio_razorpay_key_id');
+      const savedGateway = localStorage.getItem('axio_razorpay_key_id');
 
-      // If merchant saved a real Razorpay key, launch official Razorpay Checkout SDK
-      if (typeof Razorpay === 'function' && savedKey && savedKey.startsWith('rzp_')) {
+      // 1. Direct Payment Link (Razorpay Link / Cosmofeed / Instamojo)
+      if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
+        const checkoutUrl = savedGateway.includes('?') 
+          ? `${savedGateway}&email=${encodeURIComponent(emailVal)}`
+          : `${savedGateway}?email=${encodeURIComponent(emailVal)}`;
+        showToast('🚀 Redirecting to secure bank payment page...');
+        setTimeout(() => {
+          window.location.href = checkoutUrl;
+        }, 600);
+        return;
+      }
+
+      // 2. Official Razorpay SDK Checkout Modal (Requires Key ID)
+      if (typeof Razorpay === 'function' && savedGateway && savedGateway.startsWith('rzp_')) {
         const options = {
-          key: savedKey,
+          key: savedGateway,
           amount: 19900, // ₹199 in paise
           currency: 'INR',
           name: 'AXIO OS',
@@ -2018,80 +2030,22 @@
           rzp.open();
           return;
         } catch(err) {
-          console.warn('Razorpay init error, falling back to gateway modal', err);
+          console.warn('Razorpay init error', err);
         }
       }
 
-      // If Razorpay live key not yet entered in settings, open interactive gateway modal
-      openGatewayModal(emailVal, phoneVal);
-    }
+      // 3. If no payment gateway key/link has been saved yet
+      btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
+      btn.style.opacity = '1';
+      btn.disabled = false;
 
-    // Interactive Bank Payment Gateway Modal (for testing & zero-configuration live flow)
-    function openGatewayModal(emailVal, phoneVal) {
-      let modal = document.getElementById('gateway-modal');
-      if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'gateway-modal';
-        document.body.appendChild(modal);
-      }
-
-      modal.innerHTML = `
-        <div style="position: fixed; inset: 0; z-index: 9999; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; padding: 16px; animation: fadeIn 0.2s ease;">
-          <div style="background: #0c111d; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 20px; width: 100%; max-width: 440px; padding: 26px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); text-align: center; position: relative;">
-            
-            <button onclick="closeGatewayModal()" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.08); border: none; color: #94a3b8; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; font-weight: 700;">✕</button>
-
-            <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3); margin-bottom: 14px;">
-              <span>🛡️ Bank Encrypted Payment Gateway</span>
-            </div>
-
-            <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">AXIO OS • Lifetime Access</h3>
-            <div style="font-size: 14px; color: #fbbf24; font-weight: 700; margin-bottom: 18px;">Total Payable: ₹199</div>
-
-            <div style="background: #ffffff; padding: 14px; border-radius: 16px; width: 200px; height: 200px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);">
-              <img src="/payment-qr.jpg" alt="Dynamic UPI QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
-            </div>
-
-            <div style="font-size: 12.5px; color: #94a3b8; margin-bottom: 16px;">
-              Scan dynamic QR with Google Pay, PhonePe, or Paytm.<br>
-              <span style="color: #22d3ee; font-weight: 600;">⏰ Timer: 04:59 | Reference: #AXIO-199</span>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
-              <button type="button" onclick="confirmGatewayTestPayment('${emailVal}')" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; font-weight: 800; font-size: 14.5px; padding: 14px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);">
-                ✓ Complete Payment of ₹199 (Simulate Bank Approval)
-              </button>
-              <button type="button" onclick="closeGatewayModal()" style="background: rgba(255,255,255,0.06); color: #94a3b8; font-weight: 600; font-size: 13px; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;">
-                Cancel Transaction
-              </button>
-            </div>
-
-            <div style="font-size: 11px; color: #64748b;">
-              🔒 256-Bit SSL • NPCI Authorized Gateway
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function closeGatewayModal() {
-      const modal = document.getElementById('gateway-modal');
-      if (modal) modal.innerHTML = '';
-      const btn = document.getElementById('btn-start-payment');
-      if (btn) {
-        btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
-        btn.style.opacity = '1';
-        btn.disabled = false;
+      if (errorBox) {
+        errorBox.style.display = 'block';
+        errorBox.innerHTML = '⚙️ <strong>Payment Setup Needed:</strong> Please paste your Razorpay Key ID or Payment Link in <strong>⚙️ Merchant Settings</strong> at the bottom of the page to start accepting live payments. <em>(Or enter SOHAM2026 to test the unlock screen)</em>.';
       }
     }
 
-    function confirmGatewayTestPayment(emailVal) {
-      closeGatewayModal();
-      const fakePaymentId = 'pay_' + Math.random().toString(36).substring(2, 10).toUpperCase();
-      handleGatewaySuccess(fakePaymentId, emailVal);
-    }
-
-    // Success Handler (Triggers when Gateway Confirms Payment)
+    // Success Handler (Triggers ONLY when Bank / Gateway Confirms Payment)
     function handleGatewaySuccess(paymentId, emailVal) {
       const formState = document.getElementById('checkout-form-state');
       if (formState) formState.style.display = 'none';
@@ -2234,6 +2188,15 @@
 
       const savedQr = localStorage.getItem('axio_custom_qr');
       if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
+
+      // Check if redirected from payment gateway with success status
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success' || urlParams.get('status') === 'success') {
+        const paymentId = urlParams.get('id') || urlParams.get('payment_id') || 'pay_' + Date.now();
+        const customerEmail = urlParams.get('email') || 'customer@axio-os.com';
+        handleGatewaySuccess(paymentId, customerEmail);
+        return;
+      }
 
       // Always reset and show the payment view on fresh page load (no lingering unlocked states)
       localStorage.removeItem('axio_customer_unlocked');
