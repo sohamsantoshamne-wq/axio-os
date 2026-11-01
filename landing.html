@@ -1611,15 +1611,15 @@
             </div>
             
             <div style="margin-bottom: 14px;">
-              <label style="display: block; font-size: 11px; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">
-                External Store Link (SuperProfile / Cosmofeed / Razorpay Payment Link):
+              <label style="display: block; font-size: 11.5px; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">
+                💳 Razorpay Integration (Key ID or Payment Link):
               </label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" id="merchant-razorpay-key" placeholder="https://superprofile.bio/... or https://rzp.io/l/..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+                <input type="text" id="merchant-razorpay-key" placeholder="rzp_live_... or https://rzp.io/l/..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                 <button type="button" onclick="saveRazorpayKey()" style="background: #f97316; border: none; color: #fff; font-size: 11.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer;">Save</button>
               </div>
-              <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;">
-                ℹ️ Optional: If you paste a SuperProfile or Razorpay link, buyers clicking checkout will be routed directly to your automated payment gateway.
+              <div style="font-size: 10.5px; color: #94a3b8; margin-top: 4px; line-height: 1.4;">
+                ℹ️ <strong>Razorpay Key ID:</strong> Paste <code>rzp_live_...</code> (or <code>rzp_test_...</code>) for official bank-verified popup modal, OR paste your <strong>Razorpay Payment Link</strong> (<code>https://rzp.io/l/...</code>).
               </div>
             </div>
 
@@ -2094,17 +2094,58 @@
 
       if (errorBox) errorBox.style.display = 'none';
 
-      // Check if owner configured an external automated gateway link (SuperProfile / Cosmofeed / Razorpay Link)
+      // Check if owner configured an external automated gateway link (Razorpay Payment Link)
       const savedGateway = localStorage.getItem('axio_razorpay_key_id');
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
         const checkoutUrl = savedGateway.includes('?') 
           ? `${savedGateway}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`
           : `${savedGateway}?email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`;
-        showToast('🚀 Redirecting to secure checkout...');
+        showToast('🚀 Redirecting to secure Razorpay checkout...');
         setTimeout(() => {
           window.location.href = checkoutUrl;
         }, 600);
         return;
+      }
+
+      // Check if owner provided a Razorpay Key ID (rzp_live_... or rzp_test_...)
+      if (typeof Razorpay === 'function' && savedGateway && savedGateway.startsWith('rzp_')) {
+        const options = {
+          key: savedGateway,
+          amount: 19900, // ₹199.00 in paise
+          currency: 'INR',
+          name: 'AXIO OS',
+          description: 'Lifetime VIP License & Offline App Package',
+          image: window.location.origin + '/icon-192.png',
+          prefill: {
+            email: emailVal,
+            contact: cleanPhone
+          },
+          theme: {
+            color: '#f97316'
+          },
+          handler: function(response) {
+            handleGatewaySuccess(response.razorpay_payment_id || 'pay_' + Date.now(), emailVal);
+          },
+          modal: {
+            ondismiss: function() {
+              showToast('ℹ️ Razorpay payment cancelled.');
+            }
+          }
+        };
+
+        try {
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function(resp) {
+            if (errorBox) {
+              errorBox.style.display = 'block';
+              errorBox.innerHTML = '❌ Payment could not be completed: ' + (resp.error.description || 'Cancelled by bank.');
+            }
+          });
+          rzp.open();
+          return;
+        } catch(err) {
+          console.warn('Razorpay init error:', err);
+        }
       }
 
       // Generate Unique Order ID
