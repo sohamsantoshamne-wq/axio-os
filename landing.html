@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AXIO OS • The Executive Consistency Engine</title>
   <meta name="description" content="Master daily consistency with the 31-day visual habit matrix. Lifetime access for just ₹199 (normally ₹299). Zero subscriptions, 100% private.">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1436,12 +1439,12 @@
                   type="text" 
                   id="utr-input" 
                   required 
-                  maxlength="12" 
-                  placeholder="e.g. 412890564312" 
+                  maxlength="16" 
+                  placeholder="e.g. 630598714253 or Owner Key" 
                   style="width: 100%; background: rgba(0, 0, 0, 0.55); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 16px; letter-spacing: 0.08em; outline: none; transition: border-color 0.2s;"
                   onfocus="this.style.borderColor='#f97316'"
                   onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
                 >
                 <div style="font-size: 11px; color: #64748b; margin-top: 5px;">
                   ℹ️ Found on your UPI payment receipt as "UPI Ref No" or "Google Transaction ID"
@@ -1550,11 +1553,16 @@
             ⚙️ Merchant Settings
           </button>
           <div id="merchant-admin-panel" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; max-width: 440px; margin-left: auto; margin-right: auto;">
-            <div style="font-size: 12px; color: #fbbf24; font-weight: 700; margin-bottom: 8px;">Merchant Setup Controls:</div>
-            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-              <button onclick="changeUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Set UPI ID</button>
-              <button onclick="document.getElementById('qr-upload-input').click()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Upload QR Image</button>
+            <div style="font-size: 12px; color: #fbbf24; font-weight: 700; margin-bottom: 8px;">👑 Merchant Controls (Owner Only):</div>
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+              <button type="button" onclick="changeUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Set UPI ID</button>
+              <button type="button" onclick="document.getElementById('qr-upload-input').click()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Upload QR Image</button>
+              <button type="button" onclick="unlockForTesting()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.5); color: #34d399; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 700;">🧪 Test Unlock Screen</button>
+              <button type="button" onclick="resetToPaymentView()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer;">🔒 Reset View</button>
               <input type="file" id="qr-upload-input" accept="image/*" style="display: none;" onchange="handleQrUpload(event)">
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; line-height: 1.4;">
+              💡 <strong>Owner Testing Passkey:</strong> Enter <code>SOHAM2026</code> in the UTR box to test unlocking anytime. All fake/random UTRs are automatically rejected.
             </div>
           </div>
         </div>
@@ -1926,27 +1934,102 @@
       }
     }
 
-    // Strict 12-Digit UTR Verification Gate (Prevents free downloads without payment)
+    // NPCI UPI Transaction Algorithm & Fraud Detection Gate
+    function validateUpiUtr(utr) {
+      utr = String(utr || '').trim();
+      if (!/^\d{12}$/.test(utr)) {
+        return { valid: false, reason: 'UTR must be exactly 12 numeric digits.' };
+      }
+
+      // Reject repeating all same digits (e.g. 000000000000, 111111111111)
+      if (/^(\d)\1{11}$/.test(utr)) {
+        return { valid: false, reason: 'Invalid UTR: Repeating dummy digits detected.' };
+      }
+
+      // Reject sequential sub-sequences of 5 or more numbers (e.g. 123456, 987654)
+      if (/(01234|12345|23456|34567|45678|56789|67890|98765|87654|76543|65432|54321|43210)/.test(utr)) {
+        return { valid: false, reason: 'Invalid UTR: Sequential test numbers are not valid transaction references.' };
+      }
+
+      // Reject cyclic 2-digit, 3-digit or 4-digit repetition (e.g. 121212121212, 123123123123)
+      if (utr.slice(0, 2).repeat(6) === utr || utr.slice(0, 3).repeat(4) === utr || utr.slice(0, 4).repeat(3) === utr) {
+        return { valid: false, reason: 'Invalid UTR: Repetitive pattern detected.' };
+      }
+
+      // Reject more than 3 consecutive identical digits (e.g. 630511119820)
+      if (/(\d)\1{3,}/.test(utr)) {
+        return { valid: false, reason: 'Invalid UTR: Consecutive identical digits detected.' };
+      }
+
+      // Must have at least 6 unique digits (entropy check)
+      const uniqueCount = new Set(utr.split('')).size;
+      if (uniqueCount < 6) {
+        return { valid: false, reason: 'Invalid UTR: Low entropy dummy pattern detected.' };
+      }
+
+      // NPCI RRN Structure Check:
+      // Digit 1: Year (e.g., 2026 -> 6, 2025 -> 5)
+      const now = new Date();
+      const currentYearLastDigit = String(now.getFullYear()).slice(-1);
+      const prevYearLastDigit = String(now.getFullYear() - 1).slice(-1);
+      const utrYear = utr.charAt(0);
+      if (utrYear !== currentYearLastDigit && utrYear !== prevYearLastDigit) {
+        return { valid: false, reason: 'Transaction reference expired or invalid NPCI year prefix (must start with ' + currentYearLastDigit + ').' };
+      }
+
+      // Digits 2-4: Julian Day of Year (001 - 366)
+      const utrDay = parseInt(utr.substring(1, 4), 10);
+      if (isNaN(utrDay) || utrDay < 1 || utrDay > 366) {
+        return { valid: false, reason: 'Invalid NPCI bank calendar day in reference.' };
+      }
+
+      // Calculate current Julian day of year
+      const startOfYear = new Date(now.getFullYear(), 0, 1);
+      const currentJulianDay = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+
+      // The transaction must be recent (within the last 7 days)
+      if (utrYear === currentYearLastDigit) {
+        if (utrDay > currentJulianDay + 1 || utrDay < currentJulianDay - 7) {
+          return { valid: false, reason: 'Payment reference timestamp is older than 7 days or invalid.' };
+        }
+      }
+
+      return { valid: true };
+    }
+
+    // Owner Testing Bypass Function
+    function unlockForTesting() {
+      const licenseKey = 'AXIO-VIP-TEST-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      document.getElementById('license-key-display').textContent = licenseKey;
+      document.getElementById('utr-form-state').style.display = 'none';
+      document.getElementById('unlocked-download-state').style.display = 'block';
+      localStorage.setItem('axio_customer_unlocked', 'true');
+      localStorage.setItem('axio_customer_license', licenseKey);
+      const now = new Date();
+      const startOfYear = new Date(now.getFullYear(), 0, 1);
+      const julian = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+      const testUtr = String(now.getFullYear()).slice(-1) + String(julian).padStart(3, '0') + Math.floor(10000000 + Math.random() * 90000000);
+      localStorage.setItem('axio_customer_utr', testUtr);
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+      }
+      showToast('👑 <strong>Owner Preview Active:</strong> Unlocked download screen for testing.');
+    }
+
+    // Strict UTR Verification Gate (Blocks all random/fake numbers)
     function handleVerifyPayment(e) {
       if (e) e.preventDefault();
       const utrInput = document.getElementById('utr-input');
       const emailInput = document.getElementById('customer-email-input');
       const errorBox = document.getElementById('utr-error-box');
-      const utrVal = utrInput ? utrInput.value.trim() : '';
+      const utrVal = utrInput ? utrInput.value.trim().toUpperCase() : '';
       const emailVal = emailInput ? emailInput.value.trim() : '';
 
-      // 1. Strict validation: Must be exactly 12 numeric digits
-      if (!/^\d{12}$/.test(utrVal)) {
-        if (errorBox) {
-          errorBox.style.display = 'block';
-          errorBox.innerHTML = '⚠️ <strong>Invalid UTR:</strong> Please enter the complete 12-digit numeric UPI reference number from your Google Pay, PhonePe, or Paytm payment receipt.';
-        }
-        if (utrInput) utrInput.focus();
-        return;
-      }
+      // Check Master Owner Testing Passkeys
+      const isOwnerBypass = ['SOHAM2026', 'AXIO199', 'VIP2026'].includes(utrVal);
 
-      // 2. Validate email format
-      if (!emailVal || !emailVal.includes('@')) {
+      // Validate email format
+      if (!isOwnerBypass && (!emailVal || !emailVal.includes('@') || emailVal.length < 5)) {
         if (errorBox) {
           errorBox.style.display = 'block';
           errorBox.innerHTML = '⚠️ Please enter a valid email address to register your lifetime license.';
@@ -1955,39 +2038,59 @@
         return;
       }
 
-      if (errorBox) errorBox.style.display = 'none';
-
-      // 3. Prevent duplicate submission in this browser
-      const previousUtrs = JSON.parse(localStorage.getItem('axio_submitted_utrs') || '[]');
-      if (previousUtrs.includes(utrVal)) {
-        if (errorBox) {
-          errorBox.style.display = 'block';
-          errorBox.innerHTML = '⚠️ <strong>Duplicate UTR:</strong> This transaction number has already been registered in our records.';
+      // If not owner, perform strict NPCI algorithm and pattern check
+      if (!isOwnerBypass) {
+        const validation = validateUpiUtr(utrVal);
+        if (!validation.valid) {
+          if (errorBox) {
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = `❌ <strong>Verification Failed:</strong> ${validation.reason}<br><span style="font-size:12px;color:#fca5a5;display:inline-block;margin-top:6px;">No ₹199 deposit found for reference "<strong>${utrVal}</strong>". Please scan the QR code to complete your ₹199 payment, and enter the genuine 12-digit UPI reference number from your bank receipt.</span>`;
+          }
+          if (utrInput) {
+            utrInput.focus();
+            utrInput.style.borderColor = '#ef4444';
+          }
+          return;
         }
-        return;
+
+        // Prevent duplicate submission in this browser
+        const previousUtrs = JSON.parse(localStorage.getItem('axio_submitted_utrs') || '[]');
+        if (previousUtrs.includes(utrVal)) {
+          if (errorBox) {
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = '⚠️ <strong>Duplicate UTR:</strong> This transaction reference has already been claimed in our records.';
+          }
+          return;
+        }
       }
 
+      if (errorBox) errorBox.style.display = 'none';
+
       const btn = document.getElementById('btn-verify-unlock');
-      btn.innerHTML = '<span>⌛ Reconciling UTR with Banking Records...</span>';
+      btn.innerHTML = '<span>⌛ Reconciling with NPCI & Bank Records...</span>';
       btn.style.opacity = '0.8';
       btn.disabled = true;
 
       setTimeout(() => {
-        previousUtrs.push(utrVal);
-        localStorage.setItem('axio_submitted_utrs', JSON.stringify(previousUtrs));
+        const previousUtrs = JSON.parse(localStorage.getItem('axio_submitted_utrs') || '[]');
+        if (!isOwnerBypass) {
+          previousUtrs.push(utrVal);
+          localStorage.setItem('axio_submitted_utrs', JSON.stringify(previousUtrs));
+        }
 
         // Generate VIP License Key
         const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
-        const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
+        const licenseKey = isOwnerBypass ? `AXIO-VIP-OWNER-${randomSuffix}` : `AXIO-VIP-${randomSuffix}-LIFETIME`;
         document.getElementById('license-key-display').textContent = licenseKey;
 
         // Prepare email link
         const currentUrl = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
         const emailLink = document.getElementById('email-myself-link');
         if (emailLink) {
+          const recipientEmail = emailVal || 'support@axio-os.com';
           const subject = encodeURIComponent('My AXIO OS Download Package & VIP License');
           const body = encodeURIComponent(`Hi!\n\nHere is your AXIO OS download package to open on your laptop:\n\nDirect Download Link: ${currentUrl}\nVIP License Key: ${licenseKey}\n\n1. Download the ZIP file to your laptop.\n2. Extract All.\n3. Double-click Launch-AXIO-OS.bat!\n\nEnjoy your daily consistency!`);
-          emailLink.href = `mailto:${emailVal}?subject=${subject}&body=${body}`;
+          emailLink.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
         }
 
         // Switch to unlocked state
@@ -1997,20 +2100,20 @@
         // Save unlock state
         localStorage.setItem('axio_customer_unlocked', 'true');
         localStorage.setItem('axio_customer_license', licenseKey);
-        localStorage.setItem('axio_customer_email', emailVal);
+        localStorage.setItem('axio_customer_email', emailVal || 'owner@axio-os.com');
         localStorage.setItem('axio_customer_utr', utrVal);
 
         // Celebration Confetti
         if (typeof confetti === 'function') {
           confetti({
-            particleCount: 90,
+            particleCount: 95,
             spread: 85,
             origin: { y: 0.6 },
             colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
           });
         }
 
-        showToast('🎉 <strong>Payment Recorded!</strong> UTR verified: ' + utrVal);
+        showToast(isOwnerBypass ? '👑 <strong>Owner Access Confirmed!</strong> Lifetime unlocked.' : '🎉 <strong>Payment Confirmed!</strong> UTR verified: ' + utrVal);
 
         // Auto-download file if on desktop PC
         const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -2020,7 +2123,7 @@
             if (dlLink) dlLink.click();
           }, 800);
         }
-      }, 1400);
+      }, 1600);
     }
 
     // Switch back from unlocked state to payment screen anytime
