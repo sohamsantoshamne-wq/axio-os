@@ -229,99 +229,83 @@
     <p>Rendered with non-black Sunset Amber & Electric Cyan rhythm geometry. Perfectly framed for Instagram's circular avatar crop.</p>
   </div>
 
-  <div class="main-grid">
+  <div class="main-grid" style="max-width: 1100px;">
+
+    <!-- Option 2 (New Hero): 3D Momentum Prism "A" -->
+    <div class="card" id="card-opt-2-3d" style="cursor: pointer; border-color: rgba(249, 115, 22, 0.45); box-shadow: 0 0 28px rgba(249, 115, 22, 0.2);" onclick="selectOption('opt2_3d')">
+      <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 6px;">
+        <div class="card-title">Option 2: 3D Momentum Prism (New)</div>
+        <span style="font-size: 11px; background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(6, 182, 212, 0.3)); color: #fbbf24; padding: 3px 10px; border-radius: 9999px; font-weight: 800; border: 1px solid rgba(251, 191, 36, 0.3);">★ Recommended</span>
+      </div>
+      <div class="card-sub">Faceted Titanium & Frosted Crystal 'A' • Solar Ribbon • Zero Text Clutter</div>
+
+      <div class="insta-preview-wrap" style="background: linear-gradient(45deg, #f97316 0%, #fbbf24 40%, #06b6d4 100%);">
+        <div class="insta-preview-inner">
+          <img src="/axio-profile-option2.jpg" alt="AXIO 3D Momentum Profile" id="preview-img-2-3d" onerror="this.src='./public/axio-profile-option2.jpg'" />
+        </div>
+      </div>
+
+      <a class="download-btn" href="/axio-profile-option2.jpg" download="axio-os-profile-option2-3d.jpg" onclick="event.stopPropagation();" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+        <span>⬇️</span> Download High-Res 3D (JPG)
+      </a>
+    </div>
 
     <!-- Option 1: 3D Faceted Luxury Emblem -->
-    <div class="card">
-      <div class="card-title">Option 1: 3D Luxury Emblem</div>
+    <div class="card" id="card-opt-1" style="cursor: pointer;" onclick="selectOption('opt1')">
+      <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 6px;">
+        <div class="card-title">Option 1: 3D Luxury Core</div>
+        <span style="font-size: 11px; background: rgba(249, 115, 22, 0.2); color: #fb923c; padding: 2px 8px; border-radius: 9999px; font-weight: 700;">3D Titanium</span>
+      </div>
       <div class="card-sub">Faceted Monogram 'A' • Amber & Cyan Rim Light</div>
 
       <div class="insta-preview-wrap">
         <div class="insta-preview-inner">
-          <img src="./public/axio-profile.jpg" alt="AXIO 3D Profile" id="preview-img-1" onerror="this.src='/axio-profile.jpg'" />
+          <img src="/axio-profile.jpg" alt="AXIO 3D Profile" id="preview-img-1" onerror="this.src='./public/axio-profile.jpg'" />
         </div>
       </div>
 
-      <a class="download-btn" href="./public/axio-profile.jpg" download="axio-os-profile-3d.jpg">
+      <a class="download-btn" href="/axio-profile.jpg" download="axio-os-profile-3d.jpg" onclick="event.stopPropagation();" style="background: rgba(255, 255, 255, 0.1); box-shadow: none;">
         <span>⬇️</span> Download 3D Emblem (JPG)
       </a>
     </div>
 
-    <!-- Option 2: Geometric Minimalist Vector -->
-    <div class="card">
-      <div class="card-title">Option 2: Geometric Rhythm Wave</div>
-      <div class="card-sub">Concentric Rings • Pure Vector Crispness</div>
+    <!-- Option 2 Vector: Geometric Minimalist Vector -->
+    <div class="card" id="card-opt-2-vec" style="cursor: pointer;" onclick="selectOption('opt2_vec')">
+      <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 6px;">
+        <div class="card-title">Option 2 (Vector): Clean Geometry</div>
+        <span style="font-size: 11px; background: rgba(6, 182, 212, 0.2); color: #22d3ee; padding: 2px 8px; border-radius: 9999px; font-weight: 700;">Scalable SVG</span>
+      </div>
+      <div class="card-sub">Pure Vector Monogram • Cyan & Amber Flow Ribbon</div>
 
-      <div class="insta-preview-wrap">
+      <div class="insta-preview-wrap" style="background: linear-gradient(45deg, #06b6d4, #f97316, #fbbf24);">
         <div class="insta-preview-inner" id="svg-preview-container">
-          <!-- Inline SVG rendered for 100% reliable zero-path viewing -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="100%" height="100%">
-            <defs>
-              <radialGradient id="card-bg-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#141c2e" />
-                <stop offset="60%" stop-color="#0a0e18" />
-                <stop offset="100%" stop-color="#05070c" />
-              </radialGradient>
-              <radialGradient id="card-amber" cx="30%" cy="30%" r="45%">
-                <stop offset="0%" stop-color="#f97316" stop-opacity="0.25" />
-                <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
-              </radialGradient>
-              <radialGradient id="card-cyan" cx="70%" cy="70%" r="45%">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-              </radialGradient>
-              <linearGradient id="card-brand-grad" x1="15%" y1="20%" x2="85%" y2="80%">
-                <stop offset="0%" stop-color="#ff7a18" />
-                <stop offset="45%" stop-color="#f59e0b" />
-                <stop offset="100%" stop-color="#06b6d4" />
-              </linearGradient>
-              <linearGradient id="card-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f97316" stop-opacity="0.6" />
-                <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.3" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
-              </linearGradient>
-            </defs>
-
-            <rect width="1080" height="1080" fill="url(#card-bg-glow)" />
-            <circle cx="540" cy="540" r="540" fill="url(#card-bg-glow)" />
-            <circle cx="360" cy="360" r="450" fill="url(#card-amber)" />
-            <circle cx="720" cy="720" r="450" fill="url(#card-cyan)" />
-
-            <circle cx="540" cy="540" r="470" fill="none" stroke="url(#card-ring-grad)" stroke-width="3" stroke-dasharray="14 10" opacity="0.4" />
-            <circle cx="540" cy="540" r="440" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
-            <circle cx="540" cy="540" r="360" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="4" />
-            <circle cx="540" cy="540" r="360" fill="none" stroke="url(#card-brand-grad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2262" stroke-dashoffset="650" transform="rotate(-90 540 540)" opacity="0.85" />
-            <circle cx="540" cy="540" r="220" fill="url(#card-brand-grad)" opacity="0.12" />
-
-            <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630" fill="none" stroke="url(#card-brand-grad)" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45" />
-
-            <circle cx="370" cy="330" r="24" fill="#ff7a18" />
-            <circle cx="370" cy="330" r="10" fill="#ffffff" />
-            <circle cx="540" cy="680" r="26" fill="#38bdf8" />
-            <circle cx="540" cy="680" r="10" fill="#ffffff" />
-            <circle cx="710" cy="390" r="20" fill="#06b6d4" />
-            <circle cx="710" cy="390" r="8" fill="#ffffff" />
-
-            <text x="540" y="860" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" letter-spacing="14" fill="#ffffff">AXIO OS</text>
-            <text x="540" y="905" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" letter-spacing="8" fill="#64748b">DAILY CONSISTENCY</text>
-          </svg>
+          <img src="/axio-profile.svg" alt="AXIO Vector Profile" id="preview-img-2-vec" onerror="this.src='./public/axio-profile.svg'" />
         </div>
       </div>
 
-      <a class="download-btn" href="./public/axio-profile.svg" download="axio-os-vector-profile.svg" target="_blank">
-        <span>⬇️</span> Download Vector SVG
-      </a>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;" onclick="event.stopPropagation();">
+        <button class="download-btn" id="btn-dl-png" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); box-shadow: 0 4px 18px rgba(6, 182, 212, 0.35);">
+          <span>⬇️</span> 1080x1080 PNG
+        </button>
+        <a class="download-btn" style="background: rgba(255,255,255,0.08); box-shadow: none;" href="/axio-profile.svg" download="axio-os-vector-profile.svg" target="_blank">
+          <span>📄</span> SVG
+        </a>
+      </div>
     </div>
 
     <!-- Live Instagram Profile Mockup -->
     <div class="mockup-card">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 14px; font-weight: 700;">
-        📱 Live Instagram Profile Preview
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; font-weight: 700;">
+          📱 Live Instagram Profile Simulation
+        </span>
+        <span id="active-preview-label" style="font-size: 11px; color: #fbbf24; font-weight: 700;">
+          Showing: Option 2 (3D Momentum Prism)
+        </span>
       </div>
       <div class="mockup-header">
         <div class="mockup-avatar">
-          <img src="./public/axio-profile.jpg" alt="Avatar" onerror="this.src='/axio-profile.jpg'" />
+          <img id="mockup-avatar-img" src="/axio-profile-option2.jpg" alt="Avatar" onerror="this.src='./public/axio-profile-option2.jpg'" />
         </div>
         <div class="mockup-counts">
           <div class="count-item"><span class="count-num">12</span><span class="count-label">posts</span></div>
@@ -334,7 +318,7 @@
         <p>⚡ The Executive Consistency Engine<br>
            📊 Daily Habit Matrix & Visual Analytics<br>
            🔒 100% Free & Stored Locally on PC<br>
-           <a href="https://github.com/sohamsantoshamne-wq/axio-os">github.com/sohamsantoshamne-wq/axio-os</a>
+           <a href="https://github.com/sohamsantoshamne-wq/axio-os" target="_blank">github.com/sohamsantoshamne-wq/axio-os</a>
         </p>
       </div>
     </div>
@@ -344,6 +328,24 @@
   <canvas id="export-canvas" width="1080" height="1080" style="display: none;"></canvas>
 
   <script>
+    function selectOption(opt) {
+      const mockupImg = document.getElementById('mockup-avatar-img');
+      const label = document.getElementById('active-preview-label');
+      if (opt === 'opt2_3d') {
+        mockupImg.src = '/axio-profile-option2.jpg';
+        label.textContent = 'Showing: Option 2 (3D Momentum Prism)';
+        label.style.color = '#fbbf24';
+      } else if (opt === 'opt1') {
+        mockupImg.src = '/axio-profile.jpg';
+        label.textContent = 'Showing: Option 1 (3D Luxury Core)';
+        label.style.color = '#fb923c';
+      } else {
+        mockupImg.src = '/axio-profile.svg';
+        label.textContent = 'Showing: Option 2 (Vector Ribbon)';
+        label.style.color = '#22d3ee';
+      }
+    }
+
     // 1-Click High-Res PNG Exporter
     const dlBtn = document.getElementById('btn-dl-png');
     const canvas = document.getElementById('export-canvas');
@@ -366,7 +368,10 @@
           URL.revokeObjectURL(url);
         }, 'image/png');
       };
-      img.src = '/public/axio-profile.svg';
+      img.onerror = () => {
+        img.src = './public/axio-profile.svg';
+      };
+      img.src = '/axio-profile.svg';
     });
   </script>
 </body>

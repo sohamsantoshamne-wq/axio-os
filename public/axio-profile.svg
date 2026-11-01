@@ -1,133 +1,206 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
   <defs>
-    <!-- Background Radial Gradients -->
-    <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#141c2e" />
-      <stop offset="60%" stop-color="#0a0e18" />
-      <stop offset="100%" stop-color="#05070c" />
+    <!-- Deep Cosmic Obsidian Background Gradient -->
+    <radialGradient id="axio-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="45%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#04060a" />
     </radialGradient>
 
-    <!-- Ambient Amber Lighting -->
-    <radialGradient id="ambient-amber" cx="30%" cy="30%" r="45%">
-      <stop offset="0%" stop-color="#f97316" stop-opacity="0.25" />
+    <!-- Warm Sunset Amber Radial Glow (Top-Left) -->
+    <radialGradient id="glow-amber" cx="32%" cy="28%" r="48%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.32" />
+      <stop offset="50%" stop-color="#ea580c" stop-opacity="0.10" />
       <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
     </radialGradient>
 
-    <!-- Ambient Cyan Lighting -->
-    <radialGradient id="ambient-cyan" cx="70%" cy="70%" r="45%">
-      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
-      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    <!-- Electric Cyan Radial Glow (Bottom-Right) -->
+    <radialGradient id="glow-cyan" cx="68%" cy="72%" r="48%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.30" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.10" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0" />
     </radialGradient>
 
-    <!-- Core Brand Rhythm Gradient -->
-    <linearGradient id="axio-brand-grad" x1="15%" y1="20%" x2="85%" y2="80%">
-      <stop offset="0%" stop-color="#ff7a18" />
-      <stop offset="45%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#06b6d4" />
+    <!-- Core Brand Rhythm Gradient: Flame Amber -> Solar Gold -> Electric Cyan -->
+    <linearGradient id="brand-flame" x1="10%" y1="15%" x2="90%" y2="85%">
+      <stop offset="0%" stop-color="#ff5722" />
+      <stop offset="35%" stop-color="#f97316" />
+      <stop offset="65%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#00f2fe" />
     </linearGradient>
 
-    <!-- Outer Ring Gradient -->
-    <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f97316" stop-opacity="0.6" />
-      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.3" />
-      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
+    <!-- Left Wing Gradient -->
+    <linearGradient id="left-wing-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c" />
+      <stop offset="50%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#fbbf24" />
     </linearGradient>
 
-    <!-- Glowing Drop Shadow Filters -->
-    <filter id="glow-heavy" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="32" result="blur" />
+    <!-- Right Wing Gradient -->
+    <linearGradient id="right-wing-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Wave Rhythm Ribbon Gradient -->
+    <linearGradient id="wave-ribbon-grad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="40%" stop-color="#fbbf24" />
+      <stop offset="70%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Subtle Ring Gradient -->
+    <linearGradient id="orbit-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.5" />
+      <stop offset="50%" stop-color="rgba(255,255,255,0.15)" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.5" />
+    </linearGradient>
+
+    <!-- Heavy Bloom Glow Filter -->
+    <filter id="bloom-heavy" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="38" result="blur1" />
+      <feGaussianBlur stdDeviation="18" result="blur2" />
       <feMerge>
-        <feMergeNode in="blur" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Edge Glow Filter -->
+    <filter id="bloom-subtle" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
 
-    <filter id="glow-subtle" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="12" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
+    <!-- Center Apex Singularity Glow -->
+    <radialGradient id="apex-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <!-- Background Canvas -->
-  <rect width="1080" height="1080" fill="url(#bg-glow)" />
-  <circle cx="540" cy="540" r="540" fill="url(#bg-glow)" />
-  <circle cx="360" cy="360" r="450" fill="url(#ambient-amber)" />
-  <circle cx="720" cy="720" r="450" fill="url(#ambient-cyan)" />
+  <!-- 1. Deep Obsidian Base & Ambient Lighting -->
+  <rect width="1080" height="1080" fill="url(#axio-bg)" />
+  <circle cx="540" cy="540" r="540" fill="url(#axio-bg)" />
+  <circle cx="340" cy="300" r="480" fill="url(#glow-amber)" />
+  <circle cx="740" cy="740" r="480" fill="url(#glow-cyan)" />
 
-  <!-- Outer Circular Framing Ring (Matches Instagram Avatar Safe Area) -->
-  <circle cx="540" cy="540" r="470" fill="none" stroke="url(#ring-grad)" stroke-width="3" stroke-dasharray="14 10" opacity="0.4" />
-  <circle cx="540" cy="540" r="440" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+  <!-- 2. Minimalist Instagram Safe-Area Framing Circles (Concentric Habit Consistency Rings) -->
+  <circle cx="540" cy="540" r="476" fill="none" stroke="url(#orbit-ring-grad)" stroke-width="2.5" stroke-dasharray="8 14" opacity="0.35" />
+  <circle cx="540" cy="540" r="454" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
+  <circle cx="540" cy="540" r="380" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1.5" />
 
-  <!-- Concentric Rhythm Track Rings (Visual Habit Progress Metaphor) -->
-  <circle cx="540" cy="540" r="360" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="4" />
-  <circle cx="540" cy="540" r="360" fill="none" stroke="url(#axio-brand-grad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2262" stroke-dashoffset="650" transform="rotate(-90 540 540)" opacity="0.85" filter="url(#glow-subtle)" />
+  <!-- Precision Cardinal Compass Ticks (Metaphor of Daily Direction) -->
+  <line x1="540" y1="64" x2="540" y2="88" stroke="#f97316" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+  <line x1="540" y1="992" x2="540" y2="1016" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+  <line x1="64" y1="540" x2="88" y2="540" stroke="#f97316" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+  <line x1="992" y1="540" x2="1016" y2="540" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" opacity="0.6" />
 
-  <!-- Central Glow Orb Behind Emblem -->
-  <circle cx="540" cy="540" r="220" fill="url(#axio-brand-grad)" opacity="0.12" filter="url(#glow-heavy)" />
+  <!-- Central Ambient Ambient Core Aura -->
+  <circle cx="540" cy="540" r="240" fill="url(#brand-flame)" opacity="0.14" filter="url(#bloom-heavy)" />
 
-  <!-- Main AXIO Geometric Rhythm Wave Emblem ("A" Monogram Geometry) -->
-  <g filter="url(#glow-heavy)">
-    <!-- Base Glow Path -->
-    <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
+  <!-- 3. Primary AXIO Monogram & Rhythm Wave Architecture -->
+
+  <!-- Glow Underlay Layer -->
+  <g filter="url(#bloom-heavy)" opacity="0.95">
+    <!-- Outer Chevron / Monogram "A" Frame -->
+    <path d="M 540 230 L 780 770 L 660 770 L 540 510 L 420 770 L 300 770 Z"
           fill="none"
-          stroke="url(#axio-brand-grad)"
-          stroke-width="52"
-          stroke-linecap="round"
+          stroke="url(#brand-flame)"
+          stroke-width="28"
           stroke-linejoin="round"
-          opacity="0.9" />
+          stroke-linecap="round" />
+
+    <!-- Luminous Momentum Wave (Don't Break The Chain Ribbon) -->
+    <path d="M 220 630 Q 380 430, 540 570 T 860 370"
+          fill="none"
+          stroke="url(#wave-ribbon-grad)"
+          stroke-width="36"
+          stroke-linecap="round" />
   </g>
 
-  <!-- Sharp Core Foreground Path -->
-  <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
-        fill="none"
-        stroke="url(#axio-brand-grad)"
-        stroke-width="40"
-        stroke-linecap="round"
-        stroke-linejoin="round" />
+  <!-- Solid Foreground Monogram "A" Facets -->
+  <!-- Left Ascent Facet (Warm Amber) -->
+  <polygon points="540,230 540,360 420,770 300,770"
+           fill="url(#left-wing-grad)" />
 
-  <!-- Inner High-Contrast White Core Line for 3D Specular Sheen -->
-  <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
+  <!-- Right Descent Facet (Electric Cyan) -->
+  <polygon points="540,230 540,360 660,770 780,770"
+           fill="url(#right-wing-grad)" />
+
+  <!-- Center Apex Bevel Diamond -->
+  <polygon points="540,210 570,270 540,330 510,270"
+           fill="#ffffff"
+           opacity="0.9"
+           filter="url(#bloom-subtle)" />
+
+  <!-- Specular 3D Ridge Highlight on Left Wing -->
+  <line x1="540" y1="230" x2="300" y2="770"
+        stroke="#ffffff"
+        stroke-width="4"
+        stroke-linecap="round"
+        opacity="0.5" />
+
+  <!-- Specular 3D Ridge Highlight on Right Wing -->
+  <line x1="540" y1="230" x2="780" y2="770"
+        stroke="#ffffff"
+        stroke-width="4"
+        stroke-linecap="round"
+        opacity="0.35" />
+
+  <!-- 4. Luminous Momentum Wave (Weaving Smoothly Across the "A") -->
+  <!-- Outer Glow Track -->
+  <path d="M 220 630 Q 380 430, 540 570 T 860 370"
+        fill="none"
+        stroke="url(#wave-ribbon-grad)"
+        stroke-width="26"
+        stroke-linecap="round"
+        filter="url(#bloom-subtle)" />
+
+  <!-- Inner High-Intensity White Core Ribbon -->
+  <path d="M 220 630 Q 380 430, 540 570 T 860 370"
         fill="none"
         stroke="#ffffff"
         stroke-width="8"
         stroke-linecap="round"
-        stroke-linejoin="round"
-        opacity="0.45" />
+        opacity="0.85" />
 
-  <!-- Strategic Glowing Precision Nodes -->
-  <!-- Node 1: Amber Crest (Left Apex) -->
-  <circle cx="370" cy="330" r="42" fill="#f97316" opacity="0.25" filter="url(#glow-heavy)" />
-  <circle cx="370" cy="330" r="24" fill="#ff7a18" filter="url(#glow-subtle)" />
-  <circle cx="370" cy="330" r="10" fill="#ffffff" />
+  <!-- 5. Precision Golden Nodes (Discipline Anchors) -->
 
-  <!-- Node 2: Solar Gold Valley (Center Trough) -->
-  <circle cx="540" cy="680" r="46" fill="#06b6d4" opacity="0.25" filter="url(#glow-heavy)" />
-  <circle cx="540" cy="680" r="26" fill="#38bdf8" filter="url(#glow-subtle)" />
-  <circle cx="540" cy="680" r="10" fill="#ffffff" />
+  <!-- Left Origin Node (Amber Dawn) -->
+  <circle cx="220" cy="630" r="30" fill="#f97316" opacity="0.3" filter="url(#bloom-heavy)" />
+  <circle cx="220" cy="630" r="16" fill="#ff5722" />
+  <circle cx="220" cy="630" r="7" fill="#ffffff" />
 
-  <!-- Node 3: Electric Cyan Crest (Right Apex) -->
-  <circle cx="710" cy="390" r="38" fill="#38bdf8" opacity="0.25" filter="url(#glow-heavy)" />
-  <circle cx="710" cy="390" r="20" fill="#06b6d4" filter="url(#glow-subtle)" />
-  <circle cx="710" cy="390" r="8" fill="#ffffff" />
+  <!-- Center Harmony Node (Solar Gold) -->
+  <circle cx="540" cy="570" r="36" fill="#fbbf24" opacity="0.35" filter="url(#bloom-heavy)" />
+  <circle cx="540" cy="570" r="18" fill="#f59e0b" />
+  <circle cx="540" cy="570" r="8" fill="#ffffff" />
 
-  <!-- Subtitle Tagline Inside Avatar Base -->
-  <text x="540" y="860"
-        text-anchor="middle"
-        font-family="'Plus Jakarta Sans', system-ui, sans-serif"
-        font-size="44"
-        font-weight="800"
-        letter-spacing="14"
-        fill="#ffffff">AXIO OS</text>
+  <!-- Right Apex Ascendant Node (Electric Cyan Peak) -->
+  <circle cx="860" cy="370" r="36" fill="#00f2fe" opacity="0.4" filter="url(#bloom-heavy)" />
+  <circle cx="860" cy="370" r="18" fill="#06b6d4" />
+  <circle cx="860" cy="370" r="8" fill="#ffffff" />
 
-  <text x="540" y="905"
-        text-anchor="middle"
-        font-family="'JetBrains Mono', monospace"
-        font-size="20"
-        font-weight="700"
-        letter-spacing="8"
-        fill="#64748b">DAILY CONSISTENCY</text>
+  <!-- Apex Star Sparkle -->
+  <circle cx="540" cy="210" r="14" fill="#ffffff" filter="url(#bloom-subtle)" />
+  <polygon points="540,180 545,205 570,210 545,215 540,240 535,215 510,210 535,205" fill="#ffffff" opacity="0.9" />
+
+  <!-- Outer Dynamic Arc (Circular Rhythm Completion Accent) -->
+  <circle cx="540" cy="540" r="380"
+          fill="none"
+          stroke="url(#brand-flame)"
+          stroke-width="6"
+          stroke-linecap="round"
+          stroke-dasharray="2387"
+          stroke-dashoffset="1750"
+          transform="rotate(-45 540 540)"
+          filter="url(#bloom-subtle)" />
 </svg>
