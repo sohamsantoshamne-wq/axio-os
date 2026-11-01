@@ -811,6 +811,64 @@
       animation: qrPulse 1.2s ease-in-out 2;
     }
 
+    /* Blurred QR Scanner & Lock Overlay */
+    .qr-frame {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .qr-blur-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: filter 0.45s ease, transform 0.45s ease;
+      filter: blur(14px);
+      transform: scale(1.08);
+      user-select: none;
+    }
+
+    .qr-blur-img.revealed {
+      filter: blur(0px) !important;
+      transform: scale(1) !important;
+    }
+
+    .qr-lock-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 11, 18, 0.72);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      z-index: 5;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .qr-lock-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .lock-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.25), rgba(6, 182, 212, 0.25));
+      border: 1px solid rgba(249, 115, 22, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.35);
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
@@ -1076,8 +1134,17 @@
             <span>✓ Verified Google Pay Merchant • Soham Amne</span>
           </div>
 
-          <div class="qr-frame" style="width: 240px; height: 240px; border: 3px solid rgba(249, 115, 22, 0.4); box-shadow: 0 0 35px rgba(249, 115, 22, 0.25); transition: all 0.3s ease;">
-            <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay Scanner" onerror="this.src='./public/payment-qr.jpg'">
+          <div class="qr-frame" id="qr-frame-box" onclick="revealQr(true)" style="width: 240px; height: 240px; border: 3px solid rgba(249, 115, 22, 0.4); box-shadow: 0 0 35px rgba(249, 115, 22, 0.25); transition: all 0.3s ease;">
+            <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay Scanner" class="qr-blur-img" onerror="this.src='./public/payment-qr.jpg'">
+
+            <!-- Frosted Glass Lock Overlay -->
+            <div id="qr-blur-overlay" class="qr-lock-overlay">
+              <div class="lock-circle">🔒</div>
+              <div style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 4px;">Scanner Protected</div>
+              <div style="font-size: 11px; color: #fbbf24; font-weight: 700; background: rgba(0,0,0,0.5); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(251, 191, 36, 0.35);">
+                Click "Tap to Pay" to Reveal
+              </div>
+            </div>
           </div>
 
           <!-- Direct Mobile One-Tap Pay Button -->
@@ -1233,7 +1300,7 @@
   <div id="toast-notify" class="toast-box"></div>
 
   <script>
-    // Web Audio Synthesizer for tactile completion chimes
+    // Executive Tactile Haptic Click (Luxury mechanical switch + crystal glass ping)
     function playChime() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1241,30 +1308,42 @@
         const ctx = new AudioCtx();
         const now = ctx.currentTime;
         
-        // Two-tone harmonic chime (C5 -> G5)
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
+        // 1. Crisp tactile transient (mechanical switch click, 35ms)
+        const osc = ctx.createOscillator();
         const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
 
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(523.25, now); // C5
-        osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.12); // G5
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1400, now);
+        filter.Q.setValueAtTime(2.0, now);
 
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(659.25, now); // E5
-        osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.14); // C6
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(70, now + 0.035);
 
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+        gain.gain.setValueAtTime(0.24, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.038);
 
-        osc1.connect(gain);
-        osc2.connect(gain);
+        // 2. Subtle luxury crystal glass ping
+        const ping = ctx.createOscillator();
+        const pingGain = ctx.createGain();
+        ping.type = 'sine';
+        ping.frequency.setValueAtTime(880, now); // A5 pure ping
+        ping.frequency.exponentialRampToValueAtTime(587.33, now + 0.06); // D5 decay
+        pingGain.gain.setValueAtTime(0.06, now);
+        pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+
+        osc.connect(filter);
+        filter.connect(gain);
         gain.connect(ctx.destination);
 
-        osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + 0.39);
-        osc2.stop(now + 0.39);
+        ping.connect(pingGain);
+        pingGain.connect(ctx.destination);
+
+        osc.start(now);
+        ping.start(now);
+        osc.stop(now + 0.04);
+        ping.stop(now + 0.07);
       } catch (err) {}
     }
 
@@ -1279,6 +1358,18 @@
           origin: { y: 0.7 },
           colors: ['#f97316', '#fbbf24', '#06b6d4', '#ffffff']
         });
+      }
+    }
+
+    // Reveal & Unblur the QR Scanner
+    function revealQr(showToastMsg) {
+      const img = document.getElementById('payment-qr-img');
+      const overlay = document.getElementById('qr-blur-overlay');
+      if (img) img.classList.add('revealed');
+      if (overlay) overlay.classList.add('hidden');
+      highlightQr();
+      if (showToastMsg) {
+        showToast('🔓 <strong>QR Scanner Revealed!</strong> Scan using GPay, PhonePe, or Paytm.');
       }
     }
 
@@ -1322,6 +1413,8 @@
     // Universal Tap to Pay handler (Mobile vs Desktop)
     function handleTapToPay(e) {
       if (e) e.preventDefault();
+      revealQr(false); // Unblur the QR immediately
+
       const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const upiUri = 'upi://pay?pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime%20Access';
 
@@ -1332,21 +1425,33 @@
         // Desktop / Laptop PC behavior
         copyUpiId(true);
         highlightQr();
-        showToast('📱 <strong>You are on a PC!</strong> Open Google Pay or PhonePe on your phone and scan the QR code above. <em>(UPI ID copied!)</em>');
+        showToast('📱 <strong>You are on a PC!</strong> Open Google Pay or PhonePe on your phone and scan the revealed QR code above. <em>(UPI ID copied!)</em>');
       }
     }
 
     // Direct app link handler
     function openApp(app) {
+      revealQr(false); // Unblur the QR immediately
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       const baseUpi = 'pa=sohamsantoshamne-1@oksbi&pn=Soham%20Amne&am=199&cu=INR&tn=AXIO%20OS%20Lifetime';
       
       if (!isMobile) {
         copyUpiId(true);
         highlightQr();
-        showToast(`📱 Open <strong>${app.toUpperCase()}</strong> on your phone & scan the QR above! (UPI ID copied)`);
+        showToast(`📱 Open <strong>${app.toUpperCase()}</strong> on your phone & scan the revealed QR above! (UPI ID copied)`);
         return;
       }
+
+      let uri = `upi://pay?${baseUpi}`;
+      if (app === 'gpay') {
+        uri = `upi://pay?${baseUpi}`;
+      } else if (app === 'phonepe') {
+        uri = `phonepe://pay?${baseUpi}`;
+      } else if (app === 'paytm') {
+        uri = `paytmmp://pay?${baseUpi}`;
+      }
+      window.location.href = uri;
+    }
 
       let uri = `upi://pay?${baseUpi}`;
       if (app === 'gpay') {

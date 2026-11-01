@@ -57,20 +57,44 @@ class SoundManager {
     if (!this.ctx) return;
 
     try {
+      const now = this.ctx.currentTime;
+
+      // 1. Executive Tactile Transient (Apple haptic click style)
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(520, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(980, this.ctx.currentTime + 0.09);
+      const filter = this.ctx.createBiquadFilter();
 
-      gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1400, now);
+      filter.Q.setValueAtTime(2.0, now);
 
-      osc.connect(gain);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(70, now + 0.035);
+
+      gain.gain.setValueAtTime(0.24, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.038);
+
+      // 2. Subtle warm acoustic glass ping (crystal resonance)
+      const ping = this.ctx.createOscillator();
+      const pingGain = this.ctx.createGain();
+      ping.type = 'sine';
+      ping.frequency.setValueAtTime(880, now); // A5 pure glass ping
+      ping.frequency.exponentialRampToValueAtTime(587.33, now + 0.06); // D5 decay
+      pingGain.gain.setValueAtTime(0.07, now);
+      pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+
+      osc.connect(filter);
+      filter.connect(gain);
       gain.connect(this.ctx.destination);
 
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.1);
+      ping.connect(pingGain);
+      pingGain.connect(this.ctx.destination);
+
+      osc.start(now);
+      ping.start(now);
+      osc.stop(now + 0.04);
+      ping.stop(now + 0.07);
     } catch (e) {
       console.warn(e);
     }
@@ -82,20 +106,27 @@ class SoundManager {
     if (!this.ctx) return;
 
     try {
+      const now = this.ctx.currentTime;
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, now);
+
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(600, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(320, this.ctx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(60, now + 0.032);
 
-      gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
 
-      osc.connect(gain);
+      osc.connect(filter);
+      filter.connect(gain);
       gain.connect(this.ctx.destination);
 
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.09);
+      osc.start(now);
+      osc.stop(now + 0.036);
     } catch (e) {
       console.warn(e);
     }
