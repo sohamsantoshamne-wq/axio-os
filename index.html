@@ -24,7 +24,7 @@
         const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true';
         const isDirectVip = window.location.search.includes('access=vip') || window.location.search.includes('dev=true');
         if (!isOfflineOrLocal && !hasLicense && !isDirectVip) {
-          window.location.replace('/landing.html');
+          window.location.replace('./landing.html');
         }
       })();
     </script>

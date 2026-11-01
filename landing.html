@@ -1746,10 +1746,30 @@
   <!-- Footer -->
   <footer>
     <div class="container">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 18px; font-size: 13px;">
+        <a href="javascript:void(0)" onclick="openLegalModal('terms')" style="color: #94a3b8; text-decoration: underline; text-underline-offset: 4px;">Terms & Conditions</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('privacy')" style="color: #94a3b8; text-decoration: underline; text-underline-offset: 4px;">Privacy Policy</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('refund')" style="color: #94a3b8; text-decoration: underline; text-underline-offset: 4px;">Refund & Cancellation Policy</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('contact')" style="color: #94a3b8; text-decoration: underline; text-underline-offset: 4px;">Contact Us & Shipping</a>
+      </div>
       <p style="margin-bottom: 8px;"><strong>AXIO OS</strong> • Executive Daily Habits & Consistency System</p>
-      <p>Built for high-performance execution. 100% Private.</p>
+      <p style="color: #64748b; font-size: 12px;">Operated by Soham Amne • Built for high-performance execution • 100% Private local architecture.</p>
     </div>
   </footer>
+
+  <!-- Razorpay Compliance Legal Modal -->
+  <div id="legal-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0f1420; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; max-width: 680px; width: 100%; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);">
+      <div style="padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="legal-modal-title" style="font-size: 18px; font-weight: 800; color: #fff; margin: 0;">Policy</h3>
+        <button onclick="closeLegalModal()" style="background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;">✕</button>
+      </div>
+      <div id="legal-modal-body" style="padding: 24px; overflow-y: auto; font-size: 14px; line-height: 1.7; color: #cbd5e1;"></div>
+      <div style="padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); text-align: right;">
+        <button onclick="closeLegalModal()" style="background: linear-gradient(135deg, #f97316, #ea580c); border: none; color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;">Close</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-notify" class="toast-box"></div>
@@ -1760,6 +1780,92 @@
       history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
+
+    // Legal Compliance Modals (Razorpay Merchant Verification)
+    const LEGAL_CONTENT = {
+      terms: {
+        title: "Terms & Conditions",
+        body: `
+          <h4 style="color: #fff; margin-bottom: 8px;">1. Agreement to Terms</h4>
+          <p style="margin-bottom: 14px;">By purchasing, accessing, or downloading AXIO OS, you agree to be bound by these Terms & Conditions. AXIO OS is developed and operated by Soham Amne ("Merchant", "we", "us").</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">2. License Grant</h4>
+          <p style="margin-bottom: 14px;">Upon completing the one-time payment of ₹199, you are granted a perpetual, non-exclusive, personal lifetime license to use AXIO OS on your personal devices. You may not resell, sub-license, or distribute AXIO OS as a commercial product without explicit written consent.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">3. Zero Recurring Fees</h4>
+          <p style="margin-bottom: 14px;">AXIO OS is a single one-time payment of ₹199. There are no monthly subscriptions, annual renewals, or hidden maintenance charges.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">4. Support</h4>
+          <p>For any questions, support, or license re-issuance, please contact us at <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a>.</p>
+        `
+      },
+      privacy: {
+        title: "Privacy Policy",
+        body: `
+          <h4 style="color: #fff; margin-bottom: 8px;">1. 100% Private Local Storage</h4>
+          <p style="margin-bottom: 14px;">AXIO OS operates with an offline-first privacy architecture. All your habits, streak scores, journal entries, and focus timer records remain stored locally on your device in your browser's localStorage. We do not transmit or store your personal habit data on remote servers.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">2. Information Collected at Checkout</h4>
+          <p style="margin-bottom: 14px;">When you purchase AXIO OS, we collect your email address and optional phone number solely for generating your official purchase receipt, VIP license key, and software download link.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">3. Payment Processing</h4>
+          <p style="margin-bottom: 14px;">All payments are securely processed by RBI-licensed payment aggregators (Razorpay / UPI). AXIO OS does not store, process, or have access to your bank passwords, credit/debit card numbers, or UPI PINs.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">4. Data Protection</h4>
+          <p>We do not sell, rent, or trade your personal contact information to any third parties.</p>
+        `
+      },
+      refund: {
+        title: "Refund & Cancellation Policy",
+        body: `
+          <h4 style="color: #fff; margin-bottom: 8px;">1. 30-Day Money-Back Guarantee</h4>
+          <p style="margin-bottom: 14px;">We stand behind AXIO OS with a 100% risk-free 30-Day Money-Back Guarantee. If AXIO OS does not help you improve your daily consistency, simply request a refund within 30 days of purchase.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">2. How to Request a Refund</h4>
+          <p style="margin-bottom: 14px;">Send an email to <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a> with your Order ID or the email address used during purchase. Our support desk will verify your order immediately.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">3. Settlement & Crediting Timeline</h4>
+          <p style="margin-bottom: 14px;">Approved refunds are credited directly back to your original source of payment (UPI, Bank Account, or Card) within <strong>5 to 7 working days</strong> in accordance with Razorpay banking settlement guidelines.</p>
+          <h4 style="color: #fff; margin-bottom: 8px;">4. Cancellations</h4>
+          <p>Because AXIO OS is a single lifetime purchase (not a recurring subscription), there is no recurring auto-debit to cancel.</p>
+        `
+      },
+      contact: {
+        title: "Contact Us & Shipping Policy",
+        body: `
+          <h4 style="color: #fff; margin-bottom: 8px;">1. Merchant Contact Details</h4>
+          <p style="margin-bottom: 14px;">
+            <strong>Merchant Legal Name:</strong> Soham Amne<br>
+            <strong>Product:</strong> AXIO OS (Executive Daily Habits & Rhythm System)<br>
+            <strong>Official Support Desk:</strong> <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a><br>
+            <strong>Location:</strong> Maharashtra, India<br>
+            <strong>Operating Hours:</strong> Monday – Saturday (10:00 AM – 7:00 PM IST)<br>
+            <strong>Support Turnaround:</strong> Responses within 24 hours.
+          </p>
+          <h4 style="color: #fff; margin-bottom: 8px;">2. Shipping & Delivery Policy</h4>
+          <p>
+            AXIO OS is a <strong>100% digital software product</strong>. Physical shipping is not required or applicable.<br><br>
+            <strong>Delivery Method:</strong> Instant digital download and lifetime VIP license key are delivered automatically on screen and via email immediately upon successful payment confirmation.
+          </p>
+        `
+      }
+    };
+
+    function openLegalModal(type) {
+      const data = LEGAL_CONTENT[type];
+      if (!data) return;
+      document.getElementById('legal-modal-title').textContent = data.title;
+      document.getElementById('legal-modal-body').innerHTML = data.body;
+      const modal = document.getElementById('legal-modal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLegalModal() {
+      const modal = document.getElementById('legal-modal');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on background click
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('legal-modal');
+      if (e.target === modal) {
+        closeLegalModal();
+      }
+    });
 
     // 2. Audio Engine: Singleton AudioContext to prevent browser limit crashes
     let _audioCtx = null;
