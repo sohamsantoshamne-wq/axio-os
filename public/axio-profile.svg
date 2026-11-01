@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- Background Radial Gradients -->
+    <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141c2e" />
+      <stop offset="60%" stop-color="#0a0e18" />
+      <stop offset="100%" stop-color="#05070c" />
+    </radialGradient>
+
+    <!-- Ambient Amber Lighting -->
+    <radialGradient id="ambient-amber" cx="30%" cy="30%" r="45%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Ambient Cyan Lighting -->
+    <radialGradient id="ambient-cyan" cx="70%" cy="70%" r="45%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Core Brand Rhythm Gradient -->
+    <linearGradient id="axio-brand-grad" x1="15%" y1="20%" x2="85%" y2="80%">
+      <stop offset="0%" stop-color="#ff7a18" />
+      <stop offset="45%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Outer Ring Gradient -->
+    <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Glowing Drop Shadow Filters -->
+    <filter id="glow-heavy" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="32" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glow-subtle" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1080" height="1080" fill="url(#bg-glow)" />
+  <circle cx="540" cy="540" r="540" fill="url(#bg-glow)" />
+  <circle cx="360" cy="360" r="450" fill="url(#ambient-amber)" />
+  <circle cx="720" cy="720" r="450" fill="url(#ambient-cyan)" />
+
+  <!-- Outer Circular Framing Ring (Matches Instagram Avatar Safe Area) -->
+  <circle cx="540" cy="540" r="470" fill="none" stroke="url(#ring-grad)" stroke-width="3" stroke-dasharray="14 10" opacity="0.4" />
+  <circle cx="540" cy="540" r="440" fill="rgba(255, 255, 255, 0.015)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2" />
+
+  <!-- Concentric Rhythm Track Rings (Visual Habit Progress Metaphor) -->
+  <circle cx="540" cy="540" r="360" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="4" />
+  <circle cx="540" cy="540" r="360" fill="none" stroke="url(#axio-brand-grad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2262" stroke-dashoffset="650" transform="rotate(-90 540 540)" opacity="0.85" filter="url(#glow-subtle)" />
+
+  <!-- Central Glow Orb Behind Emblem -->
+  <circle cx="540" cy="540" r="220" fill="url(#axio-brand-grad)" opacity="0.12" filter="url(#glow-heavy)" />
+
+  <!-- Main AXIO Geometric Rhythm Wave Emblem ("A" Monogram Geometry) -->
+  <g filter="url(#glow-heavy)">
+    <!-- Base Glow Path -->
+    <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
+          fill="none"
+          stroke="url(#axio-brand-grad)"
+          stroke-width="52"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.9" />
+  </g>
+
+  <!-- Sharp Core Foreground Path -->
+  <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
+        fill="none"
+        stroke="url(#axio-brand-grad)"
+        stroke-width="40"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+
+  <!-- Inner High-Contrast White Core Line for 3D Specular Sheen -->
+  <path d="M 230 630 L 370 330 L 540 680 L 710 390 L 850 630"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.45" />
+
+  <!-- Strategic Glowing Precision Nodes -->
+  <!-- Node 1: Amber Crest (Left Apex) -->
+  <circle cx="370" cy="330" r="42" fill="#f97316" opacity="0.25" filter="url(#glow-heavy)" />
+  <circle cx="370" cy="330" r="24" fill="#ff7a18" filter="url(#glow-subtle)" />
+  <circle cx="370" cy="330" r="10" fill="#ffffff" />
+
+  <!-- Node 2: Solar Gold Valley (Center Trough) -->
+  <circle cx="540" cy="680" r="46" fill="#06b6d4" opacity="0.25" filter="url(#glow-heavy)" />
+  <circle cx="540" cy="680" r="26" fill="#38bdf8" filter="url(#glow-subtle)" />
+  <circle cx="540" cy="680" r="10" fill="#ffffff" />
+
+  <!-- Node 3: Electric Cyan Crest (Right Apex) -->
+  <circle cx="710" cy="390" r="38" fill="#38bdf8" opacity="0.25" filter="url(#glow-heavy)" />
+  <circle cx="710" cy="390" r="20" fill="#06b6d4" filter="url(#glow-subtle)" />
+  <circle cx="710" cy="390" r="8" fill="#ffffff" />
+
+  <!-- Subtitle Tagline Inside Avatar Base -->
+  <text x="540" y="860"
+        text-anchor="middle"
+        font-family="'Plus Jakarta Sans', system-ui, sans-serif"
+        font-size="44"
+        font-weight="800"
+        letter-spacing="14"
+        fill="#ffffff">AXIO OS</text>
+
+  <text x="540" y="905"
+        text-anchor="middle"
+        font-family="'JetBrains Mono', monospace"
+        font-size="20"
+        font-weight="700"
+        letter-spacing="8"
+        fill="#64748b">DAILY CONSISTENCY</text>
+</svg>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXIO OS • Instagram Profile Picture Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #080b12;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%);
+    }
+
+    .header-box {
+      text-align: center;
+      max-width: 680px;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(249, 115, 22, 0.14);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #94a3b8;
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      max-width: 980px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(15, 20, 32, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    /* Instagram Live Circular Preview */
+    .insta-preview-wrap {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      box-shadow: 0 0 30px rgba(230, 104, 60, 0.35);
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .insta-preview-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #000;
+      border: 3px solid #080b12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .insta-preview-inner img,
+    .insta-preview-inner canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(249, 115, 22, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.5);
+    }
+
+    /* Instagram Profile Mockup */
+    .mockup-card {
+      grid-column: 1 / -1;
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 520px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    .mockup-avatar {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #333;
+      flex-shrink: 0;
+    }
+
+    .mockup-avatar img,
+    .mockup-avatar canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mockup-counts {
+      display: flex;
+      gap: 22px;
+    }
+
+    .count-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .count-num {
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .count-label {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .mockup-bio h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .mockup-bio p {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    .mockup-bio a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-box">
+    <div class="badge">🔥 Official Brand Assets</div>
+    <h1>AXIO OS • Instagram Profile Picture</h1>
+    <p>Rendered with non-black Sunset Amber & Electric Cyan rhythm geometry. Perfectly framed for Instagram's circular avatar crop.</p>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- Option 1: 3D Faceted Luxury Emblem -->
+    <div class="card">
+      <div class="card-title">Option 1: 3D Luxury Emblem</div>
+      <div class="card-sub">Faceted Monogram 'A' • Amber & Cyan Rim Light</div>
+
+      <div class="insta-preview-wrap">
+        <div class="insta-preview-inner">
+          <img src="/public/axio-profile.jpg" alt="AXIO 3D Profile" id="preview-img-1" />
+        </div>
+      </div>
+
+      <a class="download-btn" href="/public/axio-profile.jpg" download="axio-os-profile-3d.jpg">
+        <span>⬇️</span> Download 3D Emblem (JPG)
+      </a>
+    </div>
+
+    <!-- Option 2: Geometric Minimalist Vector -->
+    <div class="card">
+      <div class="card-title">Option 2: Geometric Rhythm Wave</div>
+      <div class="card-sub">Concentric Rings • Pure Vector Crispness</div>
+
+      <div class="insta-preview-wrap">
+        <div class="insta-preview-inner">
+          <img src="/public/axio-profile.svg" alt="AXIO Vector Profile" id="preview-img-2" />
+        </div>
+      </div>
+
+      <button class="download-btn" id="btn-dl-png">
+        <span>⬇️</span> Download 1080x1080 PNG
+      </button>
+    </div>
+
+    <!-- Live Instagram Profile Mockup -->
+    <div class="mockup-card">
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 14px; font-weight: 700;">
+        📱 Live Instagram Profile Preview
+      </div>
+      <div class="mockup-header">
+        <div class="mockup-avatar">
+          <img src="/public/axio-profile.jpg" alt="Avatar" />
+        </div>
+        <div class="mockup-counts">
+          <div class="count-item"><span class="count-num">12</span><span class="count-label">posts</span></div>
+          <div class="count-item"><span class="count-num">2.4k</span><span class="count-label">followers</span></div>
+          <div class="count-item"><span class="count-num">48</span><span class="count-label">following</span></div>
+        </div>
+      </div>
+      <div class="mockup-bio">
+        <h3>AXIO OS • Daily Habits & Rhythm</h3>
+        <p>⚡ The Executive Consistency Engine<br>
+           📊 Daily Habit Matrix & Visual Analytics<br>
+           🔒 100% Free & Stored Locally on PC<br>
+           <a href="https://github.com/sohamsantoshamne-wq/axio-os">github.com/sohamsantoshamne-wq/axio-os</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <canvas id="export-canvas" width="1080" height="1080" style="display: none;"></canvas>
+
+  <script>
+    // 1-Click High-Res PNG Exporter
+    const dlBtn = document.getElementById('btn-dl-png');
+    const canvas = document.getElementById('export-canvas');
+    const ctx = canvas.getContext('2d');
+
+    dlBtn.addEventListener('click', () => {
+      const img = new Image();
+      img.onload = () => {
+        ctx.clearRect(0, 0, 1080, 1080);
+        ctx.drawImage(img, 0, 0, 1080, 1080);
+        
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'axio-os-instagram-profile-1080x1080.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 'image/png');
+      };
+      img.src = '/public/axio-profile.svg';
+    });
+  </script>
+</body>
+</html>
