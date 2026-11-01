@@ -2119,11 +2119,16 @@
       if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
 
       const isUnlocked = localStorage.getItem('axio_customer_unlocked');
-      if (isUnlocked === 'true') {
+      const savedUtr = localStorage.getItem('axio_customer_utr');
+      if (isUnlocked === 'true' && savedUtr && savedUtr.length === 12) {
         document.getElementById('utr-form-state').style.display = 'none';
         document.getElementById('unlocked-download-state').style.display = 'block';
         const savedLic = localStorage.getItem('axio_customer_license');
         if (savedLic) document.getElementById('license-key-display').textContent = savedLic;
+      } else {
+        localStorage.removeItem('axio_customer_unlocked');
+        document.getElementById('utr-form-state').style.display = 'block';
+        document.getElementById('unlocked-download-state').style.display = 'none';
       }
 
       startCountdown();
