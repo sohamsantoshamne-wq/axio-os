@@ -2097,8 +2097,8 @@
 
       if (errorBox) errorBox.style.display = 'none';
 
-      // Check if owner configured an external automated gateway link (Razorpay Payment Link)
-      const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'rzp_test_TuzaKWtMf6ayjT';
+      // Check if owner configured an external automated gateway link (Razorpay Payment Link / Handle)
+      const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'https://razorpay.me/@sohamsantoshamne';
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
         const checkoutUrl = savedGateway.includes('?') 
           ? `${savedGateway}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`
@@ -2431,7 +2431,7 @@
       if (orderConfirmState) orderConfirmState.style.display = 'none';
       if (dlState) dlState.style.display = 'none';
 
-      const savedKey = localStorage.getItem('axio_razorpay_key_id') || 'rzp_test_TuzaKWtMf6ayjT';
+      const savedKey = localStorage.getItem('axio_razorpay_key_id') || 'https://razorpay.me/@sohamsantoshamne';
       const keyInput = document.getElementById('merchant-razorpay-key');
       if (keyInput) keyInput.value = savedKey;
 
