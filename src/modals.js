@@ -806,7 +806,7 @@ function renderShareStreakModal(container) {
         canvas.toBlob((blob) => {
           if (!blob) {
             const link = document.createElement('a');
-            link.download = `caden-streak-${displayStreak}-days.png`;
+            link.download = `axio-streak-${displayStreak}-days.png`;
             link.href = canvas.toDataURL('image/png');
             document.body.appendChild(link);
             link.click();
@@ -814,7 +814,7 @@ function renderShareStreakModal(container) {
           } else {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.download = `caden-streak-${displayStreak}-days.png`;
+            link.download = `axio-streak-${displayStreak}-days.png`;
             link.href = url;
             link.style.display = 'none';
             document.body.appendChild(link);
@@ -903,7 +903,7 @@ function drawStreakCard(canvas, info) {
   // Brand Header
   ctx.fillStyle = '#38bdf8';
   ctx.font = 'bold 26px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('⚡ CADEN OS', 70, 95);
+  ctx.fillText('⚡ AXIO OS', 70, 95);
 
   ctx.fillStyle = '#64748b';
   ctx.font = '600 15px "JetBrains Mono", monospace';
@@ -977,7 +977,7 @@ function drawStreakCard(canvas, info) {
 
   ctx.fillStyle = '#64748b';
   ctx.font = '500 14px "JetBrains Mono", monospace';
-  ctx.fillText('CADEN OS • 100% Free & Private • Stored Locally on PC', W - 530, H - 68);
+  ctx.fillText('AXIO OS • 100% Free & Private • Stored Locally on PC', W - 530, H - 68);
 }
 
 // ==========================================================================

@@ -1,4 +1,4 @@
-# CADEN OS • Daily Habits & Rhythm
+# AXIO OS • Daily Habits & Rhythm
 
 A luxury, zero-server-cost daily habit matrix, streak engine, and interactive visual analytics dashboard designed for PC and Mobile.
 

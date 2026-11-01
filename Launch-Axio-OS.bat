@@ -1,8 +1,8 @@
 @echo off
-title CADEN OS - Daily Habits & Rhythm
+title AXIO OS - Daily Habits & Rhythm
 cd /d "%~dp0"
 echo ========================================================
-echo       CADEN OS: Daily Habits & Rhythm System
+echo       AXIO OS: Daily Habits & Rhythm System
 echo             Executive Consistency Engine
 echo ========================================================
 echo.
