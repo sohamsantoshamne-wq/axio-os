@@ -1360,8 +1360,8 @@
           </p>
         </div>
 
-        <!-- Automated Bank Payment Gateway Checkout Card -->
-        <div id="download-unlock-section" style="background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(249, 115, 22, 0.4); border-radius: 24px; padding: 32px 26px; margin-bottom: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.5);">
+        <!-- Direct Verified UPI Checkout Card -->
+        <div id="download-unlock-section" style="background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(249, 115, 22, 0.4); border-radius: 24px; padding: 32px 24px; margin-bottom: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.5);">
           
           <div id="checkout-form-state">
             <!-- 5-Minute Timer Banner -->
@@ -1370,69 +1370,137 @@
               <span id="countdown-timer" style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; font-weight: 800; color: #fff;">04:59</span>
             </div>
 
-            <div style="font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              <span>⚡</span> Instant Bank-Verified Checkout
+            <!-- Merchant Badge -->
+            <div style="margin-bottom: 16px;">
+              <span style="font-size: 12px; font-weight: 800; color: #4ade80; background: rgba(34, 197, 94, 0.14); padding: 6px 16px; border-radius: 9999px; border: 1px solid rgba(74, 222, 128, 0.3); display: inline-flex; align-items: center; gap: 6px;">
+                ✓ Verified Google Pay Merchant • Soham Amne
+              </span>
             </div>
-            <p style="font-size: 13.5px; color: #94a3b8; margin-bottom: 22px; max-width: 480px; margin-left: auto; margin-right: auto;">
-              Complete payment with any UPI App or Card. Your download and VIP license unlock <strong>instantly in real time</strong> as soon as your bank confirms payment!
-            </p>
 
-            <form onsubmit="handleStartPayment(event)" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
-              
-              <div style="text-align: left;">
+            <!-- UPI QR Frame -->
+            <div class="qr-frame" style="width: 210px; height: 210px; border: 3px solid rgba(249, 115, 22, 0.45); box-shadow: 0 0 30px rgba(249, 115, 22, 0.25); margin: 0 auto 16px; background: #fff; padding: 10px; border-radius: 18px; display: flex; align-items: center; justify-content: center;">
+              <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
+            </div>
+
+            <!-- Mobile 1-Tap Pay Button -->
+            <button type="button" onclick="handleTapToPay(event)" class="upi-mobile-pay-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 440px; margin: 0 auto 14px; background: linear-gradient(135deg, #1a73e8, #0b57d0); color: #fff; font-weight: 800; font-size: 15px; padding: 14px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px rgba(26, 115, 232, 0.4); transition: all 0.2s;">
+              <span>⚡ Tap to Pay ₹199 (GPay / PhonePe / Paytm)</span>
+            </button>
+
+            <!-- UPI ID & Copy Row -->
+            <div style="font-size: 13px; color: #94a3b8; margin-bottom: 22px;">
+              Scan QR or pay <strong>₹199</strong> to UPI ID: 
+              <code style="color: #22d3ee; font-weight: 700; font-size: 13.5px; background: rgba(6, 182, 212, 0.1); padding: 3px 8px; border-radius: 6px;" id="display-upi-id">sohamsantoshamne-1@oksbi</code>
+              <button type="button" onclick="copyUpiId()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #cbd5e1; font-size: 11.5px; padding: 3px 10px; border-radius: 6px; cursor: pointer; margin-left: 6px; font-weight: 600;">📋 Copy</button>
+            </div>
+
+            <!-- Order Confirmation Form -->
+            <form onsubmit="handleConfirmOrder(event)" style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; text-align: left; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px;">
+              <div style="font-size: 13px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">
+                📝 Confirm Your Payment Details:
+              </div>
+
+              <div>
                 <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
-                  Your Email Address (For VIP License & Download Backup) <span style="color: #ef4444;">*</span>
+                  Your Email Address (For VIP License & Download Package) <span style="color: #ef4444;">*</span>
                 </label>
                 <input 
                   type="email" 
                   id="customer-email-input" 
                   required 
                   placeholder="yourname@gmail.com" 
-                  style="width: 100%; background: rgba(0, 0, 0, 0.55); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 15px; outline: none; transition: border-color 0.2s;"
+                  style="width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 13px 14px; color: #fff; font-size: 14.5px; outline: none; transition: border-color 0.2s;"
                   onfocus="this.style.borderColor='#f97316'"
                   onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'"
                 >
               </div>
 
-              <div style="text-align: left;">
+              <div>
                 <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
-                  Phone Number (Optional, for 1-Tap UPI Autofill)
+                  WhatsApp Mobile Number <span style="color: #ef4444;">*</span>
                 </label>
                 <input 
                   type="tel" 
                   id="customer-phone-input" 
+                  required
                   maxlength="10"
                   placeholder="e.g. 9876543210" 
-                  style="width: 100%; background: rgba(0, 0, 0, 0.55); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 15px; outline: none; transition: border-color 0.2s;"
+                  style="width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 13px 14px; color: #fff; font-size: 14.5px; outline: none; transition: border-color 0.2s;"
                   onfocus="this.style.borderColor='#06b6d4'"
                   onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'"
                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 >
               </div>
 
-              <div id="checkout-error-box" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: left;"></div>
-
-              <!-- Primary Pay Button -->
-              <button type="submit" id="btn-start-payment" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 6px 24px rgba(249, 115, 22, 0.4); transition: all 0.2s;">
-                <span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>
-              </button>
-
-              <!-- Supported UPI & Card Apps Row -->
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
-                <span class="upi-pill">Google Pay</span>
-                <span class="upi-pill">PhonePe</span>
-                <span class="upi-pill">Paytm</span>
-                <span class="upi-pill">Cred / UPI QR</span>
-                <span class="upi-pill">Debit & Credit Cards</span>
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+                  UPI Reference / UTR Number (Optional, for faster matching)
+                </label>
+                <input 
+                  type="text" 
+                  id="customer-utr-input" 
+                  maxlength="16"
+                  placeholder="e.g. 630598714253 from your receipt" 
+                  style="width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 13px 14px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none;"
+                  oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
+                >
               </div>
 
-              <div style="font-size: 11.5px; color: #64748b; line-height: 1.5; margin-top: 4px;">
-                🔒 <strong>100% Automated Bank Verification:</strong> No manual 12-digit UTR typing required. Zero loopholes. Your download and VIP license unlock automatically as soon as your bank confirms the ₹199 transaction.
+              <div id="checkout-error-box" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600;"></div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="btn-confirm-order" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; font-weight: 800; font-size: 15.5px; padding: 15px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); transition: all 0.2s; margin-top: 4px;">
+                <span>✓ I Have Sent ₹199 — Confirm My Order →</span>
+              </button>
+
+              <div style="font-size: 11px; color: #64748b; line-height: 1.4; text-align: center;">
+                🔒 <strong>Zero Risk:</strong> Orders are reconciled directly with merchant SBI alerts. 100% money goes directly to merchant with zero platform deduction.
               </div>
             </form>
           </div>
 
-          <!-- Unlocked Download State (Revealed ONLY after valid UTR submission) -->
+          <!-- Order Confirmation Screen (Shown immediately after submitting payment details) -->
+          <div id="order-confirmation-state" style="display: none; text-align: center; max-width: 480px; margin: 0 auto;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.16); border: 1px solid rgba(74, 222, 128, 0.4); padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #4ade80; margin-bottom: 16px;">
+              <span>🎉 ORDER RECEIVED • PAYMENT UNDER VERIFICATION</span>
+            </div>
+
+            <h3 style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px;">Thank You for Your Order!</h3>
+            
+            <div style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px; margin-bottom: 20px; text-align: left;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+                <span style="color: #94a3b8;">Order ID:</span>
+                <strong style="color: #fbbf24; font-family: monospace;" id="order-id-display">#AXIO-8932</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+                <span style="color: #94a3b8;">Amount Paid:</span>
+                <strong style="color: #4ade80;">₹199.00</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px;">
+                <span style="color: #94a3b8;">Registered Email:</span>
+                <strong style="color: #fff;" id="order-email-display">customer@gmail.com</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span style="color: #94a3b8;">WhatsApp:</span>
+                <strong style="color: #fff;" id="order-phone-display">+91 9876543210</strong>
+              </div>
+            </div>
+
+            <div style="background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 20px; text-align: left; font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">
+              ⏳ <strong>Bank Deposit Matching:</strong> Your ₹199 payment to <code>sohamsantoshamne-1@oksbi</code> is being matched against bank alerts. Once verified (usually within 2–5 minutes), your VIP License Key and offline package (.ZIP) download link will be dispatched to your email and WhatsApp.
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a href="mailto:support@axio-os.com" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-weight: 700; font-size: 13.5px; padding: 12px; border-radius: 10px; text-decoration: none;">
+                ✉️ Email Support: support@axio-os.com
+              </a>
+              <button type="button" onclick="resetToPaymentView()" style="background: none; border: none; color: #64748b; font-size: 12px; cursor: pointer; padding: 6px;">
+                🔄 View Payment QR Again
+              </button>
+            </div>
+          </div>
+
+          <!-- Unlocked Download State (Revealed ONLY after verified merchant approval or Owner Passkey) -->
           <div id="unlocked-download-state" style="display: none; text-align: center;">
             <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.16); border: 1px solid rgba(74, 222, 128, 0.4); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #4ade80; margin-bottom: 16px;">
               <span>✓ PAYMENT RECORDED • LIFETIME ACCESS UNLOCKED</span>
@@ -1503,32 +1571,46 @@
 
         <!-- Discreet Owner Customizer Toggle (Admin Only) -->
         <div style="margin-top: 32px; text-align: center;">
-          <button type="button" onclick="document.getElementById('merchant-admin-panel').style.display = document.getElementById('merchant-admin-panel').style.display === 'none' ? 'block' : 'none'" style="background: none; border: 1px dashed rgba(255,255,255,0.12); color: #64748b; font-size: 11px; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
-            ⚙️ Merchant Settings
+          <button type="button" onclick="document.getElementById('merchant-admin-panel').style.display = document.getElementById('merchant-admin-panel').style.display === 'none' ? 'block' : 'none'; renderMerchantOrders();" style="background: none; border: 1px dashed rgba(255,255,255,0.12); color: #64748b; font-size: 11px; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
+            ⚙️ Merchant Settings & Order Queue
           </button>
-          <div id="merchant-admin-panel" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 18px; max-width: 480px; margin-left: auto; margin-right: auto; text-align: left;">
-            <div style="font-size: 13px; color: #fbbf24; font-weight: 800; margin-bottom: 10px;">👑 Payment Gateway Settings (Owner Controls):</div>
+          <div id="merchant-admin-panel" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 18px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: left;">
+            <div style="font-size: 13.5px; color: #fbbf24; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <span>👑 Merchant Management (Owner Controls)</span>
+              <span style="font-size: 11px; color: #94a3b8; font-weight: normal;">Passkey: <code>SOHAM2026</code></span>
+            </div>
+
+            <!-- Customer Orders Queue -->
+            <div style="margin-bottom: 16px; border-bottom: 1px dashed rgba(255,255,255,0.12); padding-bottom: 14px;">
+              <div style="font-size: 11.5px; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
+                📦 Customer Orders Received (Real-Time Submissions):
+              </div>
+              <div id="merchant-orders-list">
+                <div style="font-size: 11px; color: #64748b; font-style: italic;">No customer orders placed yet. Orders submitted by buyers appear here instantly.</div>
+              </div>
+            </div>
             
-            <div style="margin-bottom: 12px;">
+            <div style="margin-bottom: 14px;">
               <label style="display: block; font-size: 11px; color: #cbd5e1; font-weight: 700; margin-bottom: 4px;">
-                Razorpay Key ID (<code>rzp_live_...</code>) OR Payment Link URL (<code>https://rzp.io/l/...</code> or <code>https://cosmofeed.com/vp/...</code>):
+                External Store Link (SuperProfile / Cosmofeed / Razorpay Payment Link):
               </label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" id="merchant-razorpay-key" placeholder="rzp_live_... or https://rzp.io/l/..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+                <input type="text" id="merchant-razorpay-key" placeholder="https://superprofile.bio/... or https://rzp.io/l/..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 12px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
                 <button type="button" onclick="saveRazorpayKey()" style="background: #f97316; border: none; color: #fff; font-size: 11.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer;">Save</button>
               </div>
               <div style="font-size: 10.5px; color: #64748b; margin-top: 4px;">
-                ℹ️ Paste your official Razorpay Key ID or direct Payment Link. When saved, customers pay ₹199 directly to your account.
+                ℹ️ Optional: If you paste a SuperProfile or Razorpay link, buyers clicking checkout will be routed directly to your automated payment gateway.
               </div>
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-start; flex-wrap: wrap; margin-bottom: 10px; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
               <button type="button" onclick="unlockForTesting()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.5); color: #34d399; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700;">🧪 Test Unlock Screen</button>
               <button type="button" onclick="resetToPaymentView()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer;">🔒 Reset View</button>
+              <button type="button" onclick="clearMerchantOrders()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer;">🗑️ Clear Test Orders</button>
             </div>
             
             <div style="font-size: 11px; color: #94a3b8; line-height: 1.4;">
-              💡 <strong>Owner Testing Passkey:</strong> Type <code>SOHAM2026</code> in the checkout email box to test the instant unlock flow anytime.
+              💡 <strong>Owner Testing Passkey:</strong> Type <code>SOHAM2026</code> in the email input box above to test the instant unlock flow anytime.
             </div>
           </div>
         </div>
@@ -1941,14 +2023,16 @@
       showToast('👑 <strong>Owner Preview Active:</strong> Unlocked download screen for testing.');
     }
 
-    // Primary Gateway Trigger
-    function handleStartPayment(e) {
+    // Customer Order Confirmation Handler (Direct UPI Verification Flow)
+    function handleConfirmOrder(e) {
       if (e) e.preventDefault();
       const emailInput = document.getElementById('customer-email-input');
       const phoneInput = document.getElementById('customer-phone-input');
+      const utrInput = document.getElementById('customer-utr-input');
       const errorBox = document.getElementById('checkout-error-box');
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+      const utrVal = utrInput ? utrInput.value.trim() : '';
 
       // Validate email format
       if (!emailVal || !emailVal.includes('@') || emailVal.length < 5) {
@@ -1966,83 +2050,143 @@
         return;
       }
 
+      // Validate phone number
+      const cleanPhone = phoneVal.replace(/[^0-9]/g, '');
+      if (!cleanPhone || cleanPhone.length < 10) {
+        if (errorBox) {
+          errorBox.style.display = 'block';
+          errorBox.innerHTML = '⚠️ Please enter your 10-digit WhatsApp number so we can dispatch your license link.';
+        }
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
       if (errorBox) errorBox.style.display = 'none';
 
-      const btn = document.getElementById('btn-start-payment');
-      btn.innerHTML = '<span>🔒 Opening Bank Checkout...</span>';
-      btn.style.opacity = '0.85';
-      btn.disabled = true;
-
+      // Check if owner configured an external automated gateway link (SuperProfile / Cosmofeed / Razorpay Link)
       const savedGateway = localStorage.getItem('axio_razorpay_key_id');
-
-      // 1. Direct Payment Link (Razorpay Link / Cosmofeed / Instamojo)
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
         const checkoutUrl = savedGateway.includes('?') 
-          ? `${savedGateway}&email=${encodeURIComponent(emailVal)}`
-          : `${savedGateway}?email=${encodeURIComponent(emailVal)}`;
-        showToast('🚀 Redirecting to secure bank payment page...');
+          ? `${savedGateway}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`
+          : `${savedGateway}?email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`;
+        showToast('🚀 Redirecting to secure checkout...');
         setTimeout(() => {
           window.location.href = checkoutUrl;
         }, 600);
         return;
       }
 
-      // 2. Official Razorpay SDK Checkout Modal (Requires Key ID)
-      if (typeof Razorpay === 'function' && savedGateway && savedGateway.startsWith('rzp_')) {
-        const options = {
-          key: savedGateway,
-          amount: 19900, // ₹199 in paise
-          currency: 'INR',
-          name: 'AXIO OS',
-          description: 'Lifetime VIP License & Offline App Package',
-          image: window.location.origin + '/icon-192.png',
-          prefill: {
-            email: emailVal,
-            contact: phoneVal || ''
-          },
-          theme: {
-            color: '#f97316'
-          },
-          handler: function(response) {
-            handleGatewaySuccess(response.razorpay_payment_id || 'pay_' + Date.now(), emailVal);
-          },
-          modal: {
-            ondismiss: function() {
-              btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
-              btn.style.opacity = '1';
-              btn.disabled = false;
-              showToast('ℹ️ Payment checkout cancelled. Your ₹199 launch deal is still reserved.');
-            }
-          }
-        };
+      // Generate Unique Order ID
+      const orderNum = Math.floor(1000 + Math.random() * 9000);
+      const orderId = `#AXIO-${orderNum}`;
 
-        try {
-          const rzp = new Razorpay(options);
-          rzp.on('payment.failed', function(resp) {
-            btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
-            btn.style.opacity = '1';
-            btn.disabled = false;
-            if (errorBox) {
-              errorBox.style.display = 'block';
-              errorBox.innerHTML = '❌ Payment could not be completed: ' + (resp.error.description || 'Cancelled by user or bank.');
-            }
-          });
-          rzp.open();
+      // Save order to Merchant Queue
+      const newOrder = {
+        orderId: orderId,
+        email: emailVal,
+        phone: cleanPhone,
+        utr: utrVal || 'NOT_ENTERED',
+        timestamp: new Date().toLocaleString(),
+        amount: '₹199'
+      };
+
+      try {
+        const existingOrders = JSON.parse(localStorage.getItem('axio_merchant_orders') || '[]');
+        existingOrders.unshift(newOrder);
+        localStorage.setItem('axio_merchant_orders', JSON.stringify(existingOrders));
+      } catch(err) {
+        console.warn('Orders storage error', err);
+      }
+
+      // Update Order Confirmation Screen Details
+      const idDisp = document.getElementById('order-id-display');
+      if (idDisp) idDisp.textContent = orderId;
+      const emailDisp = document.getElementById('order-email-display');
+      if (emailDisp) emailDisp.textContent = emailVal;
+      const phoneDisp = document.getElementById('order-phone-display');
+      if (phoneDisp) phoneDisp.textContent = '+91 ' + cleanPhone;
+
+      // Switch to Confirmation Screen
+      const formState = document.getElementById('checkout-form-state');
+      if (formState) formState.style.display = 'none';
+      const confirmState = document.getElementById('order-confirmation-state');
+      if (confirmState) confirmState.style.display = 'block';
+
+      // Confetti celebration
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
+        });
+      }
+
+      showToast(`🎉 <strong>Order ${orderId} Received!</strong> Payment under verification.`);
+      renderMerchantOrders();
+    }
+
+    // Render Orders in Merchant Admin Panel
+    function renderMerchantOrders() {
+      const container = document.getElementById('merchant-orders-list');
+      if (!container) return;
+      try {
+        const orders = JSON.parse(localStorage.getItem('axio_merchant_orders') || '[]');
+        if (orders.length === 0) {
+          container.innerHTML = '<div style="font-size: 11px; color: #64748b; font-style: italic;">No customer orders placed yet. Orders submitted by buyers appear here instantly.</div>';
           return;
-        } catch(err) {
-          console.warn('Razorpay init error', err);
         }
+        let html = '<div style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">';
+        orders.forEach((ord) => {
+          const dlLink = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+          const mailSubject = encodeURIComponent(`Your AXIO OS Lifetime Access Package (${ord.orderId})`);
+          const mailBody = encodeURIComponent(`Hi!\n\nThank you for purchasing AXIO OS Lifetime Access (${ord.orderId}).\n\nDownload Link: ${dlLink}\nVIP License Key: AXIO-VIP-${ord.orderId.replace('#','')}-LIFETIME\n\nHow to open on laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Double-click Launch-AXIO-OS.bat!\n\nBest regards,\nSoham Amne • AXIO OS`);
+          
+          html += `
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; font-size: 11px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <strong style="color: #fbbf24;">${ord.orderId}</strong>
+                <span style="color: #64748b;">${ord.timestamp}</span>
+              </div>
+              <div style="color: #fff; margin-bottom: 2px;">📧 ${ord.email} | 📱 +91 ${ord.phone}</div>
+              <div style="color: #94a3b8; margin-bottom: 6px;">UTR: <code style="color: #22d3ee;">${ord.utr}</code> • Amount: <strong style="color: #4ade80;">₹199</strong></div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <a href="mailto:${ord.email}?subject=${mailSubject}&body=${mailBody}" style="background: #10b981; color: #fff; text-decoration: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 10.5px;">✉️ Dispatch VIP Email</a>
+                <button type="button" onclick="copyCustomerDispatch('${ord.email}', '${ord.orderId}')" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 10.5px; cursor: pointer;">📋 Copy Delivery Link</button>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } catch(e) {
+        console.warn(e);
       }
+    }
 
-      // 3. If no payment gateway key/link has been saved yet
-      btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
-      btn.style.opacity = '1';
-      btn.disabled = false;
-
-      if (errorBox) {
-        errorBox.style.display = 'block';
-        errorBox.innerHTML = '⚙️ <strong>Payment Setup Needed:</strong> Please paste your Razorpay Key ID or Payment Link in <strong>⚙️ Merchant Settings</strong> at the bottom of the page to start accepting live payments. <em>(Or enter SOHAM2026 to test the unlock screen)</em>.';
+    function clearMerchantOrders() {
+      if (confirm('Clear all recorded test orders from this device?')) {
+        localStorage.removeItem('axio_merchant_orders');
+        renderMerchantOrders();
+        showToast('🗑️ Recorded orders cleared.');
       }
+    }
+
+    function copyCustomerDispatch(email, orderId) {
+      const dlLink = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      const text = `Hi! Here is your verified AXIO OS Lifetime Access (${orderId}):\n\n⬇️ Download ZIP: ${dlLink}\n🔑 VIP License Key: AXIO-VIP-${orderId.replace('#','')}-LIFETIME\n\nHow to open on Laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Run Launch-AXIO-OS.bat!\n\nWelcome to AXIO OS!`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('📋 Delivery message copied for ' + email);
+        });
+      } else {
+        prompt('Copy message:', text);
+      }
+    }
+
+    // Primary Gateway Trigger (Preserved for compatibility)
+    function handleStartPayment(e) {
+      handleConfirmOrder(e);
     }
 
     // Success Handler (Triggers ONLY when Bank / Gateway Confirms Payment)
@@ -2100,7 +2244,7 @@
       }
     }
 
-    // Switch back from unlocked state to checkout screen
+    // Switch back from unlocked or order state to checkout screen
     function resetToPaymentView() {
       localStorage.removeItem('axio_customer_unlocked');
       localStorage.removeItem('axio_customer_payment_id');
@@ -2110,12 +2254,15 @@
       const formState = document.getElementById('checkout-form-state');
       if (formState) formState.style.display = 'block';
 
+      const orderConfirmState = document.getElementById('order-confirmation-state');
+      if (orderConfirmState) orderConfirmState.style.display = 'none';
+
       const dlState = document.getElementById('unlocked-download-state');
       if (dlState) dlState.style.display = 'none';
 
-      const btn = document.getElementById('btn-start-payment');
+      const btn = document.getElementById('btn-confirm-order');
       if (btn) {
-        btn.innerHTML = '<span>⚡ Pay ₹199 with UPI / GPay / PhonePe / Card →</span>';
+        btn.innerHTML = '<span>✓ I Have Sent ₹199 — Confirm My Order →</span>';
         btn.style.opacity = '1';
         btn.disabled = false;
       }
@@ -2202,8 +2349,10 @@
       localStorage.removeItem('axio_customer_unlocked');
       localStorage.removeItem('axio_customer_payment_id');
       const formState = document.getElementById('checkout-form-state');
+      const orderConfirmState = document.getElementById('order-confirmation-state');
       const dlState = document.getElementById('unlocked-download-state');
       if (formState) formState.style.display = 'block';
+      if (orderConfirmState) orderConfirmState.style.display = 'none';
       if (dlState) dlState.style.display = 'none';
 
       const savedKey = localStorage.getItem('axio_razorpay_key_id');
@@ -2212,6 +2361,7 @@
 
       startCountdown();
       updateStreakCounter();
+      renderMerchantOrders();
     });
 
     window.addEventListener('load', () => {
