@@ -2,7 +2,7 @@
 class SoundManager {
   constructor() {
     this.ctx = null;
-    this.enabled = localStorage.getItem('nexus_sound_enabled') !== 'false';
+    this.enabled = (localStorage.getItem('axio_sound_enabled') ?? localStorage.getItem('nexus_sound_enabled')) !== 'false';
   }
 
   init() {
@@ -19,7 +19,7 @@ class SoundManager {
 
   toggleSound() {
     this.enabled = !this.enabled;
-    localStorage.setItem('nexus_sound_enabled', this.enabled);
+    localStorage.setItem('axio_sound_enabled', this.enabled);
     if (this.enabled) {
       this.playCheck();
     }

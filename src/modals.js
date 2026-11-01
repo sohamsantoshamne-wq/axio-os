@@ -1025,8 +1025,8 @@ function renderPhoneSyncModal(container) {
                 <span>🔗 Copy Sync Link to Clipboard</span>
               </button>
 
-              <a class="nexus-btn btn-secondary" id="btn-share-whatsapp" target="_blank" style="font-size: 12.5px; text-decoration: none; justify-content: center;"
-                href="https://api.whatsapp.com/send?text=${encodeURIComponent('Open your NEXUS OS sync link: ' + syncUrl)}">
+              <a class="nexus-btn btn-secondary" id="btn-share-whatsapp" target="_blank" rel="noopener noreferrer" style="font-size: 12.5px; text-decoration: none; justify-content: center;"
+                href="https://api.whatsapp.com/send?text=${encodeURIComponent('Open your AXIO OS sync link: ' + syncUrl)}">
                 <span>💬 Send Link to My WhatsApp</span>
               </a>
             </div>

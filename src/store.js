@@ -1,10 +1,9 @@
-// NEXUS PRIME - Central State Store & Persistence Layer
-
-
+// AXIO OS - Central State Store & Dual-Snapshot Offline Persistence Layer
 
 export class Store {
   constructor() {
-    this.STORAGE_KEY = 'nexus_prime_data_v1';
+    this.STORAGE_KEY = 'axio_os_data_v1';
+    this.BACKUP_KEY = 'axio_os_backup_snapshot';
     this.listeners = [];
     this.data = this.loadData();
   }
@@ -134,14 +133,14 @@ export class Store {
 
   loadData() {
     try {
-      const saved = localStorage.getItem(this.STORAGE_KEY);
+      const saved = localStorage.getItem(this.STORAGE_KEY) || localStorage.getItem('nexus_prime_data_v1');
       if (saved) {
         const parsed = JSON.parse(saved);
         this.migrateSettings(parsed);
         return parsed;
       }
       // Check secondary redundant snapshot if primary key is absent
-      const backup = localStorage.getItem('nexus_prime_backup_snapshot');
+      const backup = localStorage.getItem(this.BACKUP_KEY) || localStorage.getItem('nexus_prime_backup_snapshot');
       if (backup) {
         const parsed = JSON.parse(backup);
         this.migrateSettings(parsed);
@@ -150,7 +149,7 @@ export class Store {
     } catch (e) {
       console.warn('Failed to parse saved state, checking redundant snapshot', e);
       try {
-        const backup = localStorage.getItem('nexus_prime_backup_snapshot');
+        const backup = localStorage.getItem(this.BACKUP_KEY) || localStorage.getItem('nexus_prime_backup_snapshot');
         if (backup) {
           const parsed = JSON.parse(backup);
           this.migrateSettings(parsed);
@@ -245,7 +244,7 @@ export class Store {
       const json = JSON.stringify(dataToSave);
       localStorage.setItem(this.STORAGE_KEY, json);
       // Dual-layer persistence: write snapshot to protect against accidental browser corruption
-      localStorage.setItem('nexus_prime_backup_snapshot', json);
+      localStorage.setItem(this.BACKUP_KEY, json);
     } catch (e) {
       console.error('Storage quota or error', e);
     }
