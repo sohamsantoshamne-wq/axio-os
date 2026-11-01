@@ -10,3 +10,4 @@ echo Launching application in your browser...
 start http://localhost:5173
 npm run dev
 pause
+

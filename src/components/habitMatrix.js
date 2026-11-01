@@ -760,15 +760,27 @@ function attachMatrixHandlers(container, isCurrentMonthAndYear, todayDate) {
     });
   });
 
-  // Weekly Rhythm Cards click -> smooth scroll to that week's column
+  // Weekly Rhythm Cards click -> smooth scroll precisely to that week's column
   const rhythmCards = container.querySelectorAll('.weekly-rhythm-card');
   rhythmCards.forEach(card => {
     card.addEventListener('click', () => {
       const startDay = card.dataset.weekStart;
       const targetHeader = container.querySelector(`.daynum-cell[data-day="${startDay}"]`);
       if (targetHeader && finalScrollContainer) {
-        targetHeader.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        const stickyCol = finalScrollContainer.querySelector('.sticky-col');
+        const stickyWidth = stickyCol ? stickyCol.offsetWidth : 280;
+        // Exactly align targetHeader right beside the sticky habit title column (never hidden under it)
+        const targetScrollLeft = Math.max(0, targetHeader.offsetLeft - stickyWidth - 2);
+
+        finalScrollContainer.scrollTo({
+          left: targetScrollLeft,
+          behavior: 'smooth'
+        });
+        lastKnownMatrixScrollLeft = targetScrollLeft;
         sounds.playPop();
+
+        targetHeader.classList.add('week-jump-glow');
+        setTimeout(() => targetHeader.classList.remove('week-jump-glow'), 1200);
       }
     });
   });
