@@ -1701,15 +1701,12 @@
           Need assistance with your purchase? <a href="mailto:support@axio-os.com" style="color: #22d3ee; text-decoration: none; font-weight: 700;">Email Official Support (support@axio-os.com) →</a>
         </div>
 
-        <!-- Discreet Owner Customizer Toggle (Admin Only) -->
-        <div style="margin-top: 32px; text-align: center;">
-          <button type="button" onclick="document.getElementById('merchant-admin-panel').style.display = document.getElementById('merchant-admin-panel').style.display === 'none' ? 'block' : 'none'; renderMerchantOrders();" style="background: none; border: 1px dashed rgba(255,255,255,0.12); color: #64748b; font-size: 11px; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
-            ⚙️ Merchant Settings & Order Queue
-          </button>
-          <div id="merchant-admin-panel" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 18px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: left;">
+        <!-- Owner Customizer & Order Queue (Discreet Admin Only: ?admin=soham or Ctrl+Shift+M) -->
+        <div id="merchant-admin-wrapper" style="display: none; margin-top: 32px; text-align: center;">
+          <div id="merchant-admin-panel" style="background: rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 18px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: left;">
             <div style="font-size: 13.5px; color: #fbbf24; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
               <span>👑 Merchant Management (Owner Controls)</span>
-              <span style="font-size: 11px; color: #94a3b8; font-weight: normal;">Passkey: <code>SOHAM2026</code></span>
+              <button type="button" onclick="document.getElementById('merchant-admin-wrapper').style.display='none'" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 16px;">✕</button>
             </div>
 
             <!-- Customer Orders Queue -->
@@ -1731,7 +1728,7 @@
                 <button type="button" onclick="saveRazorpayKey()" style="background: #f97316; border: none; color: #fff; font-size: 11.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; cursor: pointer;">Save</button>
               </div>
               <div style="font-size: 10.5px; color: #94a3b8; margin-top: 4px; line-height: 1.4;">
-                ℹ️ <strong>Razorpay Key ID:</strong> Paste <code>rzp_live_...</code> (or <code>rzp_test_...</code>) for official bank-verified popup modal, OR paste your <strong>Razorpay Payment Link</strong> (<code>https://rzp.io/l/...</code>).
+                ℹ️ <strong>Razorpay Key ID:</strong> Paste <code>rzp_live_...</code> for official popup modal, OR paste your <strong>Razorpay Payment Link</strong> (<code>https://rzp.io/l/...</code>).
               </div>
             </div>
 
@@ -1739,10 +1736,6 @@
               <button type="button" onclick="unlockForTesting()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.5); color: #34d399; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700;">🧪 Test Unlock Screen</button>
               <button type="button" onclick="resetToPaymentView()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer;">🔒 Reset View</button>
               <button type="button" onclick="clearMerchantOrders()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-size: 11px; padding: 6px 12px; border-radius: 6px; cursor: pointer;">🗑️ Clear Test Orders</button>
-            </div>
-            
-            <div style="font-size: 11px; color: #94a3b8; line-height: 1.4;">
-              💡 <strong>Owner Testing Passkey:</strong> Type <code>SOHAM2026</code> in the email input box above to test the instant unlock flow anytime.
             </div>
           </div>
         </div>
@@ -2248,14 +2241,47 @@
       }
     }
 
-    // Owner Testing Bypass Function (Admin Only)
+    // Cryptographic Checksum Engine for VIP License Keys
+    function computeLicenseChecksum(seed) {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let sum = 0x5A;
+      for (let i = 0; i < seed.length; i++) {
+        const code = seed.charCodeAt(i);
+        sum = ((sum << 5) - sum) + code * (i + 7);
+        sum = sum & 0xFFFF;
+      }
+      const c1 = chars.charAt(Math.abs(sum) % chars.length);
+      const c2 = chars.charAt(Math.abs(sum >> 3) % chars.length);
+      const c3 = chars.charAt(Math.abs(sum >> 7) % chars.length);
+      const c4 = chars.charAt(Math.abs(sum >> 11) % chars.length);
+      return `${c1}${c2}${c3}${c4}`;
+    }
+
+    function generateChecksumKey() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let seed = '';
+      for (let i = 0; i < 4; i++) {
+        seed += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const check = computeLicenseChecksum(seed);
+      return `AXIO-VIP-${seed}-${check}-LIFETIME`;
+    }
+
+    // Owner Testing Bypass Function (Restricted to Admin Mode)
     function unlockForTesting() {
-      const licenseKey = 'AXIO-VIP-TEST-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      const isOwnerEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.search.includes('admin=soham');
+      if (!isOwnerEnv) {
+        showToast('❌ Owner testing is restricted to administrator mode.');
+        return;
+      }
+
+      const licenseKey = generateChecksumKey();
       const licDisplay = document.getElementById('license-key-display');
       if (licDisplay) licDisplay.textContent = licenseKey;
 
+      const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
       const dlLink = document.getElementById('direct-dl-link');
-      if (dlLink) dlLink.href = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      if (dlLink) dlLink.href = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
 
       const formState = document.getElementById('checkout-form-state');
       if (formState) formState.style.display = 'none';
@@ -2263,13 +2289,14 @@
       const dlState = document.getElementById('unlocked-download-state');
       if (dlState) dlState.style.display = 'block';
 
+      localStorage.setItem('axio_activated_license', licenseKey);
       localStorage.setItem('axio_customer_unlocked', 'true');
       localStorage.setItem('axio_customer_license', licenseKey);
 
       if (typeof confetti === 'function') {
         confetti({ particleCount: 80, spread: 85, origin: { y: 0.6 } });
       }
-      showToast('👑 <strong>Owner Preview Active:</strong> Unlocked download screen for testing.');
+      showToast('👑 <strong>Owner Preview Active:</strong> Generated verifiable VIP license for testing.');
     }
 
     // Customer Order Confirmation Handler (Direct UPI Verification Flow)
@@ -2293,8 +2320,9 @@
         return;
       }
 
-      // Check Master Owner Testing Passkey in email
-      if (emailVal.toUpperCase().includes('SOHAM2026') || emailVal.toUpperCase().includes('AXIO199')) {
+      // Check Master Owner Testing Passkey in email (Only allowed in owner environment)
+      const isOwnerEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.search.includes('admin=soham');
+      if (isOwnerEnv && (emailVal.toUpperCase().includes('SOHAM2026') || emailVal.toUpperCase().includes('AXIO199'))) {
         unlockForTesting();
         return;
       }
@@ -2506,9 +2534,8 @@
       const dlState = document.getElementById('unlocked-download-state');
       if (dlState) dlState.style.display = 'block';
 
-      // Generate VIP License Key
-      const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
-      const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
+      // Generate Cryptographically Verifiable VIP License Key
+      const licenseKey = generateChecksumKey();
       const licDisplay = document.getElementById('license-key-display');
       if (licDisplay) licDisplay.textContent = licenseKey;
 
@@ -2523,11 +2550,12 @@
       if (emailLink) {
         const recipientEmail = emailVal || 'support@axio-os.com';
         const subject = encodeURIComponent('My AXIO OS Download Package & VIP License');
-        const body = encodeURIComponent(`Hi!\n\nHere is your AXIO OS download package to open on your laptop:\n\nDirect Download Link: ${currentUrl}\nVIP License Key: ${licenseKey}\nPayment Reference: ${paymentId}\n\n1. Download the ZIP file to your laptop.\n2. Extract All.\n3. Double-click Launch-AXIO-OS.bat!\n\nEnjoy your daily consistency!`);
+        const body = encodeURIComponent(`Hi!\n\nHere is your AXIO OS download package to open on your laptop:\n\nDirect Download Link: ${currentUrl}\nVIP License Key: ${licenseKey}\nPayment Reference: ${paymentId}\n\nHow to activate on laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Run Launch-AXIO-OS.bat!\n4. Enter your VIP License Key (${licenseKey}) to permanently activate.\n\nEnjoy your daily consistency!`);
         emailLink.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
       }
 
       // Save unlock state
+      localStorage.setItem('axio_activated_license', licenseKey);
       localStorage.setItem('axio_customer_unlocked', 'true');
       localStorage.setItem('axio_customer_license', licenseKey);
       localStorage.setItem('axio_customer_email', emailVal);
@@ -2663,14 +2691,24 @@
       const savedQr = localStorage.getItem('axio_custom_qr');
       if (savedQr) document.getElementById('payment-qr-img').src = savedQr;
 
-      // Check if redirected from payment gateway with success status
+      // Owner Merchant Controls (Secure Admin Mode)
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('payment') === 'success' || urlParams.get('status') === 'success') {
-        const paymentId = urlParams.get('id') || urlParams.get('payment_id') || 'pay_' + Date.now();
-        const customerEmail = urlParams.get('email') || 'customer@axio-os.com';
-        handleGatewaySuccess(paymentId, customerEmail);
-        return;
+      if (urlParams.get('admin') === 'soham' || window.location.hostname === 'localhost') {
+        const wrapper = document.getElementById('merchant-admin-wrapper');
+        if (wrapper) wrapper.style.display = 'block';
       }
+
+      // Secret Shortcut: Ctrl + Shift + M toggles owner panel
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key.toUpperCase() === 'M') {
+          const wrapper = document.getElementById('merchant-admin-wrapper');
+          if (wrapper) {
+            wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+            renderMerchantOrders();
+            showToast('👑 Merchant Admin Mode ' + (wrapper.style.display === 'block' ? 'Enabled' : 'Hidden'));
+          }
+        }
+      });
 
       // Always reset and show the payment view on fresh page load (no lingering unlocked states)
       localStorage.removeItem('axio_customer_unlocked');

@@ -9,12 +9,16 @@ import { renderOverview } from './components/overview.js';
 import { renderFocusView } from './components/focusView.js';
 import LZString from 'lz-string';
 import confetti from 'canvas-confetti';
+import { checkLicenseActivation } from './license.js';
 
 let currentTab = 'matrix'; // Start with habit grid matching user's reference
 
 function initApp() {
   const mainContent = document.getElementById('main-content');
   const navTabs = document.getElementById('main-nav-tabs');
+
+  // Enforce VIP License Check (Secures offline downloads against unpaid use)
+  checkLicenseActivation();
 
   // Verify daily rollover (reset daily water, sync date)
   store.checkDailyReset();
