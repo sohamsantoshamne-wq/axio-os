@@ -2100,13 +2100,29 @@
       // Check if owner configured an external automated gateway link (Razorpay Payment Link / Handle)
       const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'https://razorpay.me/@sohamsantoshamne';
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
-        const checkoutUrl = savedGateway.includes('?') 
-          ? `${savedGateway}&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`
-          : `${savedGateway}?email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(phoneVal)}`;
-        showToast('🚀 Redirecting to secure Razorpay checkout...');
+        // Record order lead into merchant registry
+        const orderNum = Math.floor(1000 + Math.random() * 9000);
+        const orderId = `#AXIO-${orderNum}`;
+        const newOrder = {
+          orderId: orderId,
+          email: emailVal,
+          phone: cleanPhone,
+          utr: 'RAZORPAY_CHECKOUT',
+          timestamp: new Date().toLocaleString(),
+          amount: '₹199'
+        };
+        try {
+          const existingOrders = JSON.parse(localStorage.getItem('axio_merchant_orders') || '[]');
+          existingOrders.unshift(newOrder);
+          localStorage.setItem('axio_merchant_orders', JSON.stringify(existingOrders));
+        } catch(err) {}
+
+        const separator = savedGateway.includes('?') ? '&' : '?';
+        const checkoutUrl = `${savedGateway}${separator}amount=199&email=${encodeURIComponent(emailVal)}&phone=${encodeURIComponent(cleanPhone)}`;
+        showToast('🚀 Opening your official Razorpay payment page...');
         setTimeout(() => {
           window.location.href = checkoutUrl;
-        }, 600);
+        }, 500);
         return;
       }
 
