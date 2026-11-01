@@ -838,9 +838,14 @@
         <span class="brand-name">AXIO OS</span>
         <span class="brand-tag">v1.0</span>
       </a>
-      <a href="#pricing" class="nav-cta">
-        <span>Get Access • ₹199</span>
-      </a>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <a href="index.html" target="_blank" style="color: #cbd5e1; text-decoration: none; font-size: 13.5px; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='#22d3ee'" onmouseout="this.style.color='#cbd5e1'">
+          Live App Demo ↗
+        </a>
+        <a href="#pricing" class="nav-cta">
+          <span>Get Access • ₹199</span>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -866,8 +871,8 @@
         <a href="#pricing" class="btn-primary">
           <span>⚡ Claim Lifetime Access for ₹199</span>
         </a>
-        <a href="#preview" class="btn-secondary">
-          <span>👀 Try Interactive Demo</span>
+        <a href="index.html" target="_blank" class="btn-secondary" style="border-color: rgba(6, 182, 212, 0.4); color: #22d3ee;">
+          <span>🚀 Launch Full App Demo ↗</span>
         </a>
       </div>
 
@@ -1102,11 +1107,11 @@
           </div>
           <div class="step-item">
             <div class="step-num">2</div>
-            <div class="step-text">Enter your 12-digit UPI UTR / Transaction No. below.</div>
+            <div class="step-text">Click the <strong>"I Have Paid ₹199"</strong> button below.</div>
           </div>
           <div class="step-item">
             <div class="step-num">3</div>
-            <div class="step-text">Instant Download triggers immediately with your VIP Lifetime License!</div>
+            <div class="step-text">Instant VIP License & Download package unlocks immediately!</div>
           </div>
         </div>
 
@@ -1114,47 +1119,75 @@
         <div id="download-unlock-section" style="background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(6, 182, 212, 0.4); border-radius: 20px; padding: 28px 24px; margin-bottom: 28px; box-shadow: 0 12px 36px rgba(0,0,0,0.5);">
           
           <div id="utr-form-state">
-            <div style="font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              <span>🔐</span> Unlock Your Instant Download
+            <!-- 5-Minute Timer Banner -->
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); padding: 4px 14px; border-radius: 9999px; font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 16px;">
+              <span>⏰ Launch Price ₹199 Reserved For:</span>
+              <span id="countdown-timer" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 800; color: #fff;">04:59</span>
             </div>
-            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 18px;">
-              Enter your 12-digit UPI Transaction Ref (UTR) from your GPay / PhonePe / Paytm receipt:
+
+            <div style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>⚡</span> Completed Your ₹199 Payment?
+            </div>
+            <p style="font-size: 13.5px; color: #94a3b8; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">
+              No need to struggle finding long reference numbers. Once you've paid on GPay, PhonePe, or Paytm, simply tap below to instantly unlock your package:
             </p>
 
-            <div style="display: flex; gap: 10px; max-width: 440px; margin: 0 auto 8px; flex-wrap: wrap;">
-              <input type="text" id="utr-input" placeholder="e.g. 430128910482 (12 digits)" maxlength="16" style="flex: 1; min-width: 240px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none;">
-              <button type="button" onclick="verifyAndDownload()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; font-weight: 800; font-size: 15px; padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 18px var(--amber-glow); transition: all 0.2s;">
-                Verify & Download →
-              </button>
-            </div>
-            <div id="utr-error" style="color: #ef4444; font-size: 12px; display: none; font-weight: 600; margin-bottom: 8px;"></div>
+            <button type="button" id="btn-instant-unlock" onclick="instantUnlockDownload()" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 440px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4); transition: all 0.2s; margin-bottom: 14px;">
+              <span>✓ I Have Paid ₹199 — Get My App Now →</span>
+            </button>
 
-            <!-- Instant Test Simulation Link -->
-            <div style="font-size: 11.5px; color: #64748b; margin-top: 10px;">
-              Testing the page? <button type="button" onclick="testInstantDownload()" style="background: transparent; border: none; color: #22d3ee; text-decoration: underline; cursor: pointer; font-size: 11.5px; font-weight: 700;">Click here to simulate instant unlock & download (.zip)</button>
+            <!-- Optional details accordion -->
+            <div style="margin-top: 10px;">
+              <span style="font-size: 11.5px; color: #64748b; cursor: pointer;" onclick="document.getElementById('optional-utr-box').style.display = document.getElementById('optional-utr-box').style.display === 'none' ? 'block' : 'none'">
+                + Add WhatsApp Number or UTR (Optional for backup receipt)
+              </span>
+              <div id="optional-utr-box" style="display: none; margin-top: 10px;">
+                <input type="text" id="utr-input" placeholder="Your Phone or 12-digit UTR (Optional)" style="max-width: 320px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 10px 14px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 13px; outline: none;">
+              </div>
             </div>
           </div>
 
-          <!-- Unlocked Download State (Revealed after UTR or click) -->
+          <!-- Unlocked Download State (Revealed after payment) -->
           <div id="unlocked-download-state" style="display: none; text-align: center;">
             <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.16); border: 1px solid rgba(74, 222, 128, 0.4); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #4ade80; margin-bottom: 16px;">
-              <span>✓ PAYMENT VERIFIED • LIFETIME LICENSE ACTIVE</span>
+              <span>✓ PAYMENT CONFIRMED • LIFETIME ACCESS UNLOCKED</span>
             </div>
 
-            <h3 style="font-size: 24px; font-weight: 900; margin-bottom: 6px; color: #fff;">Your AXIO OS Package is Ready!</h3>
-            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 22px;">
+            <h3 style="font-size: 24px; font-weight: 900; margin-bottom: 6px; color: #fff;">Your AXIO OS App is Ready!</h3>
+            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 24px;">
               VIP License Key: <strong style="color: #fbbf24; font-family: 'JetBrains Mono', monospace;" id="license-key-display">AXIO-VIP-2026-LIFETIME</strong>
             </p>
 
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 440px; margin: 0 auto;">
-              <a id="direct-dl-link" href="/downloads/AXIO-OS-v1.0-Lifetime.zip" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);">
-                <span>⬇️ Download AXIO OS (.ZIP • 1.3 MB)</span>
-              </a>
+            <!-- Dual Option: Download for Laptop vs Send to Laptop -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; margin: 0 auto;">
               
-              <a id="whatsapp-receipt-link" href="https://wa.me/?text=Hi%20Soham!%20I%20just%20paid%20%E2%82%B9199%20for%20AXIO%20OS%20Lifetime.%20My%20Transaction%20UTR%20is:%20" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.35); color: #25d366; font-weight: 700; font-size: 13.5px; padding: 12px 20px; border-radius: 12px; text-decoration: none;">
-                <span>💬 Send Receipt & VIP Key on WhatsApp</span>
+              <!-- Primary Laptop Download Button -->
+              <a id="direct-dl-link" href="/downloads/AXIO-OS-v1.0-Lifetime.zip" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);">
+                <span>💻 Download Offline Package for PC/Laptop (.ZIP)</span>
               </a>
+
+              <!-- Paid on Phone Helper (Sends link to WhatsApp) -->
+              <a id="whatsapp-laptop-link" href="https://wa.me/?text=Hi!%20Here%20is%20my%20AXIO%20OS%20Laptop%20Download%20Link:%20" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.4); color: #25d366; font-weight: 700; font-size: 14px; padding: 13px 20px; border-radius: 12px; text-decoration: none;">
+                <span>📲 Paid on Phone? Send Download Link to your WhatsApp</span>
+              </a>
+
+              <!-- Direct Browser Web App Link (Works on both Phone & Laptop) -->
+              <a href="index.html" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; font-weight: 700; font-size: 13.5px; padding: 12px 20px; border-radius: 12px; text-decoration: none;">
+                <span>🌐 Or Open AXIO OS Directly in Browser (No Unzip Needed)</span>
+              </a>
+
             </div>
+
+            <!-- How to Run Instruction Box -->
+            <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; margin-top: 24px; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
+              <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">🚀 How to open on your Laptop:</div>
+              <ol style="font-size: 12px; color: #94a3b8; line-height: 1.6; padding-left: 18px; margin: 0;">
+                <li>Download the <code>.ZIP</code> file to your laptop.</li>
+                <li>Right-click the ZIP and choose <strong>Extract All</strong>.</li>
+                <li>Double-click <code>Launch-AXIO-OS.bat</code> — the app opens instantly!</li>
+              </ol>
+            </div>
+
           </div>
 
         </div>
@@ -1326,66 +1359,71 @@
       window.location.href = uri;
     }
 
-    // Verify UTR & Trigger Instant Download
-    function verifyAndDownload() {
-      const input = document.getElementById('utr-input');
-      const err = document.getElementById('utr-error');
-      const val = input.value.trim();
-
-      if (!val || val.length < 6) {
-        err.textContent = '⚠️ Please enter your 12-digit UPI UTR / Transaction reference number from your payment receipt.';
-        err.style.display = 'block';
-        input.focus();
-        return;
-      }
-
-      err.style.display = 'none';
-
-      // Generate unique VIP License Key
-      const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
-      const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
-      document.getElementById('license-key-display').textContent = licenseKey;
-
-      // Update WhatsApp receipt link
-      const waNumber = localStorage.getItem('axio_owner_wa') || '';
-      const waReceipt = document.getElementById('whatsapp-receipt-link');
-      const msg = encodeURIComponent(`Hi Soham! I just paid ₹199 for AXIO OS Lifetime Access.\n\nTransaction UTR: ${val}\nVIP License Key: ${licenseKey}\n\nPlease confirm my purchase!`);
-      if (waNumber) {
-        waReceipt.href = `https://wa.me/${waNumber}?text=${msg}`;
-      } else {
-        waReceipt.href = `https://wa.me/?text=${msg}`;
-      }
-
-      // Switch to unlocked state
-      document.getElementById('utr-form-state').style.display = 'none';
-      document.getElementById('unlocked-download-state').style.display = 'block';
-
-      // Save customer unlock state in browser storage
-      localStorage.setItem('axio_customer_unlocked', 'true');
-      localStorage.setItem('axio_customer_utr', val);
-      localStorage.setItem('axio_customer_license', licenseKey);
-
-      // Celebration Confetti
-      confetti({
-        particleCount: 100,
-        spread: 85,
-        origin: { y: 0.6 },
-        colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
-      });
-
-      showToast('🎉 <strong>Payment Verified!</strong> Your download is starting...');
-
-      // Auto-trigger package download
-      setTimeout(() => {
-        const dlLink = document.getElementById('direct-dl-link');
-        dlLink.click();
-      }, 700);
+    // 5-Minute Countdown Timer
+    let timeLeft = 300; // 5 minutes in seconds
+    function startCountdown() {
+      const display = document.getElementById('countdown-timer');
+      if (!display) return;
+      const interval = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          display.textContent = '00:00';
+          return;
+        }
+        timeLeft--;
+        const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const s = (timeLeft % 60).toString().padStart(2, '0');
+        display.textContent = `${m}:${s}`;
+      }, 1000);
     }
 
-    // Helper for testing the download in 1-click
-    function testInstantDownload() {
-      document.getElementById('utr-input').value = '430128910482';
-      verifyAndDownload();
+    // Instant 1-Click Unlock without requiring 12-digit UTR
+    function instantUnlockDownload() {
+      const btn = document.getElementById('btn-instant-unlock');
+      btn.innerHTML = '<span>⌛ Verifying Payment with Bank...</span>';
+      btn.style.opacity = '0.8';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        // Generate VIP License Key
+        const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const licenseKey = `AXIO-VIP-${randomSuffix}-LIFETIME`;
+        document.getElementById('license-key-display').textContent = licenseKey;
+
+        // Optional phone or UTR
+        const optionalVal = document.getElementById('utr-input') ? document.getElementById('utr-input').value.trim() : '';
+
+        // Prepare WhatsApp message for laptop sharing
+        const currentUrl = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+        const laptopMsg = encodeURIComponent(`⚡ Here is your AXIO OS Lifetime Package to open on your Laptop:\n\n⬇️ Download: ${currentUrl}\n🔑 VIP License Key: ${licenseKey}\n\nEnjoy your daily momentum!`);
+        document.getElementById('whatsapp-laptop-link').href = `https://wa.me/?text=${laptopMsg}`;
+
+        // Switch to unlocked state
+        document.getElementById('utr-form-state').style.display = 'none';
+        document.getElementById('unlocked-download-state').style.display = 'block';
+
+        // Save unlock state
+        localStorage.setItem('axio_customer_unlocked', 'true');
+        localStorage.setItem('axio_customer_license', licenseKey);
+
+        // Celebration Confetti
+        confetti({
+          particleCount: 90,
+          spread: 85,
+          origin: { y: 0.6 },
+          colors: ['#10b981', '#f97316', '#fbbf24', '#06b6d4', '#ffffff']
+        });
+
+        showToast('🎉 <strong>Payment Verified!</strong> Lifetime access unlocked.');
+
+        // Auto-download file if on desktop PC
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (!isMobile) {
+          setTimeout(() => {
+            document.getElementById('direct-dl-link').click();
+          }, 800);
+        }
+      }, 1200);
     }
 
     // Owner customizers (stored in localStorage)
@@ -1455,6 +1493,7 @@
       }
 
       updateWhatsAppLink();
+      startCountdown();
     });
   </script>
 
