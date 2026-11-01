@@ -2204,7 +2204,7 @@
       if (errorBox) errorBox.style.display = 'none';
 
       // Check if owner configured an external automated gateway link (Razorpay Payment Link / Handle)
-      const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'https://razorpay.me/@sohamsantoshamne';
+      const savedGateway = localStorage.getItem('axio_razorpay_key_id') || 'rzp_live_Tv0OjmASWlUYZg';
       if (savedGateway && (savedGateway.startsWith('http://') || savedGateway.startsWith('https://'))) {
         // Record order lead into merchant registry
         const orderNum = Math.floor(1000 + Math.random() * 9000);
@@ -2234,13 +2234,15 @@
 
       // Check if owner provided a Razorpay Key ID (rzp_live_... or rzp_test_...)
       if (typeof Razorpay === 'function' && savedGateway && savedGateway.startsWith('rzp_')) {
+        localStorage.setItem('axio_last_phone', cleanPhone);
+        const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
         const options = {
           key: savedGateway,
           amount: 19900, // ₹199.00 in paise
           currency: 'INR',
           name: 'AXIO OS',
           description: 'Lifetime VIP License & Offline App Package',
-          image: window.location.origin + '/icon-192.png',
+          image: window.location.origin + repoBase + '/icon-192.png',
           prefill: {
             email: emailVal,
             contact: cleanPhone,
@@ -2254,7 +2256,7 @@
           },
           modal: {
             ondismiss: function() {
-              showToast('ℹ️ Razorpay payment cancelled.');
+              showToast('ℹ️ Razorpay payment window closed.');
             }
           }
         };
@@ -2401,8 +2403,9 @@
       const licDisplay = document.getElementById('license-key-display');
       if (licDisplay) licDisplay.textContent = licenseKey;
 
-      // Assign the download package URL
-      const currentUrl = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      // Assign the download package URL (handles both localhost and GitHub Pages)
+      const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+      const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
       const dlLink = document.getElementById('direct-dl-link');
       if (dlLink) dlLink.href = currentUrl;
 
@@ -2420,6 +2423,23 @@
       localStorage.setItem('axio_customer_license', licenseKey);
       localStorage.setItem('axio_customer_email', emailVal);
       localStorage.setItem('axio_customer_payment_id', paymentId);
+
+      // Record verified order in merchant registry
+      try {
+        const orderNum = Math.floor(1000 + Math.random() * 9000);
+        const newOrder = {
+          orderId: `#AXIO-${orderNum}`,
+          email: emailVal || 'customer@axio-os.com',
+          phone: localStorage.getItem('axio_last_phone') || 'Verified Buyer',
+          utr: paymentId,
+          timestamp: new Date().toLocaleString(),
+          amount: '₹199'
+        };
+        const existingOrders = JSON.parse(localStorage.getItem('axio_merchant_orders') || '[]');
+        existingOrders.unshift(newOrder);
+        localStorage.setItem('axio_merchant_orders', JSON.stringify(existingOrders));
+        renderMerchantOrders();
+      } catch(e) {}
 
       // Celebration Confetti
       if (typeof confetti === 'function') {
@@ -2553,7 +2573,7 @@
       if (orderConfirmState) orderConfirmState.style.display = 'none';
       if (dlState) dlState.style.display = 'none';
 
-      const savedKey = localStorage.getItem('axio_razorpay_key_id') || 'https://razorpay.me/@sohamsantoshamne';
+      const savedKey = localStorage.getItem('axio_razorpay_key_id') || 'rzp_live_Tv0OjmASWlUYZg';
       const keyInput = document.getElementById('merchant-razorpay-key');
       if (keyInput) keyInput.value = savedKey;
 
