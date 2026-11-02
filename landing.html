@@ -856,14 +856,39 @@
         padding: 10px 16px;
       }
 
-      /* Interactive demo mobile tweaks */
+      /* Interactive demo mobile responsive architecture */
+      .hero-preview-card {
+        padding: 16px 14px !important;
+        border-radius: 20px !important;
+      }
       .card-topbar {
         flex-wrap: wrap;
         gap: 8px;
+        padding-bottom: 12px;
+      }
+      .matrix-demo-title {
+        font-size: 12px !important;
       }
       .habit-demo-row {
-        padding: 10px 12px;
-        gap: 8px;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 12px 14px !important;
+        border-radius: 14px !important;
+      }
+      .habit-demo-info {
+        width: 100% !important;
+        gap: 10px !important;
+      }
+      .habit-demo-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 17px !important;
+        border-radius: 8px !important;
+      }
+      .habit-demo-name {
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
       }
       .habit-demo-sub {
         display: block !important;
@@ -872,13 +897,20 @@
         line-height: 1.25 !important;
         margin-top: 2px !important;
       }
-      .habit-demo-name {
-        font-size: 13.5px;
+      .habit-days-grid {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        padding-top: 8px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
       }
       .demo-checkbox {
-        width: 26px;
-        height: 26px;
-        font-size: 12px;
+        flex: 1 !important;
+        height: 36px !important;
+        max-width: none !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
       }
 
       /* Multi-column grid fluid stacks */
