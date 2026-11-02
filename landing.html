@@ -856,6 +856,58 @@
       .mobile-bar {
         padding: 10px 16px;
       }
+
+      /* Interactive demo mobile tweaks */
+      .card-topbar {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .habit-demo-row {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+      .habit-demo-sub {
+        display: none;
+      }
+      .habit-demo-name {
+        font-size: 13.5px;
+      }
+      .demo-checkbox {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+      }
+
+      /* Multi-column grid fluid stacks */
+      .testimonials-grid,
+      .features-grid,
+      .comparison-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* Pricing & Guarantee mobile alignments */
+      #download-unlock-section {
+        padding: 22px 14px !important;
+        border-radius: 18px !important;
+      }
+      .guarantee-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 18px 16px;
+      }
+      .guarantee-badge-icon {
+        margin: 0 auto;
+      }
+      .support-assist-box {
+        margin-top: 18px;
+      }
+      .support-assist-pill {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+        font-size: 12px;
+      }
     }
 
     /* Toast Notification */
@@ -1122,31 +1174,93 @@
       padding: 0 24px 20px 24px;
     }
 
-    /* Guarantee Card */
+    /* Guarantee Card & Trust Section */
     .guarantee-card {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 20, 32, 0.85) 100%);
-      border: 1px solid rgba(74, 222, 128, 0.3);
-      border-radius: 20px;
-      padding: 24px;
-      max-width: 640px;
-      margin: 32px auto 0;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.07) 0%, rgba(15, 23, 42, 0.85) 100%);
+      border: 1px solid rgba(74, 222, 128, 0.28);
+      border-radius: 18px;
+      padding: 20px 24px;
+      max-width: 620px;
+      margin: 28px auto 0;
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
       text-align: left;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
     .guarantee-badge-icon {
-      width: 54px;
-      height: 54px;
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      background: rgba(34, 197, 94, 0.16);
-      border: 1px solid rgba(74, 222, 128, 0.4);
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(74, 222, 128, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
       flex-shrink: 0;
+    }
+
+    .guarantee-headline {
+      font-size: 15px;
+      font-weight: 800;
+      color: #4ade80;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .guarantee-text {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    .guarantee-mail {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .guarantee-mail:hover {
+      text-decoration: underline;
+    }
+
+    /* Support Assist Box */
+    .support-assist-box {
+      margin-top: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .support-assist-label {
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+
+    .support-assist-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .support-assist-pill:hover {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #7dd3fc;
+      transform: translateY(-1px);
     }
 
     /* Footer */
@@ -1593,12 +1707,6 @@
             </div>
           </div>
 
-              <div style="font-size: 11px; color: #64748b; line-height: 1.4; text-align: center;">
-                🔒 <strong>Zero Risk:</strong> Orders are reconciled directly with merchant SBI alerts. 100% money goes directly to merchant with zero platform deduction.
-              </div>
-            </form>
-          </div>
-
           <!-- Order Confirmation Screen (Shown immediately after submitting payment details) -->
           <div id="order-confirmation-state" style="display: none; text-align: center; max-width: 480px; margin: 0 auto;">
             <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.16); border: 1px solid rgba(74, 222, 128, 0.4); padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 800; color: #4ade80; margin-bottom: 16px;">
@@ -1697,16 +1805,28 @@
 
         <!-- 30-Day Zero-Risk Consistency Guarantee -->
         <div class="guarantee-card">
-          <div class="guarantee-badge-icon">🛡️</div>
+          <div class="guarantee-badge-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
           <div>
-            <div style="font-size: 15px; font-weight: 800; color: #4ade80; margin-bottom: 4px;">30-Day Zero-Risk Consistency Guarantee</div>
-            <div style="font-size: 13px; color: #cbd5e1; line-height: 1.5;">If AXIO OS doesn't make you at least 3x more consistent with your daily routines within 30 days, simply contact support at support@axio-os.com for an immediate 100% refund. You keep the app anyway. Zero risk.</div>
+            <div class="guarantee-headline">30-Day Zero-Risk Consistency Guarantee</div>
+            <div class="guarantee-text">If AXIO OS doesn't make you at least 3× more consistent with your daily routines within 30 days, simply contact support at <a href="mailto:support@axio-os.com" class="guarantee-mail">support@axio-os.com</a> for an immediate 100% refund. You keep the app anyway. Zero risk.</div>
           </div>
         </div>
 
         <!-- Official Support Link -->
-        <div style="font-size: 13.5px; color: #94a3b8; margin-top: 24px;">
-          Need assistance with your purchase? <a href="mailto:support@axio-os.com" style="color: #22d3ee; text-decoration: none; font-weight: 700;">Email Official Support (support@axio-os.com) →</a>
+        <div class="support-assist-box">
+          <span class="support-assist-label">Questions about your purchase or instant download?</span>
+          <a href="mailto:support@axio-os.com" class="support-assist-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span>Email Official Support: support@axio-os.com</span>
+          </a>
         </div>
 
         <!-- Owner Customizer & Order Queue (Discreet Admin Only: ?admin=soham or Ctrl+Shift+M) -->
