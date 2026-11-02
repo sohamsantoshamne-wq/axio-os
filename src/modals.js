@@ -599,6 +599,32 @@ function renderSettingsModal(container) {
 
           </div>
 
+          <!-- Verified VIP License & Official Support -->
+          <div class="settings-card-section" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+            <div class="settings-section-title">🔒 Verified VIP License & Official Support</div>
+            
+            <div class="settings-row">
+              <div class="settings-label-wrap">
+                <span class="settings-label-title">Lifetime License Status</span>
+                <span class="settings-label-desc" style="font-family: 'JetBrains Mono', monospace; color: #fbbf24;">
+                  ${localStorage.getItem('axio_activated_license') || localStorage.getItem('axio_customer_license') || 'AXIO-VIP-2026-LIFETIME'}
+                </span>
+              </div>
+              <span class="badge font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">
+                ✓ LIFETIME ACTIVE
+              </span>
+            </div>
+
+            <div class="settings-row" style="flex-wrap: wrap; gap: 10px;">
+              <a href="./landing.html" target="_blank" class="btn btn-secondary" style="font-size: 12px; text-decoration: none;">
+                <span>🌐 Official Website Page →</span>
+              </a>
+              <a href="mailto:support@axio-os.com" class="btn btn-secondary" style="font-size: 12px; text-decoration: none; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
+                <span>✉️ Email Support (support@axio-os.com)</span>
+              </a>
+            </div>
+          </div>
+
         </div>
       </div>
 

@@ -2671,7 +2671,7 @@
         }
         let html = '<div style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">';
         orders.forEach((ord) => {
-          const dlLink = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+          const dlLink = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
           const mailSubject = encodeURIComponent(`Your AXIO OS Lifetime Access Package (${ord.orderId})`);
           const mailBody = encodeURIComponent(`Hi!\n\nThank you for purchasing AXIO OS Lifetime Access (${ord.orderId}).\n\nDownload Link: ${dlLink}\nVIP License Key: AXIO-VIP-${ord.orderId.replace('#','')}-LIFETIME\n\nHow to open on laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Double-click Launch-AXIO-OS.bat!\n\nBest regards,\nSoham Amne • AXIO OS`);
           
@@ -2706,7 +2706,8 @@
     }
 
     function copyCustomerDispatch(email, orderId) {
-      const dlLink = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+      const dlLink = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
       const text = `Hi! Here is your verified AXIO OS Lifetime Access (${orderId}):\n\n⬇️ Download ZIP: ${dlLink}\n🔑 VIP License Key: AXIO-VIP-${orderId.replace('#','')}-LIFETIME\n\nHow to open on Laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Run Launch-AXIO-OS.bat!\n\nWelcome to AXIO OS!`;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
@@ -2963,7 +2964,7 @@
         if (licDisplay) licDisplay.textContent = existingLicense;
 
         const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
-        const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+        const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
         const dlLink = document.getElementById('direct-dl-link');
         if (dlLink) dlLink.href = currentUrl;
         return;

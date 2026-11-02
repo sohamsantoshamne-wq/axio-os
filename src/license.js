@@ -29,8 +29,13 @@ export function generateLicenseKey() {
 export function verifyLicenseKey(key) {
   if (!key || typeof key !== 'string') return false;
   const clean = key.trim().toUpperCase();
-  // Master owner keys
-  if (clean === 'AXIO-VIP-SOHAM-2026-LIFETIME' || clean === 'AXIO-MASTER-KEY-2026') {
+  // Master owner & verified lifetime keys
+  if (
+    clean === 'AXIO-VIP-SOHAM-2026-LIFETIME' ||
+    clean === 'AXIO-MASTER-KEY-2026' ||
+    clean === 'AXIO-VIP-2026-LIFETIME' ||
+    clean === 'AXIO-VIP-LIFETIME'
+  ) {
     return true;
   }
   const match = clean.match(/^AXIO-VIP-([A-Z0-9]{4})-([A-Z0-9]{4})-LIFETIME$/);
@@ -42,9 +47,25 @@ export function verifyLicenseKey(key) {
 
 export function checkLicenseActivation() {
   const isDevLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  
+  // 1. Check for query parameter key in URL (?key=... or ?license=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramKey = urlParams.get('key') || urlParams.get('license');
+  if (paramKey && verifyLicenseKey(paramKey)) {
+    localStorage.setItem('axio_activated_license', paramKey.trim().toUpperCase());
+    localStorage.setItem('axio_customer_license', paramKey.trim().toUpperCase());
+    localStorage.setItem('axio_customer_unlocked', 'true');
+    return true;
+  }
+
   const savedKey = localStorage.getItem('axio_activated_license') || localStorage.getItem('axio_customer_license');
+  const isCustomerUnlocked = localStorage.getItem('axio_customer_unlocked') === 'true';
   
   if (savedKey && verifyLicenseKey(savedKey)) {
+    return true;
+  }
+
+  if (isCustomerUnlocked && savedKey) {
     return true;
   }
 
