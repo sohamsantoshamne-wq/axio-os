@@ -1564,6 +1564,14 @@
                 <span class="upi-pill">Debit & Credit Cards</span>
               </div>
 
+              <!-- Instant Payment Recovery Link -->
+              <div style="margin-top: 14px; text-align: center; background: rgba(6, 182, 212, 0.08); border: 1px dashed rgba(6, 182, 212, 0.3); border-radius: 10px; padding: 10px 14px;">
+                <span style="font-size: 12px; color: #94a3b8;">Already completed your payment?</span><br>
+                <a href="javascript:void(0)" onclick="promptRestorePayment()" style="font-size: 12.5px; color: #22d3ee; text-decoration: underline; text-underline-offset: 3px; font-weight: 700;">
+                  Click here to enter Payment ID (pay_...) & unlock download →
+                </a>
+              </div>
+
               <div style="font-size: 11px; color: #64748b; line-height: 1.4; text-align: center;">
                 🔒 <strong>100% Automated Bank Verification:</strong> No manual 12-digit UTR typing required. Your download and VIP license unlock automatically as soon as your bank confirms the ₹199 transaction.
               </div>
@@ -2526,10 +2534,28 @@
       handleConfirmOrder(e);
     }
 
+    // Instant Payment Recovery for users who paid via mobile UPI or external link
+    function promptRestorePayment() {
+      const payId = prompt('Please enter your Razorpay Payment ID from your bank SMS or receipt (starts with pay_):');
+      if (!payId) return;
+      const cleanId = payId.trim();
+      if (cleanId.startsWith('pay_') || cleanId.length >= 8) {
+        const emailInput = document.getElementById('customer-email-input');
+        const emailVal = (emailInput && emailInput.value.trim()) || localStorage.getItem('axio_customer_email') || 'customer@axio-os.com';
+        handleGatewaySuccess(cleanId, emailVal);
+        showToast('🎉 Payment confirmed! Your AXIO OS download package is unlocked.');
+      } else {
+        alert('Invalid Payment ID format. Please check your bank confirmation SMS or email for the reference starting with pay_ (e.g. pay_P123456789).');
+      }
+    }
+
     // Success Handler (Triggers ONLY when Bank / Gateway Confirms Payment)
     function handleGatewaySuccess(paymentId, emailVal) {
       const formState = document.getElementById('checkout-form-state');
       if (formState) formState.style.display = 'none';
+
+      const orderConfirmState = document.getElementById('order-confirmation-state');
+      if (orderConfirmState) orderConfirmState.style.display = 'none';
 
       const dlState = document.getElementById('unlocked-download-state');
       if (dlState) dlState.style.display = 'block';
@@ -2554,7 +2580,7 @@
         emailLink.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
       }
 
-      // Save unlock state
+      // Save unlock state PERMANENTLY in localStorage
       localStorage.setItem('axio_activated_license', licenseKey);
       localStorage.setItem('axio_customer_unlocked', 'true');
       localStorage.setItem('axio_customer_license', licenseKey);
@@ -2588,7 +2614,15 @@
         });
       }
 
-      showToast('🎉 <strong>Payment Confirmed by Bank!</strong> Reference: ' + paymentId);
+      showToast('🎉 <strong>Payment Confirmed!</strong> Reference: ' + paymentId);
+
+      // Smooth scroll to the unlocked download card
+      setTimeout(() => {
+        const target = document.getElementById('unlocked-download-state');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 250);
 
       // Auto-download file if on desktop PC
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -2602,6 +2636,7 @@
     // Switch back from unlocked or order state to checkout screen
     function resetToPaymentView() {
       localStorage.removeItem('axio_customer_unlocked');
+      localStorage.removeItem('axio_customer_license');
       localStorage.removeItem('axio_customer_payment_id');
       const dlLink = document.getElementById('direct-dl-link');
       if (dlLink) dlLink.href = '#';
@@ -2710,9 +2745,36 @@
         }
       });
 
-      // Always reset and show the payment view on fresh page load (no lingering unlocked states)
-      localStorage.removeItem('axio_customer_unlocked');
-      localStorage.removeItem('axio_customer_payment_id');
+      // 1. Incoming Payment Callback from Mobile UPI Redirect (Razorpay Standard)
+      const incomingPayId = urlParams.get('razorpay_payment_id') || urlParams.get('payment_id');
+      if (incomingPayId && incomingPayId.startsWith('pay_')) {
+        const custEmail = urlParams.get('email') || localStorage.getItem('axio_customer_email') || 'customer@axio-os.com';
+        handleGatewaySuccess(incomingPayId, custEmail);
+        return;
+      }
+
+      // 2. Restore Unlocked Download View if Buyer Already Paid (PERSIST across page reloads!)
+      const isAlreadyUnlocked = localStorage.getItem('axio_customer_unlocked') === 'true';
+      const existingLicense = localStorage.getItem('axio_customer_license') || localStorage.getItem('axio_activated_license');
+      if (isAlreadyUnlocked && existingLicense) {
+        const formState = document.getElementById('checkout-form-state');
+        const orderConfirmState = document.getElementById('order-confirmation-state');
+        const dlState = document.getElementById('unlocked-download-state');
+        if (formState) formState.style.display = 'none';
+        if (orderConfirmState) orderConfirmState.style.display = 'none';
+        if (dlState) dlState.style.display = 'block';
+
+        const licDisplay = document.getElementById('license-key-display');
+        if (licDisplay) licDisplay.textContent = existingLicense;
+
+        const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+        const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+        const dlLink = document.getElementById('direct-dl-link');
+        if (dlLink) dlLink.href = currentUrl;
+        return;
+      }
+
+      // Default state for new visitors
       const formState = document.getElementById('checkout-form-state');
       const orderConfirmState = document.getElementById('order-confirmation-state');
       const dlState = document.getElementById('unlocked-download-state');
