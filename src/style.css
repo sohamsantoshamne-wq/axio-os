@@ -3834,42 +3834,59 @@ body[data-theme="copper"] .weekly-rhythm-card.is-current-week {
 }
 
 /* ==========================================================================
-   Laptop & Desktop Fluid Viewport Scaling (Prevents Right-Edge Clipping)
+   Balanced Header Proportions (Preserves ALL features without overflow)
    ========================================================================== */
-@media (max-width: 1400px) {
-  .live-clock-card {
-    display: none !important;
+@media (max-width: 1350px) {
+  .header-inner {
+    height: 64px !important;
+    gap: 8px !important;
   }
-}
-
-@media (max-width: 1250px) {
-  .live-clock-card {
-    display: none !important;
-  }
-  .header-daily-progress-card {
-    display: none !important;
-  }
-  .nav-tab-label {
-    display: none !important;
-  }
-  .nav-tabs {
-    padding: 3px !important;
-    gap: 3px !important;
-  }
-  .nav-tab-btn {
-    padding: 6px 12px !important;
-    font-size: 15px !important;
-    gap: 0 !important;
+  .brand-title {
+    font-size: 16px !important;
   }
   .brand-badge-sub {
     display: none !important;
   }
+  .nav-tab-btn {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+    gap: 4px !important;
+  }
+  .live-clock-card {
+    padding: 4px 8px !important;
+    min-width: unset !important;
+  }
+  .clock-time {
+    font-size: 11.5px !important;
+  }
+  .clock-date {
+    font-size: 9.5px !important;
+  }
+  .header-daily-progress-card {
+    padding: 4px 10px !important;
+    gap: 6px !important;
+  }
+  .header-daily-progress-card .progress-bar-track {
+    width: 32px !important;
+  }
+  .progress-pill-label {
+    font-size: 11px !important;
+  }
+  .sound-toggle-btn,
+  .header-icon-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+  }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
+  .live-clock-card {
+    display: none !important;
+  }
   .nav-tab-btn {
     padding: 5px 8px !important;
-    font-size: 13px !important;
+    font-size: 11.5px !important;
   }
 }
 
