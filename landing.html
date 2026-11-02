@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AXIO OS • The Executive Consistency Engine</title>
   <meta name="description" content="Master daily consistency with the 31-day visual habit matrix. Lifetime access for just ₹199 (normally ₹299). Zero subscriptions, 100% private.">
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- Real World Top-Tier Favicons & Apple Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./public/manifest.webmanifest">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -1749,34 +1753,48 @@
               <button type="button" onclick="copyLicenseKey()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 700;">📋 Copy</button>
             </div>
 
-            <!-- Download and Sharing Actions -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 480px; margin: 0 auto;">
+            <!-- Access Options (Instant Web App or Offline ZIP) -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto;">
               
-              <!-- Primary Laptop Download Button -->
-              <a id="direct-dl-link" href="#" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);">
+              <!-- Option 1: Instant Web App (Zero Setup • Phone or PC) -->
+              <a id="open-webapp-btn" href="./index.html" onclick="autoActivateAndLaunch(event)" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4); transition: all 0.2s;">
+                <span>🚀 Launch AXIO OS App (Instant 1-Click)</span>
+              </a>
+              <div style="font-size: 11.5px; color: #4ade80; font-weight: 600; margin-top: -4px;">
+                ✓ Works instantly on iPhone, Android & Laptop • No installation needed
+              </div>
+
+              <!-- Subtle Divider -->
+              <div style="display: flex; align-items: center; gap: 12px; width: 100%; margin: 6px 0;">
+                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+                <span style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase;">OR FOR OFFLINE PC/LAPTOP</span>
+                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+              </div>
+
+              <!-- Option 2: Primary Laptop Download Button -->
+              <a id="direct-dl-link" href="#" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #ffffff; font-weight: 700; font-size: 14px; padding: 13px 20px; border-radius: 12px; text-decoration: none;">
                 <span>💻 Download Offline Package for PC/Laptop (.ZIP)</span>
               </a>
 
               <!-- Copy Link for Laptop -->
-              <button type="button" onclick="copyLaptopLink()" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.35); color: #22d3ee; font-weight: 700; font-size: 14px; padding: 13px 20px; border-radius: 12px; cursor: pointer;">
-                <span>📲 Copy Download Link & VIP Key (To Paste on Laptop)</span>
+              <button type="button" onclick="copyLaptopLink()" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; font-weight: 700; font-size: 13px; padding: 11px 18px; border-radius: 10px; cursor: pointer;">
+                <span>📲 Copy App Link & VIP Key (To Paste on Laptop)</span>
               </button>
 
               <!-- Email link to myself -->
-              <a id="email-myself-link" href="#" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; font-weight: 700; font-size: 13.5px; padding: 12px 20px; border-radius: 12px; text-decoration: none;">
-                <span>📧 Email Download Link to Myself</span>
+              <a id="email-myself-link" href="#" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; font-weight: 600; font-size: 12.5px; padding: 10px 18px; border-radius: 10px; text-decoration: none;">
+                <span>📧 Email Access Link & Key to Myself</span>
               </a>
 
             </div>
 
             <!-- How to Run Instruction Box -->
             <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; margin-top: 24px; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
-              <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">🚀 How to open on your Laptop:</div>
-              <ol style="font-size: 12px; color: #94a3b8; line-height: 1.6; padding-left: 18px; margin: 0;">
-                <li>Download the <code>.ZIP</code> file to your laptop.</li>
-                <li>Right-click the ZIP and choose <strong>Extract All</strong>.</li>
-                <li>Double-click <code>Launch-AXIO-OS.bat</code> — the app opens instantly!</li>
-              </ol>
+              <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">💡 How to use AXIO OS:</div>
+              <ul style="font-size: 12px; color: #cbd5e1; line-height: 1.6; padding-left: 18px; margin: 0;">
+                <li><strong>On Phone or Laptop (Easiest):</strong> Tap the green <em>"Launch AXIO OS App"</em> button above. In browser menu, tap <strong>"Add to Home Screen"</strong> or <strong>"Install App"</strong> to use it completely offline forever with your own desktop/home screen app icon.</li>
+                <li><strong>Offline ZIP (For PC):</strong> Download the ZIP to your laptop, right-click and choose <strong>Extract All</strong>, then double-click <code>Launch-AXIO-OS.bat</code>.</li>
+              </ul>
             </div>
 
             <!-- Reset / View Payment Screen Toggle -->
@@ -2323,19 +2341,32 @@
       }, 1000);
     }
 
+    // 1-Click Launch Web App with automatic VIP License Activation
+    function autoActivateAndLaunch(e) {
+      if (e) e.preventDefault();
+      const key = document.getElementById('license-key-display') ? document.getElementById('license-key-display').textContent.trim() : 'AXIO-VIP-2026-LIFETIME';
+      localStorage.setItem('axio_activated_license', key);
+      localStorage.setItem('axio_customer_license', key);
+      localStorage.setItem('axio_customer_unlocked', 'true');
+      const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+      window.open(window.location.origin + repoBase + '/index.html', '_blank');
+    }
+
     // Copy Download Link & VIP Key for Laptop
     function copyLaptopLink() {
-      const currentUrl = window.location.origin + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+      const appUrl = window.location.origin + repoBase + '/index.html';
+      const zipUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
       const licenseKey = document.getElementById('license-key-display') ? document.getElementById('license-key-display').textContent.trim() : 'AXIO-VIP-2026-LIFETIME';
-      const text = `⚡ AXIO OS Lifetime Package\n\n⬇️ Download ZIP: ${currentUrl}\n🔑 VIP License Key: ${licenseKey}\n\n1. Download the ZIP file to your laptop.\n2. Right-click & Extract All.\n3. Double-click Launch-AXIO-OS.bat!`;
+      const text = `⚡ AXIO OS Lifetime Access\n\n🚀 Web App (Instant Access): ${appUrl}\n🔑 VIP License Key: ${licenseKey}\n\n💻 Offline ZIP (for PC): ${zipUrl}\n\nHow to use on laptop:\n1. Open ${appUrl} directly in your browser, or\n2. Download the ZIP file, right-click & Extract All, then double-click Launch-AXIO-OS.bat!`;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
-          showToast('📋 <strong>Laptop Link Copied!</strong> Paste it in your email, notes, or message to download on PC.');
+          showToast('📋 <strong>Access Details Copied!</strong> Paste it in your notes, email, or chat to open on Laptop.');
         }).catch(() => {
-          prompt('Copy Download Link:', text);
+          prompt('Copy Access Link & Key:', text);
         });
       } else {
-        prompt('Copy Download Link:', text);
+        prompt('Copy Access Link & Key:', text);
       }
     }
 
@@ -2682,8 +2713,9 @@
       const emailLink = document.getElementById('email-myself-link');
       if (emailLink) {
         const recipientEmail = emailVal || 'support@axio-os.com';
-        const subject = encodeURIComponent('My AXIO OS Download Package & VIP License');
-        const body = encodeURIComponent(`Hi!\n\nHere is your AXIO OS download package to open on your laptop:\n\nDirect Download Link: ${currentUrl}\nVIP License Key: ${licenseKey}\nPayment Reference: ${paymentId}\n\nHow to activate on laptop:\n1. Download the ZIP file.\n2. Extract All.\n3. Run Launch-AXIO-OS.bat!\n4. Enter your VIP License Key (${licenseKey}) to permanently activate.\n\nEnjoy your daily consistency!`);
+        const appUrl = window.location.origin + repoBase + '/index.html';
+        const subject = encodeURIComponent('My AXIO OS Access Links & VIP License');
+        const body = encodeURIComponent(`Hi!\n\nHere is your official AXIO OS lifetime access:\n\n🚀 Web App (1-Click Access): ${appUrl}\n🔑 VIP License Key: ${licenseKey}\n💻 Offline PC Download: ${currentUrl}\nPayment Reference: ${paymentId}\n\nHow to use:\n1. On Phone or Laptop: Open ${appUrl} directly and tap "Add to Home Screen" to install it as an offline app.\n2. On PC/Laptop (Offline ZIP): Download the ZIP, right-click & Extract All, then double-click Launch-AXIO-OS.bat!\n\nWelcome to your new daily consistency rhythm!`);
         emailLink.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
       }
 
