@@ -2,7 +2,7 @@
 class SoundManager {
   constructor() {
     this.ctx = null;
-    this.enabled = (localStorage.getItem('axio_sound_enabled') ?? localStorage.getItem('nexus_sound_enabled')) !== 'false';
+    this.enabled = localStorage.getItem('axio_sound_enabled') !== 'false';
   }
 
   init() {

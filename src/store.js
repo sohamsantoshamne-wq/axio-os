@@ -226,7 +226,7 @@ export class Store {
     if (changed) {
       try {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-        localStorage.setItem('nexus_prime_backup_snapshot', JSON.stringify(data));
+        localStorage.setItem(this.BACKUP_KEY, JSON.stringify(data));
       } catch (e) {}
     }
   }
