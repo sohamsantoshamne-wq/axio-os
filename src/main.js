@@ -231,10 +231,13 @@ function checkIncomingSync() {
       if (json) {
         const success = store.importJSON(json);
         if (success) {
+          localStorage.setItem('axio_customer_unlocked', 'true');
+          const currentLic = localStorage.getItem('axio_activated_license') || 'AXIO-VIP-2026-LIFETIME';
+          localStorage.setItem('axio_activated_license', currentLic);
           window.history.replaceState(null, '', window.location.pathname);
           confetti({ particleCount: 100, spread: 80, origin: { y: 0.5 } });
           sounds.playDing();
-          alert('✓ Synchronized with your PC! All habits, streaks, and progress are now live on your phone.');
+          alert('✓ Synchronized! All habits, streaks, and progress are now live on this device.');
         }
       }
     } catch (e) {

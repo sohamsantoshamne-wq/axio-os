@@ -39,9 +39,10 @@
           localStorage.setItem('axio_customer_unlocked', 'true');
         }
 
+        const hasSyncHash = window.location.hash && window.location.hash.includes('sync=');
         const isOfflineOrLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true' || !!localStorage.getItem('axio_activated_license');
-        if (!isOfflineOrLocal && !hasLicense) {
+        if (!isOfflineOrLocal && !hasLicense && !hasSyncHash) {
           window.location.replace('./landing.html');
         }
       })();

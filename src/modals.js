@@ -1015,7 +1015,8 @@ function drawStreakCard(canvas, info) {
 function renderPhoneSyncModal(container) {
   const dataJson = store.exportJSON();
   const compressed = LZString.compressToEncodedURIComponent(dataJson);
-  const syncUrl = `${window.location.origin}${window.location.pathname}#sync=${compressed}`;
+  const userKey = localStorage.getItem('axio_activated_license') || localStorage.getItem('axio_customer_license') || 'AXIO-VIP-2026-LIFETIME';
+  const syncUrl = `${window.location.origin}${window.location.pathname}?key=${encodeURIComponent(userKey)}#sync=${compressed}`;
 
   container.innerHTML = `
     <div class="modal-card modal-card-wide animate-scale">
