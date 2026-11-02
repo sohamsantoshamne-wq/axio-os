@@ -1753,38 +1753,31 @@
               <button type="button" onclick="copyLicenseKey()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 700;">📋 Copy</button>
             </div>
 
-            <!-- Access Options (Instant Web App or Offline ZIP) -->
+            <!-- Access Options (Direct Download & Instant Web App) -->
             <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto;">
               
-              <!-- Option 1: Instant Web App (Zero Setup • Phone or PC) -->
-              <a id="open-webapp-btn" href="./index.html" onclick="autoActivateAndLaunch(event)" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4); transition: all 0.2s;">
-                <span>🚀 Launch AXIO OS App (Instant 1-Click)</span>
+              <!-- Primary 1: DIRECT DOWNLOAD BUTTON FOR APP -->
+              <a id="direct-dl-link" href="#" download="AXIO-OS-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16.5px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 25px rgba(249, 115, 22, 0.45); transition: transform 0.2s;">
+                <span>⬇️ Download AXIO OS App Package (.ZIP)</span>
               </a>
-              <div style="font-size: 11.5px; color: #4ade80; font-weight: 600; margin-top: -4px;">
-                ✓ Works instantly on iPhone, Android & Laptop • No installation needed
+              <div style="font-size: 11px; color: #94a3b8; margin-top: -6px; margin-bottom: 2px;">
+                Direct offline software package for PC/Laptop (Runs 100% offline)
               </div>
 
-              <!-- Subtle Divider -->
-              <div style="display: flex; align-items: center; gap: 12px; width: 100%; margin: 6px 0;">
-                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
-                <span style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase;">OR FOR OFFLINE PC/LAPTOP</span>
-                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+              <!-- Primary 2: Instant Web App (No Download Needed) -->
+              <a id="open-webapp-btn" href="./index.html" onclick="autoActivateAndLaunch(event)" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-weight: 800; font-size: 14.5px; padding: 13px 20px; border-radius: 12px; text-decoration: none; transition: all 0.2s;">
+                <span>🚀 Or Open Directly in Browser (No Download Needed) →</span>
+              </a>
+
+              <!-- Secondary Sharing / Laptop Transfer Buttons -->
+              <div style="display: flex; gap: 10px; width: 100%; margin-top: 4px;">
+                <button type="button" onclick="copyLaptopLink()" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; font-weight: 700; font-size: 12.5px; padding: 11px 12px; border-radius: 10px; cursor: pointer;">
+                  <span>📲 Copy Link & Key</span>
+                </button>
+                <a id="email-myself-link" href="#" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; font-weight: 700; font-size: 12.5px; padding: 11px 12px; border-radius: 10px; text-decoration: none;">
+                  <span>📧 Email to Myself</span>
+                </a>
               </div>
-
-              <!-- Option 2: Primary Laptop Download Button -->
-              <a id="direct-dl-link" href="#" download="AXIO-OS-v1.0-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #ffffff; font-weight: 700; font-size: 14px; padding: 13px 20px; border-radius: 12px; text-decoration: none;">
-                <span>💻 Download Offline Package for PC/Laptop (.ZIP)</span>
-              </a>
-
-              <!-- Copy Link for Laptop -->
-              <button type="button" onclick="copyLaptopLink()" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; font-weight: 700; font-size: 13px; padding: 11px 18px; border-radius: 10px; cursor: pointer;">
-                <span>📲 Copy App Link & VIP Key (To Paste on Laptop)</span>
-              </button>
-
-              <!-- Email link to myself -->
-              <a id="email-myself-link" href="#" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; font-weight: 600; font-size: 12.5px; padding: 10px 18px; border-radius: 10px; text-decoration: none;">
-                <span>📧 Email Access Link & Key to Myself</span>
-              </a>
 
             </div>
 
@@ -2356,7 +2349,7 @@
     function copyLaptopLink() {
       const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
       const appUrl = window.location.origin + repoBase + '/index.html';
-      const zipUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      const zipUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
       const licenseKey = document.getElementById('license-key-display') ? document.getElementById('license-key-display').textContent.trim() : 'AXIO-VIP-2026-LIFETIME';
       const text = `⚡ AXIO OS Lifetime Access\n\n🚀 Web App (Instant Access): ${appUrl}\n🔑 VIP License Key: ${licenseKey}\n\n💻 Offline ZIP (for PC): ${zipUrl}\n\nHow to use on laptop:\n1. Open ${appUrl} directly in your browser, or\n2. Download the ZIP file, right-click & Extract All, then double-click Launch-AXIO-OS.bat!`;
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2426,8 +2419,9 @@
       if (licDisplay) licDisplay.textContent = licenseKey;
 
       const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+      const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
       const dlLink = document.getElementById('direct-dl-link');
-      if (dlLink) dlLink.href = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      if (dlLink) dlLink.href = currentUrl;
 
       const formState = document.getElementById('checkout-form-state');
       if (formState) formState.style.display = 'none';
@@ -2705,9 +2699,15 @@
 
       // Assign the download package URL (handles both localhost and GitHub Pages)
       const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
-      const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-v1.0-Lifetime.zip';
+      const currentUrl = window.location.origin + repoBase + '/downloads/AXIO-OS-Lifetime.zip';
       const dlLink = document.getElementById('direct-dl-link');
-      if (dlLink) dlLink.href = currentUrl;
+      if (dlLink) {
+        dlLink.href = currentUrl;
+        // Automatically start direct download after bank confirmation
+        setTimeout(() => {
+          try { dlLink.click(); } catch(e) {}
+        }, 1200);
+      }
 
       // Prepare email myself link
       const emailLink = document.getElementById('email-myself-link');
