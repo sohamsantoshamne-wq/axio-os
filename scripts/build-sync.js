@@ -11,3 +11,4 @@ if (fs.existsSync('landing.html')) {
   fs.copyFileSync('landing.html', 'dist/landing.html');
 }
 console.log('✓ Production assets synced to root for GitHub Pages.');
+

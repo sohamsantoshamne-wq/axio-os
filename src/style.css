@@ -231,7 +231,9 @@ body[data-theme="copper"] .btn-primary {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 0 28px;
+  padding: 0 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header-inner {
@@ -241,7 +243,9 @@ body[data-theme="copper"] .btn-primary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .brand-section {
@@ -348,7 +352,7 @@ body[data-theme="copper"] .btn-primary {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -569,7 +573,9 @@ body[data-theme="copper"] .btn-primary {
 .app-container {
   max-width: 1750px;
   margin: 0 auto;
-  padding: 24px 28px 80px;
+  padding: 20px 16px 80px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .view-title {
@@ -3824,6 +3830,50 @@ body[data-theme="copper"] .weekly-rhythm-card.is-current-week {
 
 .phone-sync-info {
   flex: 1;
+}
+
+/* ==========================================================================
+   Laptop & Desktop Fluid Viewport Scaling (Prevents Right-Edge Clipping)
+   ========================================================================== */
+@media (max-width: 1380px) {
+  .live-clock-card {
+    display: none !important;
+  }
+  .header-daily-progress-card {
+    padding: 5px 10px !important;
+    gap: 6px !important;
+  }
+  .header-daily-progress-card .progress-bar-track {
+    width: 40px !important;
+  }
+  .progress-pill-label {
+    font-size: 11.5px !important;
+  }
+  .nav-tabs {
+    padding: 3px !important;
+    gap: 2px !important;
+  }
+  .nav-tab-btn {
+    padding: 6px 12px !important;
+    font-size: 12.5px !important;
+    gap: 5px !important;
+  }
+}
+
+@media (max-width: 1080px) {
+  .brand-badge-sub {
+    display: none !important;
+  }
+  .header-daily-progress-card .progress-bar-track {
+    display: none !important;
+  }
+  .header-daily-progress-card {
+    padding: 4px 8px !important;
+  }
+  .nav-tab-btn {
+    padding: 5px 9px !important;
+    font-size: 12px !important;
+  }
 }
 
 /* ==========================================================================

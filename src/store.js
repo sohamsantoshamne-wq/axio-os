@@ -2,8 +2,8 @@
 
 export class Store {
   constructor() {
-    this.STORAGE_KEY = 'axio_os_data_v1';
-    this.BACKUP_KEY = 'axio_os_backup_snapshot';
+    this.STORAGE_KEY = 'axio_os_data_v2';
+    this.BACKUP_KEY = 'axio_os_backup_snapshot_v2';
     this.listeners = [];
     this.data = this.loadData();
   }
@@ -25,17 +25,7 @@ export class Store {
     const habit7Checks = {};
     const habit8Checks = {};
 
-    // Mark active habit streaks for the last 14 days
-    for (let d = 1; d <= todayDay; d++) {
-      if (d % 6 !== 0) habit1Checks[d] = true; // Wake up at 5am
-      if (d % 2 === 1) habit2Checks[d] = true; // Morning movement
-      if (d > 5) habit3Checks[d] = true;       // Drink 3L water
-      if (d % 3 !== 0) habit4Checks[d] = true; // Read 20 pages
-      if (d > 8) habit5Checks[d] = true;       // Code / Deep work
-      if (d % 4 !== 0) habit6Checks[d] = true; // Clean Diet / No Junk
-      if (d > 10) habit7Checks[d] = true;      // 10m Meditation
-      if (d % 5 !== 0) habit8Checks[d] = true; // Sleep by 11 PM
-    }
+// Pristine clean slate - all checkmarks start 100% empty for user
 
     const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
 
@@ -43,9 +33,9 @@ export class Store {
       selectedYear: currentYear,
       selectedMonth: currentMonth, // 0 to 11
       user: {
-        name: 'Soham',
-        xp: 2450,
-        characterClass: 'Discipline Master'
+        name: 'Executive',
+        xp: 0,
+        characterClass: 'Rookie'
       },
       settings: {
         weekStart: 'Mo',
