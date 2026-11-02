@@ -866,7 +866,11 @@
         gap: 8px;
       }
       .habit-demo-sub {
-        display: none;
+        display: block !important;
+        font-size: 11px !important;
+        color: var(--text-muted) !important;
+        line-height: 1.25 !important;
+        margin-top: 2px !important;
       }
       .habit-demo-name {
         font-size: 13.5px;
@@ -1343,7 +1347,7 @@
               <div class="dot dot-green"></div>
             </div>
             <div class="matrix-demo-title">⚡ Interactive Demo: Click days to complete</div>
-            <div style="font-size: 12px; color: #fbbf24; font-weight: 700;" id="streak-counter">🔥 Streak: 11/15 Days Done</div>
+            <div style="font-size: 12px; color: #fbbf24; font-weight: 700;" id="streak-counter">🔥 Streak: 0/15 Days Done (Click days to test!)</div>
           </div>
 
           <div class="interactive-habit-list">
@@ -1357,10 +1361,10 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
                 <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
               </div>
             </div>
@@ -1375,9 +1379,9 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
-                <div class="demo-checkbox checked-cyan" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
                 <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
                 <div class="demo-checkbox" onclick="toggleDemo(this, 'cyan')">✓</div>
               </div>
@@ -1393,11 +1397,11 @@
                 </div>
               </div>
               <div class="habit-days-grid">
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
                 <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
-                <div class="demo-checkbox checked-amber" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
+                <div class="demo-checkbox" onclick="toggleDemo(this, 'amber')">✓</div>
               </div>
             </div>
           </div>
@@ -1737,8 +1741,8 @@
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
-              <a href="mailto:support@axio-os.com" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-weight: 700; font-size: 13.5px; padding: 12px; border-radius: 10px; text-decoration: none;">
-                ✉️ Email Support: support@axio-os.com
+              <a href="mailto:axio.os.ltd@gmail.com" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-weight: 700; font-size: 13.5px; padding: 12px; border-radius: 10px; text-decoration: none;">
+                ✉️ Email Support: axio.os.ltd@gmail.com
               </a>
               <button type="button" onclick="resetToPaymentView()" style="background: none; border: none; color: #64748b; font-size: 12px; cursor: pointer; padding: 6px;">
                 🔄 View Payment QR Again
@@ -1829,19 +1833,19 @@
           </div>
           <div>
             <div class="guarantee-headline">30-Day Zero-Risk Consistency Guarantee</div>
-            <div class="guarantee-text">If AXIO OS doesn't make you at least 3× more consistent with your daily routines within 30 days, simply contact support at <a href="mailto:support@axio-os.com" class="guarantee-mail">support@axio-os.com</a> for an immediate 100% refund. You keep the app anyway. Zero risk.</div>
+            <div class="guarantee-text">If AXIO OS doesn't make you at least 3× more consistent with your daily routines within 30 days, simply contact support at <a href="mailto:axio.os.ltd@gmail.com" class="guarantee-mail">axio.os.ltd@gmail.com</a> for an immediate 100% refund. You keep the app anyway. Zero risk.</div>
           </div>
         </div>
 
         <!-- Official Support Link -->
         <div class="support-assist-box">
           <span class="support-assist-label">Questions about your purchase or instant download?</span>
-          <a href="mailto:support@axio-os.com" class="support-assist-pill">
+          <a href="mailto:axio.os.ltd@gmail.com" class="support-assist-pill">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
-            <span>Email Official Support: support@axio-os.com</span>
+            <span>Email Official Support: axio.os.ltd@gmail.com</span>
           </a>
         </div>
 
@@ -1971,7 +1975,7 @@
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>You have 24/7 support via our dedicated email desk at <strong>support@axio-os.com</strong>. We assist you right away with your license key or direct installation package.</p>
+            <p>You have 24/7 support via our dedicated email desk at <strong>axio.os.ltd@gmail.com</strong>. We assist you right away with your license key or direct installation package.</p>
           </div>
         </div>
       </div>
@@ -2039,7 +2043,7 @@
           <h4 style="color: #fff; margin-bottom: 8px;">3. Zero Recurring Fees</h4>
           <p style="margin-bottom: 14px;">AXIO OS is a single one-time payment of ₹199. There are no monthly subscriptions, annual renewals, or hidden maintenance charges.</p>
           <h4 style="color: #fff; margin-bottom: 8px;">4. Support</h4>
-          <p>For any questions, support, or license re-issuance, please contact us at <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a>.</p>
+          <p>For any questions, support, or license re-issuance, please contact us at <a href="mailto:axio.os.ltd@gmail.com" style="color: #22d3ee;">axio.os.ltd@gmail.com</a>.</p>
         `
       },
       privacy: {
@@ -2061,7 +2065,7 @@
           <h4 style="color: #fff; margin-bottom: 8px;">1. 30-Day Money-Back Guarantee</h4>
           <p style="margin-bottom: 14px;">We stand behind AXIO OS with a 100% risk-free 30-Day Money-Back Guarantee. If AXIO OS does not help you improve your daily consistency, simply request a refund within 30 days of purchase.</p>
           <h4 style="color: #fff; margin-bottom: 8px;">2. How to Request a Refund</h4>
-          <p style="margin-bottom: 14px;">Send an email to <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a> with your Order ID or the email address used during purchase. Our support desk will verify your order immediately.</p>
+          <p style="margin-bottom: 14px;">Send an email to <a href="mailto:axio.os.ltd@gmail.com" style="color: #22d3ee;">axio.os.ltd@gmail.com</a> with your Order ID or the email address used during purchase. Our support desk will verify your order immediately.</p>
           <h4 style="color: #fff; margin-bottom: 8px;">3. Settlement & Crediting Timeline</h4>
           <p style="margin-bottom: 14px;">Approved refunds are credited directly back to your original source of payment (UPI, Bank Account, or Card) within <strong>5 to 7 working days</strong> in accordance with Razorpay banking settlement guidelines.</p>
           <h4 style="color: #fff; margin-bottom: 8px;">4. Cancellations</h4>
@@ -2075,7 +2079,7 @@
           <p style="margin-bottom: 14px;">
             <strong>Merchant Legal Name:</strong> Soham Amne<br>
             <strong>Product:</strong> AXIO OS (Executive Daily Habits & Rhythm System)<br>
-            <strong>Official Support Desk:</strong> <a href="mailto:support@axio-os.com" style="color: #22d3ee;">support@axio-os.com</a><br>
+            <strong>Official Support Desk:</strong> <a href="mailto:axio.os.ltd@gmail.com" style="color: #22d3ee;">axio.os.ltd@gmail.com</a><br>
             <strong>Location:</strong> Maharashtra, India<br>
             <strong>Operating Hours:</strong> Monday – Saturday (10:00 AM – 7:00 PM IST)<br>
             <strong>Support Turnaround:</strong> Responses within 24 hours.
@@ -2730,7 +2734,7 @@
       const cleanId = payId.trim();
       if (cleanId.startsWith('pay_') || cleanId.length >= 8) {
         const emailInput = document.getElementById('customer-email-input');
-        const emailVal = (emailInput && emailInput.value.trim()) || localStorage.getItem('axio_customer_email') || 'customer@axio-os.com';
+        const emailVal = (emailInput && emailInput.value.trim()) || localStorage.getItem('axio_customer_email') || 'customer@gmail.com';
         handleGatewaySuccess(cleanId, emailVal);
         showToast('🎉 Payment confirmed! Your AXIO OS download package is unlocked.');
       } else {
@@ -2769,7 +2773,7 @@
       // Prepare email myself link
       const emailLink = document.getElementById('email-myself-link');
       if (emailLink) {
-        const recipientEmail = emailVal || 'support@axio-os.com';
+        const recipientEmail = emailVal || 'axio.os.ltd@gmail.com';
         const appUrl = window.location.origin + repoBase + '/index.html';
         const subject = encodeURIComponent('My AXIO OS Access Links & VIP License');
         const body = encodeURIComponent(`Hi!\n\nHere is your official AXIO OS lifetime access:\n\n🚀 Web App (1-Click Access): ${appUrl}\n🔑 VIP License Key: ${licenseKey}\n💻 Offline PC Download: ${currentUrl}\nPayment Reference: ${paymentId}\n\nHow to use:\n1. On Phone or Laptop: Open ${appUrl} directly and tap "Add to Home Screen" to install it as an offline app.\n2. On PC/Laptop (Offline ZIP): Download the ZIP, right-click & Extract All, then double-click Launch-AXIO-OS.bat!\n\nWelcome to your new daily consistency rhythm!`);
@@ -2788,7 +2792,7 @@
         const orderNum = Math.floor(1000 + Math.random() * 9000);
         const newOrder = {
           orderId: `#AXIO-${orderNum}`,
-          email: emailVal || 'customer@axio-os.com',
+          email: emailVal || 'customer@gmail.com',
           phone: localStorage.getItem('axio_last_phone') || 'Verified Buyer',
           utr: paymentId,
           timestamp: new Date().toLocaleString(),
@@ -2944,7 +2948,7 @@
       // 1. Incoming Payment Callback from Mobile UPI Redirect (Razorpay Standard)
       const incomingPayId = urlParams.get('razorpay_payment_id') || urlParams.get('payment_id');
       if (incomingPayId && incomingPayId.startsWith('pay_')) {
-        const custEmail = urlParams.get('email') || localStorage.getItem('axio_customer_email') || 'customer@axio-os.com';
+        const custEmail = urlParams.get('email') || localStorage.getItem('axio_customer_email') || 'customer@gmail.com';
         handleGatewaySuccess(incomingPayId, custEmail);
         return;
       }

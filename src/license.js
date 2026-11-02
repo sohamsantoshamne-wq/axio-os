@@ -119,7 +119,7 @@ function showLicenseGateModal() {
 
       <div style="margin-top: 20px; font-size: 12px; color: #64748b; line-height: 1.5;">
         Need a genuine license? <a href="./landing.html" style="color: #22d3ee; text-decoration: underline; font-weight: 700;">Purchase Lifetime Access (₹199)</a><br>
-        Lost your key? Email support at <a href="mailto:support@axio-os.com" style="color: #22d3ee; text-decoration: none;">support@axio-os.com</a>
+        Lost your key? Email support at <a href="mailto:axio.os.ltd@gmail.com" style="color: #22d3ee; text-decoration: none;">axio.os.ltd@gmail.com</a>
       </div>
     </div>
   `;

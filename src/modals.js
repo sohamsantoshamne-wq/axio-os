@@ -619,8 +619,8 @@ function renderSettingsModal(container) {
               <a href="./landing.html" target="_blank" class="btn btn-secondary" style="font-size: 12px; text-decoration: none;">
                 <span>🌐 Official Website Page →</span>
               </a>
-              <a href="mailto:support@axio-os.com" class="btn btn-secondary" style="font-size: 12px; text-decoration: none; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
-                <span>✉️ Email Support (support@axio-os.com)</span>
+              <a href="mailto:axio.os.ltd@gmail.com" class="btn btn-secondary" style="font-size: 12px; text-decoration: none; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
+                <span>✉️ Email Support (axio.os.ltd@gmail.com)</span>
               </a>
             </div>
           </div>
