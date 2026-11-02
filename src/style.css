@@ -3834,9 +3834,11 @@ body[data-theme="copper"] .weekly-rhythm-card.is-current-week {
 }
 
 /* ==========================================================================
-   Balanced Header Proportions (Preserves ALL features without overflow)
+   Balanced Fluid Header Proportions (Preserves ALL features without overflow)
+   Zero elements destroyed or hidden: Clock, Tab Labels, Brand Subtitle,
+   Progress Pill & Bar, and Action Icons remain 100% visible on all viewports.
    ========================================================================== */
-@media (max-width: 1350px) {
+@media (max-width: 1400px) {
   .header-inner {
     height: 64px !important;
     gap: 8px !important;
@@ -3845,32 +3847,39 @@ body[data-theme="copper"] .weekly-rhythm-card.is-current-week {
     font-size: 16px !important;
   }
   .brand-badge-sub {
-    display: none !important;
+    font-size: 8.5px !important;
+    display: block !important;
   }
   .nav-tab-btn {
-    padding: 5px 10px !important;
-    font-size: 12px !important;
-    gap: 4px !important;
+    padding: 6px 11px !important;
+    font-size: 12.5px !important;
+    gap: 5px !important;
+  }
+  .nav-tab-label {
+    display: inline !important;
   }
   .live-clock-card {
-    padding: 4px 8px !important;
+    display: flex !important;
+    padding: 4px 10px !important;
     min-width: unset !important;
   }
   .clock-time {
-    font-size: 11.5px !important;
+    font-size: 12px !important;
   }
   .clock-date {
     font-size: 9.5px !important;
   }
   .header-daily-progress-card {
+    display: flex !important;
     padding: 4px 10px !important;
     gap: 6px !important;
   }
   .header-daily-progress-card .progress-bar-track {
-    width: 32px !important;
+    display: block !important;
+    width: 36px !important;
   }
   .progress-pill-label {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
   }
   .sound-toggle-btn,
   .header-icon-btn {
@@ -3880,13 +3889,76 @@ body[data-theme="copper"] .weekly-rhythm-card.is-current-week {
   }
 }
 
-@media (max-width: 1050px) {
-  .live-clock-card {
-    display: none !important;
+@media (max-width: 1180px) {
+  .app-header {
+    padding: 0 10px !important;
+  }
+  .header-inner {
+    height: 60px !important;
+    gap: 6px !important;
+  }
+  .brand-section {
+    gap: 6px !important;
+  }
+  .brand-logo-mark {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .brand-title {
+    font-size: 14.5px !important;
+  }
+  .brand-os-pill {
+    font-size: 8.5px !important;
+    padding: 1px 4px !important;
+  }
+  .brand-badge-sub {
+    font-size: 7.5px !important;
+    letter-spacing: 0.5px !important;
+    display: block !important;
+  }
+  .nav-tabs {
+    padding: 2px !important;
+    gap: 2px !important;
   }
   .nav-tab-btn {
     padding: 5px 8px !important;
     font-size: 11.5px !important;
+    gap: 4px !important;
+  }
+  .nav-tab-label {
+    display: inline !important;
+  }
+  .header-right {
+    gap: 5px !important;
+  }
+  .live-clock-card {
+    display: flex !important;
+    padding: 3px 6px !important;
+    min-width: unset !important;
+  }
+  .clock-time {
+    font-size: 11px !important;
+  }
+  .clock-date {
+    font-size: 8.5px !important;
+  }
+  .header-daily-progress-card {
+    display: flex !important;
+    padding: 3px 8px !important;
+    gap: 5px !important;
+  }
+  .header-daily-progress-card .progress-bar-track {
+    display: block !important;
+    width: 24px !important;
+  }
+  .progress-pill-label {
+    font-size: 10.5px !important;
+  }
+  .sound-toggle-btn,
+  .header-icon-btn {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 12.5px !important;
   }
 }
 

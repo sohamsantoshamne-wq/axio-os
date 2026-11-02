@@ -2,8 +2,8 @@
 
 export class Store {
   constructor() {
-    this.STORAGE_KEY = 'axio_os_data_v2';
-    this.BACKUP_KEY = 'axio_os_backup_snapshot_v2';
+    this.STORAGE_KEY = 'axio_os_data_v3';
+    this.BACKUP_KEY = 'axio_os_backup_snapshot_v3';
     this.listeners = [];
     this.data = this.loadData();
   }
@@ -130,12 +130,17 @@ export class Store {
   loadData() {
     // Automatically purge legacy test mock data from older versions
     try {
-      if (localStorage.getItem('nexus_prime_data_v1') || localStorage.getItem('axio_os_data_v1')) {
-        localStorage.removeItem('nexus_prime_data_v1');
-        localStorage.removeItem('nexus_prime_backup_snapshot');
-        localStorage.removeItem('axio_os_data_v1');
-        localStorage.removeItem('axio_os_backup_snapshot');
-      }
+      const legacyKeys = [
+        'nexus_prime_data_v1',
+        'nexus_prime_backup_snapshot',
+        'axio_os_data_v1',
+        'axio_os_backup_snapshot',
+        'axio_os_data_v2',
+        'axio_os_backup_snapshot_v2'
+      ];
+      legacyKeys.forEach(key => {
+        try { localStorage.removeItem(key); } catch(e) {}
+      });
     } catch(e) {}
 
     try {
