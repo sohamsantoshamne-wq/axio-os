@@ -128,32 +128,31 @@ export class Store {
   }
 
   loadData() {
+    // Automatically purge legacy test mock data from older versions
     try {
-      const saved = localStorage.getItem(this.STORAGE_KEY) || localStorage.getItem('nexus_prime_data_v1');
+      if (localStorage.getItem('nexus_prime_data_v1') || localStorage.getItem('axio_os_data_v1')) {
+        localStorage.removeItem('nexus_prime_data_v1');
+        localStorage.removeItem('nexus_prime_backup_snapshot');
+        localStorage.removeItem('axio_os_data_v1');
+        localStorage.removeItem('axio_os_backup_snapshot');
+      }
+    } catch(e) {}
+
+    try {
+      const saved = localStorage.getItem(this.STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         this.migrateSettings(parsed);
         return parsed;
       }
-      // Check secondary redundant snapshot if primary key is absent
-      const backup = localStorage.getItem(this.BACKUP_KEY) || localStorage.getItem('nexus_prime_backup_snapshot');
+      const backup = localStorage.getItem(this.BACKUP_KEY);
       if (backup) {
         const parsed = JSON.parse(backup);
         this.migrateSettings(parsed);
         return parsed;
       }
     } catch (e) {
-      console.warn('Failed to parse saved state, checking redundant snapshot', e);
-      try {
-        const backup = localStorage.getItem(this.BACKUP_KEY) || localStorage.getItem('nexus_prime_backup_snapshot');
-        if (backup) {
-          const parsed = JSON.parse(backup);
-          this.migrateSettings(parsed);
-          return parsed;
-        }
-      } catch (err) {
-        console.error(err);
-      }
+      console.warn('Failed to parse saved state', e);
     }
     const defaultData = this.getDefaultData();
     this.saveData(defaultData);

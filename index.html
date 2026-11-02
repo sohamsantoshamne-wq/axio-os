@@ -3,20 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AXIO • Daily Habits & Rhythm</title>
-    <meta name="description" content="Minimalist, ultra-responsive Daily Habit Matrix & Consistency OS for PC and Mobile with zero server cost." />
+    <title>AXIO OS • Daily Habits & Consistency</title>
+    <meta name="description" content="Executive Daily Habits Matrix & Consistency Engine. 100% private, zero cloud tracking, runs offline." />
     <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Real World Top-Tier Favicons & Apple Touch Icons -->
-    <link rel="icon" type="image/x-icon" href="./assets/favicon-i0LCtou8-i0LCtou8-i0LCtou8.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32-BT-aHlHQ-BT-aHlHQ-BT-aHlHQ.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16-L-9rfvBy-L-9rfvBy-L-9rfvBy.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192-WOhC5NwB-WOhC5NwB-WOhC5NwB.png" />
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-3ItRa_A2-3ItRa_A2-3ItRa_A2.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon-Cw4d5kfR-Cw4d5kfR-Cw4d5kfR.png" />
-    <link rel="manifest" href="./assets/manifest-dzly8T0g-dzly8T0g-dzly8T0g.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon-i0LCtou8.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32-BT-aHlHQ.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16-L-9rfvBy.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192-WOhC5NwB.png" />
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-3ItRa_A2.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon-Cw4d5kfR.png" />
+    <link rel="manifest" href="./assets/manifest-dzly8T0g.webmanifest" />
     <meta name="theme-color" content="#070a12" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -33,13 +33,13 @@
       (function() {
         const urlParams = new URLSearchParams(window.location.search);
         const keyParam = urlParams.get('key') || urlParams.get('license');
+        const hasSyncHash = window.location.hash && window.location.hash.includes('sync=');
         if (keyParam) {
           localStorage.setItem('axio_activated_license', keyParam.trim().toUpperCase());
           localStorage.setItem('axio_customer_license', keyParam.trim().toUpperCase());
           localStorage.setItem('axio_customer_unlocked', 'true');
         }
 
-        const hasSyncHash = window.location.hash && window.location.hash.includes('sync=');
         const isOfflineOrLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true' || !!localStorage.getItem('axio_activated_license');
         if (!isOfflineOrLocal && !hasLicense && !hasSyncHash) {
@@ -47,16 +47,15 @@
         }
       })();
     </script>
-    <!-- Direct Stylesheet Link to Prevent FOUC (Flash of Unstyled Content) -->
-    <style>:root{--lightningcss-light: ;--lightningcss-dark:initial;--lightningcss-light: ;--lightningcss-dark:initial;color-scheme:dark}html,body{color:#f1f5f9;min-height:100vh;margin:0;padding:0;font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;overflow-x:hidden;background-color:#070a12!important}.app-header{background:#0c111dd9;border-bottom:1px solid #ffffff14}</style>
-    <script type="module" crossorigin src="./assets/index-DXAAebJg.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-7n64axWJ.css">
+    <style>:root{--lightningcss-light: ;--lightningcss-dark:initial;color-scheme:dark}html,body{color:#f1f5f9;min-height:100vh;margin:0;padding:0;font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;overflow-x:hidden;background-color:#070a12!important}.app-header{background:#0c111dd9;border-bottom:1px solid #ffffff14}</style>
+    <script type="module" crossorigin src="./assets/index-CvTG8pVj.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-C_PubF5b.css">
   </head>
   <body>
     <!-- Top Global App Navigation Bar -->
     <header class="app-header">
       <div class="header-inner">
-        <!-- Luxury AXIO Brand Logo Mark (Vibrant, Not Black) -->
+        <!-- Luxury AXIO Brand Logo Mark -->
         <div class="brand-section">
           <div class="brand-logo-mark">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -83,20 +82,20 @@
 
         <!-- Center Nav Tabs -->
         <nav class="nav-tabs" id="main-nav-tabs">
-          <button class="nav-tab-btn active" data-tab="matrix">
-            <span class="nav-icon">📊</span> Habit Grid
+          <button class="nav-tab-btn active" data-tab="matrix" title="Habit Grid">
+            <span class="nav-icon">📊</span> <span class="nav-tab-label">Habit Grid</span>
           </button>
-          <button class="nav-tab-btn" data-tab="streaks">
-            <span class="nav-icon">🔥</span> Streaks
+          <button class="nav-tab-btn" data-tab="streaks" title="Streaks">
+            <span class="nav-icon">🔥</span> <span class="nav-tab-label">Streaks</span>
           </button>
-          <button class="nav-tab-btn" data-tab="charts">
-            <span class="nav-icon">📈</span> Charts
+          <button class="nav-tab-btn" data-tab="charts" title="Charts">
+            <span class="nav-icon">📈</span> <span class="nav-tab-label">Charts</span>
           </button>
-          <button class="nav-tab-btn" data-tab="focus">
-            <span class="nav-icon">⏱️</span> Focus
+          <button class="nav-tab-btn" data-tab="focus" title="Focus">
+            <span class="nav-icon">🎯</span> <span class="nav-tab-label">Focus</span>
           </button>
-          <button class="nav-tab-btn" data-tab="overview">
-            <span class="nav-icon">⚡</span> Overview
+          <button class="nav-tab-btn" data-tab="overview" title="Overview">
+            <span class="nav-icon">⚡</span> <span class="nav-tab-label">Overview</span>
           </button>
         </nav>
 
@@ -108,7 +107,7 @@
             <span class="clock-date font-mono" id="live-clock-date">--</span>
           </div>
 
-          <!-- Daily Habit Progress (Sensible & Simple) -->
+          <!-- Daily Habit Progress -->
           <div class="header-daily-progress-card" id="header-user-badge" title="Today's Habit Progress">
             <span class="progress-pill-label" id="header-today-summary">0/0 Done</span>
             <div class="progress-bar-track">
@@ -121,14 +120,14 @@
             <span id="sound-icon">🔊</span>
           </button>
 
-          <!-- PWA Standalone Install Button (Auto-shows when browser triggers install prompt) -->
+          <!-- PWA Standalone Install Button -->
           <button class="header-icon-btn" id="pwa-install-btn" title="Install AXIO OS as a Desktop or Mobile App" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
-            <span>📲</span>
+            <span>📥</span>
           </button>
 
-          <!-- PC <-> Phone Instant Sync Button (QR Code & Link) -->
+          <!-- PC <-> Phone Instant Sync Button -->
           <button class="header-icon-btn" id="open-phone-sync-btn" title="Sync with Phone (QR Code / Instant Transfer)" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
-            <span>📱</span>
+            <span>📲</span>
           </button>
 
           <!-- Global Settings & Preferences Button -->
@@ -154,7 +153,7 @@
 
     <!-- Main Dynamic Application Container -->
     <main class="app-container" id="main-content">
-      <!-- High-Performance Glass Skeleton (Replaced Instantly by JS) -->
+      <!-- High-Performance Glass Skeleton -->
       <div class="matrix-card" style="opacity: 0.95;">
         <div class="matrix-header-bar" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
           <div style="display: flex; align-items: center; gap: 12px;">
@@ -172,8 +171,8 @@
       </div>
     </main>
 
-    <!-- Modal Container for Add Habit, Add Exercise, PR, Expense -->
+    <!-- Modal Container -->
     <div id="modal-container"></div>
-
+
   </body>
 </html>

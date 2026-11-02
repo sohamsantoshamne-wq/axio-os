@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AXIO OS • Daily Habits & Consistency</title>
+    <meta name="description" content="Executive Daily Habits Matrix & Consistency Engine. 100% private, zero cloud tracking, runs offline." />
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Real World Top-Tier Favicons & Apple Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#070a12" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <script>
+      // Register Progressive Web App Service Worker for offline execution & installability
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+
+      // Gate access: Unpaid visitors on public web domain are redirected to the landing sales page
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const keyParam = urlParams.get('key') || urlParams.get('license');
+        const hasSyncHash = window.location.hash && window.location.hash.includes('sync=');
+        if (keyParam) {
+          localStorage.setItem('axio_activated_license', keyParam.trim().toUpperCase());
+          localStorage.setItem('axio_customer_license', keyParam.trim().toUpperCase());
+          localStorage.setItem('axio_customer_unlocked', 'true');
+        }
+
+        const isOfflineOrLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const hasLicense = localStorage.getItem('axio_customer_unlocked') === 'true' || !!localStorage.getItem('axio_activated_license');
+        if (!isOfflineOrLocal && !hasLicense && !hasSyncHash) {
+          window.location.replace('./landing.html');
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html, body {
+        background-color: #070a12 !important;
+        color: #f1f5f9;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      .app-header {
+        background: rgba(12, 17, 29, 0.85);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Global App Navigation Bar -->
+    <header class="app-header">
+      <div class="header-inner">
+        <!-- Luxury AXIO Brand Logo Mark -->
+        <div class="brand-section">
+          <div class="brand-logo-mark">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 14L8 6L13 18L17 10L20 14" stroke="url(#axio-grad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="13" cy="18" r="2.2" fill="#38bdf8" />
+              <circle cx="8" cy="6" r="2.2" fill="#f97316" />
+              <defs>
+                <linearGradient id="axio-grad" x1="4" y1="6" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#f97316"/>
+                  <stop offset="50%" stop-color="#f59e0b"/>
+                  <stop offset="100%" stop-color="#38bdf8"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="brand-text-wrap">
+            <div class="brand-main-line">
+              <span class="brand-title">AXIO</span>
+              <span class="brand-os-pill">OS</span>
+            </div>
+            <span class="brand-badge-sub">DAILY HABITS • RHYTHM</span>
+          </div>
+        </div>
+
+        <!-- Center Nav Tabs -->
+        <nav class="nav-tabs" id="main-nav-tabs">
+          <button class="nav-tab-btn active" data-tab="matrix" title="Habit Grid">
+            <span class="nav-icon">📊</span> <span class="nav-tab-label">Habit Grid</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="streaks" title="Streaks">
+            <span class="nav-icon">🔥</span> <span class="nav-tab-label">Streaks</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="charts" title="Charts">
+            <span class="nav-icon">📈</span> <span class="nav-tab-label">Charts</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="focus" title="Focus">
+            <span class="nav-icon">🎯</span> <span class="nav-tab-label">Focus</span>
+          </button>
+          <button class="nav-tab-btn" data-tab="overview" title="Overview">
+            <span class="nav-icon">⚡</span> <span class="nav-tab-label">Overview</span>
+          </button>
+        </nav>
+
+        <!-- Header Right: Clock, User Level & Sound Toggle -->
+        <div class="header-right">
+          <!-- Real-Time Live Clock -->
+          <div class="live-clock-card" id="live-clock-card" title="Live Clock">
+            <span class="clock-time font-mono" id="live-clock-time">--:--:--</span>
+            <span class="clock-date font-mono" id="live-clock-date">--</span>
+          </div>
+
+          <!-- Daily Habit Progress -->
+          <div class="header-daily-progress-card" id="header-user-badge" title="Today's Habit Progress">
+            <span class="progress-pill-label" id="header-today-summary">0/0 Done</span>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="header-today-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Sound Effects Toggle Button -->
+          <button class="sound-toggle-btn" id="sound-toggle-btn" title="Toggle audio feedback">
+            <span id="sound-icon">🔊</span>
+          </button>
+
+          <!-- PWA Standalone Install Button -->
+          <button class="header-icon-btn" id="pwa-install-btn" title="Install AXIO OS as a Desktop or Mobile App" style="display: none; color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+            <span>📥</span>
+          </button>
+
+          <!-- PC <-> Phone Instant Sync Button -->
+          <button class="header-icon-btn" id="open-phone-sync-btn" title="Sync with Phone (QR Code / Instant Transfer)" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+            <span>📲</span>
+          </button>
+
+          <!-- Global Settings & Preferences Button -->
+          <button class="header-icon-btn" id="open-settings-btn" title="Global Preferences (Currency, Units, Calendar, Theme)">
+            <span>⚙️</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Instant Pre-Script Clock Initialization -->
+    <script>
+      (function() {
+        try {
+          const now = new Date();
+          const t = document.getElementById('live-clock-time');
+          const d = document.getElementById('live-clock-date');
+          if (t) t.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+          if (d) d.textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Main Dynamic Application Container -->
+    <main class="app-container" id="main-content">
+      <!-- High-Performance Glass Skeleton -->
+      <div class="matrix-card" style="opacity: 0.95;">
+        <div class="matrix-header-bar" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.3rem;">📊</span>
+            <div>
+              <span style="font-weight: 800; font-size: 1.15rem; color: #f8fafc; letter-spacing: -0.01em;">HABIT MATRIX</span>
+              <span style="margin-left: 8px; font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 9999px; padding: 2px 8px; font-weight: 600;">ACTIVE</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 14px; height: 14px; border: 2px solid rgba(56, 189, 248, 0.3); border-top-color: #38bdf8; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <span style="font-size: 0.8rem; color: #94a3b8; font-family: monospace;">LOADING MATRIX...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
