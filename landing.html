@@ -12,7 +12,14 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-  <link rel="manifest" href="./public/manifest.webmanifest">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -1278,7 +1285,7 @@
   <nav>
     <div class="container nav-inner">
       <a href="#" class="brand">
-        <img src="/axio-profile-option2.jpg" alt="AXIO OS" class="brand-logo" onerror="this.src='./public/axio-profile-option2.jpg'">
+        <img src="./axio-profile-option2.jpg" alt="AXIO OS" class="brand-logo" onerror="this.src='./public/axio-profile-option2.jpg'">
         <div class="brand-meta">
           <span class="brand-name">AXIO OS</span>
         </div>
@@ -1689,7 +1696,7 @@
               </button>
               <div id="manual-upi-box" style="display: none; margin-top: 14px; background: rgba(0,0,0,0.4); border: 1px dashed rgba(255,255,255,0.15); border-radius: 14px; padding: 16px; max-width: 320px; margin-left: auto; margin-right: auto;">
                 <div class="qr-frame" style="width: 170px; height: 170px; border: 2px solid rgba(249, 115, 22, 0.35); margin: 0 auto 10px; background: #fff; padding: 8px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                  <img id="payment-qr-img" src="/payment-qr.jpg" alt="Soham Amne Google Pay QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
+                  <img id="payment-qr-img" src="./payment-qr.jpg" alt="Soham Amne Google Pay QR" style="width: 100%; height: 100%; object-fit: contain; display: block;" onerror="this.src='./public/payment-qr.jpg'">
                 </div>
                 <div style="font-size: 11.5px; color: #94a3b8;">
                   UPI ID: <code style="color: #22d3ee; font-weight: 700;">sohamsantoshamne-1@oksbi</code>
@@ -1753,41 +1760,52 @@
               <button type="button" onclick="copyLicenseKey()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 700;">📋 Copy</button>
             </div>
 
-            <!-- Access Options (Direct Download & Instant Web App) -->
+            <!-- Unlocked State: 1-Click App Installation & Launch (Zero Zip Required) -->
             <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 480px; margin: 0 auto;">
               
-              <!-- Primary 1: DIRECT DOWNLOAD BUTTON FOR APP -->
-              <a id="direct-dl-link" href="#" download="AXIO-OS-Lifetime.zip" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; font-weight: 800; font-size: 16.5px; padding: 16px 28px; border-radius: 14px; text-decoration: none; box-shadow: 0 8px 25px rgba(249, 115, 22, 0.45); transition: transform 0.2s;">
-                <span>⬇️ Download AXIO OS App Package (.ZIP)</span>
-              </a>
-              <div style="font-size: 11px; color: #94a3b8; margin-top: -6px; margin-bottom: 2px;">
-                Direct offline software package for PC/Laptop (Runs 100% offline)
+              <!-- Primary 1: 1-CLICK INSTALL APP TO PC OR PHONE -->
+              <button type="button" id="btn-install-app" onclick="triggerPwaInstall()" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-weight: 800; font-size: 16.5px; padding: 16px 28px; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45); transition: all 0.2s;">
+                <span>📥 1-Click Install App to Laptop or Phone</span>
+              </button>
+              <div style="font-size: 11.5px; color: #4ade80; font-weight: 600; margin-top: -4px;">
+                ⚡ Installs directly to Windows Desktop & Start Menu, or Mobile Home Screen (No ZIP needed!)
               </div>
 
-              <!-- Primary 2: Instant Web App (No Download Needed) -->
-              <a id="open-webapp-btn" href="./index.html" onclick="autoActivateAndLaunch(event)" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-weight: 800; font-size: 14.5px; padding: 13px 20px; border-radius: 12px; text-decoration: none; transition: all 0.2s;">
-                <span>🚀 Or Open Directly in Browser (No Download Needed) →</span>
+              <!-- Primary 2: LAUNCH INSTANTLY IN BROWSER -->
+              <a id="open-webapp-btn" href="./index.html" onclick="autoActivateAndLaunch(event)" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; font-weight: 800; font-size: 14.5px; padding: 13px 20px; border-radius: 12px; text-decoration: none; transition: all 0.2s;">
+                <span>🚀 Or Open Instantly in Browser (1-Click) →</span>
               </a>
 
-              <!-- Secondary Sharing / Laptop Transfer Buttons -->
+              <!-- Phone & PC Setup Helper Card -->
+              <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 14px 16px; margin-top: 6px; text-align: left; width: 100%; box-sizing: border-box;">
+                <div style="font-size: 12.5px; font-weight: 800; color: #fbbf24; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                  <span>📱</span> How AXIO OS Installs as a Real App:
+                </div>
+                <div style="font-size: 12px; color: #cbd5e1; line-height: 1.6;">
+                  • <strong>On Laptop/PC (Chrome/Edge):</strong> Click <em>"Install App"</em> above to add the AXIO OS desktop icon to Windows. Runs in its own clean window without browser tabs!<br>
+                  • <strong>On Android (Chrome):</strong> Tap <em>"Install App"</em> or browser menu (⋮) → <strong>Install app</strong>.<br>
+                  • <strong>On iPhone (Safari):</strong> Tap <strong>Share</strong> (box with arrow) → <strong>Add to Home Screen</strong>.<br>
+                  <span style="color: #4ade80; font-weight: 700;">🔒 100% Offline:</span> All habit checkmarks, streaks, and focus timer logs are permanently saved inside your device!
+                </div>
+              </div>
+
+              <!-- Secondary Actions: Copy Link & Email Myself -->
               <div style="display: flex; gap: 10px; width: 100%; margin-top: 4px;">
                 <button type="button" onclick="copyLaptopLink()" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; font-weight: 700; font-size: 12.5px; padding: 11px 12px; border-radius: 10px; cursor: pointer;">
-                  <span>📲 Copy Link & Key</span>
+                  <span>📲 Copy App Link & Key</span>
                 </button>
                 <a id="email-myself-link" href="#" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; font-weight: 700; font-size: 12.5px; padding: 11px 12px; border-radius: 10px; text-decoration: none;">
                   <span>📧 Email to Myself</span>
                 </a>
               </div>
 
-            </div>
+              <!-- Optional Raw Offline ZIP link for developers/offline purists -->
+              <div style="margin-top: 6px;">
+                <a id="direct-dl-link" href="./downloads/AXIO-OS-Lifetime.zip" download="AXIO-OS-Lifetime.zip" style="color: #64748b; font-size: 11px; text-decoration: underline;">
+                  Prefer manual offline ZIP archive for PC? Download ZIP here
+                </a>
+              </div>
 
-            <!-- How to Run Instruction Box -->
-            <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; margin-top: 24px; text-align: left; max-width: 480px; margin-left: auto; margin-right: auto;">
-              <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">💡 How to use AXIO OS:</div>
-              <ul style="font-size: 12px; color: #cbd5e1; line-height: 1.6; padding-left: 18px; margin: 0;">
-                <li><strong>On Phone or Laptop (Easiest):</strong> Tap the green <em>"Launch AXIO OS App"</em> button above. In browser menu, tap <strong>"Add to Home Screen"</strong> or <strong>"Install App"</strong> to use it completely offline forever with your own desktop/home screen app icon.</li>
-                <li><strong>Offline ZIP (For PC):</strong> Download the ZIP to your laptop, right-click and choose <strong>Extract All</strong>, then double-click <code>Launch-AXIO-OS.bat</code>.</li>
-              </ul>
             </div>
 
             <!-- Reset / View Payment Screen Toggle -->
@@ -2332,6 +2350,44 @@
         const s = (timeLeft % 60).toString().padStart(2, '0');
         display.textContent = `${m}:${s}`;
       }, 1000);
+    }
+
+    // PWA Desktop / Mobile 1-Click Install System
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+    });
+
+    function triggerPwaInstall() {
+      // 1. Instantly activate and save lifetime license in localStorage
+      const key = document.getElementById('license-key-display') ? document.getElementById('license-key-display').textContent.trim() : 'AXIO-VIP-2026-LIFETIME';
+      localStorage.setItem('axio_activated_license', key);
+      localStorage.setItem('axio_customer_license', key);
+      localStorage.setItem('axio_customer_unlocked', 'true');
+
+      // 2. Trigger native OS app installation if supported (Windows Desktop / Android)
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            showToast('🎉 <strong>AXIO OS Installed!</strong> App shortcut created on your device.');
+          }
+          deferredInstallPrompt = null;
+        });
+      } else {
+        // Fallback for iOS Safari or browsers where prompt was already dismissed
+        const repoBase = window.location.pathname.includes('/axio-os') ? '/axio-os' : '';
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          showToast('📱 <strong>iPhone:</strong> In Safari, tap Share (box with arrow) → <strong>Add to Home Screen</strong>!');
+        } else {
+          showToast('🚀 Launching AXIO OS! Click <strong>Install</strong> in your browser address bar.');
+        }
+        setTimeout(() => {
+          window.open(window.location.origin + repoBase + '/index.html', '_blank');
+        }, 500);
+      }
     }
 
     // 1-Click Launch Web App with automatic VIP License Activation

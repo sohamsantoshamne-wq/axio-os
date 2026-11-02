@@ -22,6 +22,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <script>
+      // Register Progressive Web App Service Worker for offline execution & installability
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+
       // Gate access: Unpaid visitors on public web domain are redirected to the landing sales page
       (function() {
         const isOfflineOrLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
